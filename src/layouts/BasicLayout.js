@@ -1,8 +1,8 @@
 import React from "react";
 
-import BasicHeader from "./BasicHeader";
-import BasicFooter from "./BasicFooter";
-import Test from "./Test";
+import BasicHeader from "./basic/BasicHeader";
+import BasicFooter from "./basic/BasicFooter";
+import Test from "./basic/Test";
 
 // 객체 구조 분해 할당
 const BasicLayout = ({ children }) => {

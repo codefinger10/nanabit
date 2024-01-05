@@ -8,7 +8,7 @@ import Signup from "./pages/signup/Signup";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  
-    <Signup />
-  
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>,
 );
