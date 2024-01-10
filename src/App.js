@@ -8,7 +8,7 @@ import CartPage from "./pages/cartpage/CartPage";
 import CommunityPage from "./pages/community/CommunityPage";
 import Detail from "./pages/itemPage/Detail";
 import MainPage from "./pages/mainPage/MainPage";
-import MemberPage from "./pages/memberPage/MemberPage";
+
 import MonthlyPage from "./pages/monthlyPage/MonthlyPage";
 import MyPage from "./pages/myPage/MyPage";
 import OrderComplete from "./pages/orderComplete/OrderComplete";
@@ -17,34 +17,39 @@ import PaymentPage from "./pages/paymentPage/PaymentPage";
 import ReviewPage from "./pages/reviewPage/ReviewPage";
 import DetailPage from "./pages/itemPage/DetailPage";
 import ErrorPage from "./pages/errorPage/ErrorPage";
+import SignUp from "./pages/memberPage/SignUp";
+import MemberModify from "./pages/memberPage/MemberModify";
 
 const App = () => {
   return (
     <Wrap>
-      <Routes>
-        {/* <Route path="/intro" element={<Intro />}></Route> */}
-        <Route path="*" element={<h1>파일이없네요.</h1>}></Route>
-        <Route path="/" element={<BasicLayout />}></Route>
+      <BasicLayout>
+        <Routes>
+          {/* <Route path="/intro" element={<Intro />}></Route> */}
+          <Route path="*" element={<h1>파일이없네요.</h1>}></Route>
+          {/* <Route path="/" element={<BasicLayout />}></Route> */}
 
-        <Route path="/login" element={<LoginPage />}></Route>
-        <Route path="/inquiry" element={<CsReadPage />}></Route>
-        <Route path="/cart" element={<CartPage />}></Route>
+          <Route path="/login" element={<LoginPage />}></Route>
+          <Route path="/inquiry" element={<CsReadPage />}></Route>
+          <Route path="/cart" element={<CartPage />}></Route>
+          <Route path="/Modify" element={<MemberModify />}></Route>
+          <Route path="/signUp" element={<SignUp />}></Route>
 
-        <Route path="/commu" element={<CommunityPage />}></Route>
-        <Route path="/detail" element={<DetailPage />}></Route>
-        <Route path="/main" element={<MainPage />}></Route>
+          <Route path="/commu" element={<CommunityPage />}></Route>
+          <Route path="/detail" element={<DetailPage />}></Route>
+          <Route path="/main" element={<MainPage />}></Route>
 
-        <Route path="/member" element={<MemberPage />}></Route>
-        <Route path="/monthly" element={<MonthlyPage />}></Route>
-        <Route path="/mypage" element={<MyPage />}></Route>
+          <Route path="/monthly" element={<MonthlyPage />}></Route>
+          <Route path="/mypage" element={<MyPage />}></Route>
 
-        <Route path="/oc" element={<OrderComplete />}></Route>
-        <Route path="/ol" element={<OrderList />}></Route>
-        <Route path="/payment" element={<PaymentPage />}></Route>
-        <Route path="/review" element={<ReviewPage />}></Route>
+          <Route path="/oc" element={<OrderComplete />}></Route>
+          <Route path="/ol" element={<OrderList />}></Route>
+          <Route path="/payment" element={<PaymentPage />}></Route>
+          <Route path="/review" element={<ReviewPage />}></Route>
 
-        <Route path="/error" element={<ErrorPage />}></Route>
-      </Routes>
+          <Route path="/error" element={<ErrorPage />}></Route>
+        </Routes>
+      </BasicLayout>
     </Wrap>
   );
 };
