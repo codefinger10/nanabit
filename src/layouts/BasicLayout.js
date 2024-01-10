@@ -12,6 +12,7 @@ const BasicLayout = ({ children }) => {
         <BasicHeader />
       </header>
 
+
       <main>{children}</main>
       <footer>
         <BasicFooter />
