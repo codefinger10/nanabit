@@ -1,29 +1,47 @@
 import React from "react";
+
 import { Navigate, Route, Routes } from "react-router-dom";
 import { Wrap } from "./styles/basic";
 import LoginPage from "./pages/LoginPage";
 import CsReadPage from "./pages/CsReadPage";
+
+import { Route, Routes } from "react-router-dom";
+
 import BasicLayout from "./layouts/BasicLayout";
+import CsReadPage from "./pages/CsReadPage";
+import LoginPage from "./pages/LoginPage";
 import CartPage from "./pages/cartpage/CartPage";
 import CommunityPage from "./pages/community/CommunityPage";
 import MainPage from "./pages/mainPage/MainPage";
-import MemberPage from "./pages/memberPage/MemberPage";
+
+import { Wrap } from "./styles/basic";
+
+import ErrorPage from "./pages/errorPage/ErrorPage";
+import DetailPage from "./pages/itemPage/DetailPage";
+
 import MonthlyPage from "./pages/monthlyPage/MonthlyPage";
 import MyPage from "./pages/myPage/MyPage";
 import OrderComplete from "./pages/orderComplete/OrderComplete";
 import OrderList from "./pages/orderList/OrderList";
 import PaymentPage from "./pages/paymentPage/PaymentPage";
 import ReviewPage from "./pages/reviewPage/ReviewPage";
+
 import DetailPage from "./pages/itemPage/DetailPage";
 import ErrorPage from "./pages/errorPage/ErrorPage";
+
 import CommuAdd from "./pages/community/communiys/CommuAdd";
 import NoticePage from "./pages/community/communiys/NoticePage";
 import CommuEdit from "./pages/community/communiys/CommuEdit";
 import CommuRead from "./pages/community/communiys/CommuRead";
 
+import SignUp from "./pages/memberPage/SignUp";
+import MemberModify from "./pages/memberPage/MemberModify";
+
+
 const App = () => {
   return (
     <Wrap>
+
       <Routes>
         {/* <Route path="/intro" element={<Intro />}></Route> */}
         <Route path="*" element={<h1>파일이없네요.</h1>}></Route>
@@ -58,6 +76,7 @@ const App = () => {
 
         <Route path="/error" element={<ErrorPage />}></Route>
       </Routes>
+
     </Wrap>
   );
 };
