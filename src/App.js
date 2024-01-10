@@ -6,16 +6,24 @@ import LoginPage from "./pages/LoginPage";
 import CartPage from "./pages/cartpage/CartPage";
 import CommunityPage from "./pages/community/CommunityPage";
 import MainPage from "./pages/mainPage/MainPage";
+
 import { Wrap } from "./styles/basic";
 
 import ErrorPage from "./pages/errorPage/ErrorPage";
 import DetailPage from "./pages/itemPage/DetailPage";
+
 import MonthlyPage from "./pages/monthlyPage/MonthlyPage";
 import MyPage from "./pages/myPage/MyPage";
 import OrderComplete from "./pages/orderComplete/OrderComplete";
 import OrderList from "./pages/orderList/OrderList";
 import PaymentPage from "./pages/paymentPage/PaymentPage";
 import ReviewPage from "./pages/reviewPage/ReviewPage";
+
+import DetailPage from "./pages/itemPage/DetailPage";
+import ErrorPage from "./pages/errorPage/ErrorPage";
+import SignUp from "./pages/memberPage/SignUp";
+import MemberModify from "./pages/memberPage/MemberModify";
+
 
 const App = () => {
   return (
@@ -29,6 +37,9 @@ const App = () => {
           <Route path="/login" element={<LoginPage />}></Route>
           <Route path="/inquiry" element={<CsReadPage />}></Route>
           <Route path="/cart" element={<CartPage />}></Route>
+
+          <Route path="/Modify" element={<MemberModify />}></Route>
+          <Route path="/signUp" element={<SignUp />}></Route>
 
           <Route path="/commu" element={<CommunityPage />}></Route>
           <Route path="/detail" element={<DetailPage />}></Route>

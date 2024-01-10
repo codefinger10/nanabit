@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 import React from "react";
 import { Link } from "react-router-dom";
 import { Footerwrap } from "../../styles/basicLay/basicFootStyle";
+import LinkCopy from "../../components/basic/LinkCopy";
 
 const BasicFooter = () => {
   return (
@@ -26,19 +27,23 @@ const BasicFooter = () => {
           <ul className="foot-sns">
             <li>
               <Link to="">
-                <img src="/assets/images/insta.svg" alt="" />
+                <img
+                  src={process.env.PUBLIC_URL + "/assets/images/insta.svg"}
+                />
               </Link>
             </li>
 
             <li>
               <Link to="">
-                <img src="/assets/images/youtube.svg" alt="" />
+                <img
+                  src={process.env.PUBLIC_URL + "/assets/images/youtube.svg"}
+                />
               </Link>
             </li>
 
             <li>
-              <Link to="">
-                <img src="/assets/images/clip.svg" alt="" />
+              <Link onClick={LinkCopy} to="">
+                <img src={process.env.PUBLIC_URL + "/assets/images/clip.svg"} />
               </Link>
             </li>
           </ul>
@@ -60,36 +65,38 @@ const BasicFooter = () => {
                 </p>
               </div>
               <div className="cs-img">
-                <img src="/assets/images/cs-call.svg" />
+                <img
+                  src={process.env.PUBLIC_URL + "/assets/images/cs-call.svg"}
+                />
               </div>
             </div>
 
             <Link to="/" className="cs-nav">
-              고객센터 바로가기
+              1대1문의 바로가기
             </Link>
-            <Link to="/">커뮤니티 바로가기</Link>
+            <Link to="/commu">커뮤니티 바로가기</Link>
           </div>
 
           <div className="menu">
             <p className="r-font">메뉴</p>
             <ul>
               <li>
-                <Link to="/">마이페이지</Link>
+                <Link to="/mypage">마이페이지</Link>
               </li>
             </ul>
             <ul>
               <li>
-                <Link to="/">주문조회</Link>
+                <Link to="/ol">주문조회</Link>
               </li>
             </ul>
             <ul>
               <li>
-                <Link to="/">장바구니</Link>
+                <Link to="/cart">장바구니</Link>
               </li>
             </ul>
             <ul>
               <li>
-                <Link to="/">커뮤니티</Link>
+                <Link to="/commu">커뮤니티</Link>
               </li>
             </ul>
           </div>
