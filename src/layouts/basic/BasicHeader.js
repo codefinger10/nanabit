@@ -34,18 +34,34 @@ const items1 = [
   {
     label: (
       <Link to="https://www.aliyun.com" rel="noopener noreferrer">
-        1개월
+        임신/출산 (~0개월)
       </Link>
     ),
     key: "0",
   },
   {
     label: (
-      <Link to="/" target="_blank" rel="noopener noreferrer">
-        2개월
+      <Link to="/" target="" rel="noopener noreferrer">
+        신생아 (1~3개월)
       </Link>
     ),
     key: "1",
+  },
+  {
+    label: (
+      <Link to="/" target="" rel="noopener noreferrer">
+        베이비 (4~23개월)
+      </Link>
+    ),
+    key: "2",
+  },
+  {
+    label: (
+      <Link to="/" target="" rel="noopener noreferrer">
+        키즈(24개월~)
+      </Link>
+    ),
+    key: "3",
   },
 ];
 
@@ -68,6 +84,86 @@ const items2 = [
   },
 ];
 
+const items3 = [
+  {
+    label: (
+      <Link to="/" target="" rel="noopener noreferrer">
+        놀이
+      </Link>
+    ),
+    key: "0",
+  },
+  {
+    label: (
+      <Link to="/" target="_blank" rel="noopener noreferrer">
+        용품
+      </Link>
+    ),
+    key: "1",
+  },
+];
+const items4 = [
+  {
+    label: (
+      <Link to="/" target="" rel="noopener noreferrer">
+        위생
+      </Link>
+    ),
+    key: "0",
+  },
+  {
+    label: (
+      <Link to="/" target="_blank" rel="noopener noreferrer">
+        목욕용품
+      </Link>
+    ),
+    key: "1",
+  },
+];
+const items5 = [
+  {
+    label: (
+      <Link to="/" target="" rel="noopener noreferrer">
+        이유식
+      </Link>
+    ),
+    key: "0",
+  },
+  {
+    label: (
+      <Link to="/" target="_blank" rel="noopener noreferrer">
+        수유용품
+      </Link>
+    ),
+    key: "1",
+  },
+];
+const community6 = [
+  {
+    label: (
+      <Link to="/commu" target="" rel="noopener noreferrer">
+        공지사항
+      </Link>
+    ),
+    key: "0",
+  },
+  {
+    label: (
+      <Link to="/commu" target="" rel="noopener noreferrer">
+        소통해요
+      </Link>
+    ),
+    key: "1",
+  },
+  {
+    label: (
+      <Link to="/commu" target="" rel="noopener noreferrer">
+        1대1 문의
+      </Link>
+    ),
+    key: "2",
+  },
+];
 const BasicHeader = () => {
   return (
     <HeaderNav>
@@ -75,8 +171,11 @@ const BasicHeader = () => {
         <div className="heder-inwrap">
           <div className="header-top-left">
             <ul>
-              <Link to="/">
-                <img className="logo" src="/assets/images/logo.svg"></img>
+              <Link to="/main">
+                <img
+                  className="logo"
+                  src={process.env.PUBLIC_URL + "/assets/images/logo.svg"}
+                ></img>
               </Link>
             </ul>
             <div className="header-search">
@@ -94,24 +193,28 @@ const BasicHeader = () => {
           <div className="header-top-right">
             <ul className="member-menu">
               <li>
-                <Link to="/">로그인</Link>
+                <Link to="/login">로그인</Link>
               </li>
               <li>
-                <Link to="/">회원가입</Link>
+                <Link to="/signUp">회원가입</Link>
               </li>
               <li>
-                <Link to="/">
-                  <img src="/assets/images/cs.svg" />
+                <Link to="/commu">
+                  <img src={process.env.PUBLIC_URL + "/assets/images/cs.svg"} />
                 </Link>
               </li>
               <li>
-                <Link to="/">
-                  <img src="/assets/images/truck.svg" />
+                <Link to="/ol">
+                  <img
+                    src={process.env.PUBLIC_URL + "/assets/images/truck.svg"}
+                  />
                 </Link>
               </li>
               <li>
-                <Link to="/">
-                  <img src="/assets/images/cart.svg" />
+                <Link to="/cart">
+                  <img
+                    src={process.env.PUBLIC_URL + "/assets/images/cart.svg"}
+                  />
                 </Link>
               </li>
             </ul>
@@ -150,7 +253,7 @@ const BasicHeader = () => {
 
             <Dropdown
               menu={{
-                items,
+                items: items3,
               }}
             >
               <a onClick={e => e.preventDefault()}>
@@ -162,7 +265,7 @@ const BasicHeader = () => {
             </Dropdown>
             <Dropdown
               menu={{
-                items,
+                items: items4,
               }}
             >
               <a onClick={e => e.preventDefault()}>
@@ -174,7 +277,7 @@ const BasicHeader = () => {
             </Dropdown>
             <Dropdown
               menu={{
-                items,
+                items: items5,
               }}
             >
               <a onClick={e => e.preventDefault()}>
@@ -186,7 +289,7 @@ const BasicHeader = () => {
             </Dropdown>
             <Dropdown
               menu={{
-                items,
+                items: community6,
               }}
             >
               <a onClick={e => e.preventDefault()}>

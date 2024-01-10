@@ -11,7 +11,8 @@ const BasicLayout = ({ children }) => {
       <header>
         <BasicHeader />
       </header>
-      {/* <Test /> */}
+
+
       <main>{children}</main>
       <footer>
         <BasicFooter />
