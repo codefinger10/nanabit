@@ -1,7 +1,6 @@
 import React from "react";
 import LoginForm from "../components/LoginForm";
 import {
-  FindBt,
   LoginBox,
   LoginBtArea,
   LoginFooter,
@@ -10,6 +9,19 @@ import {
   LoginPageBt,
   LoginPageWrap,
 } from "../styles/loginpagestyle";
+import styled from "@emotion/styled";
+
+const FindBt = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-bottom: 40px;
+  button {
+    font-size: 15px;
+    margin: 0 95px;
+    border: none;
+    background: transparent;
+  }
+`;
 
 const LoginPage = () => {
   return (

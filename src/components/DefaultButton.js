@@ -1,15 +1,10 @@
 import React from "react";
 import { Buttons } from "../styles/buttonsstyle";
 
-const DefaultButton = ({ txt, txtColor, borderColor, type, aa, bb }) => {
+const DefaultButton = ({ txt, txtColor, borderColor }) => {
   return (
     <div>
-      <Buttons
-        type={type}
-        onClick={aa}
-        onSubmit={bb}
-        style={{ color: txtColor, borderColor: borderColor }}
-      >
+      <Buttons style={{ color: txtColor, borderColor: borderColor }}>
         {txt}
       </Buttons>
     </div>
