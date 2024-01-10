@@ -1,8 +1,8 @@
 import React from "react";
 
 export const LinkCopy = () => {
-  var url = "";
-  var textarea = document.createElement("textarea");
+  let url = "";
+  let textarea = document.createElement("textarea");
   document.body.appendChild(textarea);
   url = window.document.location.href;
   textarea.value = url;

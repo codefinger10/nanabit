@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 import React from "react";
 import OrderDate from "./OrderDate";
+import DateButton from "./DateButton";
 
 const OrderViewCom = () => {
   const OrderViewStyle = styled.div`
@@ -26,7 +27,11 @@ const OrderViewCom = () => {
     <OrderViewStyle>
       <div className="inwrap">
         <div className="order-info">
-          <OrderDate />
+          <div className="date-select">
+            <DateButton />
+            <OrderDate />
+          </div>
+
           <p>
             기간 검색시 지난 주문내역을 조회하실 수 있습니다.
             <br />
