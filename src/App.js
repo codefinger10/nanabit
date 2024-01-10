@@ -17,6 +17,9 @@ import PaymentPage from "./pages/paymentPage/PaymentPage";
 import ReviewPage from "./pages/reviewPage/ReviewPage";
 import DetailPage from "./pages/itemPage/DetailPage";
 import ErrorPage from "./pages/errorPage/ErrorPage";
+import Signup from "./pages/signup/Signup";
+import ModifyPage from "./pages/signup/ModifyPage";
+import ItemPage from "./pages/signup/ItemPage";
 
 const App = () => {
   return (
@@ -42,6 +45,9 @@ const App = () => {
         <Route path="/ol" element={<OrderList />}></Route>
         <Route path="/payment" element={<PaymentPage />}></Route>
         <Route path="/review" element={<ReviewPage />}></Route>
+        <Route path="/signup" element={<Signup />}></Route>
+        <Route path="/Modify" element={<ModifyPage />}></Route>
+        <Route path="/item" element={<ItemPage />}></Route>
 
         <Route path="/error" element={<ErrorPage />}></Route>
       </Routes>
