@@ -17,7 +17,6 @@ import PaymentPage from "./pages/paymentPage/PaymentPage";
 import ReviewPage from "./pages/reviewPage/ReviewPage";
 
 import ItemPage from "./pages/signup/ItemPage";
-import ModifyPage from "./pages/signup/ModifyPage";
 import Signup from "./pages/signup/Signup";
 
 import CommuAdd from "./pages/community/communiys/CommuAdd";
@@ -26,6 +25,7 @@ import CommuRead from "./pages/community/communiys/CommuRead";
 import NoticePage from "./pages/community/communiys/NoticePage";
 
 import BasicLayout from "./layouts/BasicLayout";
+import ModifyPages from "./pages/signup/ModifyPages";
 
 const App = () => {
   return (
@@ -62,7 +62,7 @@ const App = () => {
           <Route path="/payment" element={<PaymentPage />}></Route>
           <Route path="/review" element={<ReviewPage />}></Route>
           <Route path="/signup" element={<Signup />}></Route>
-          <Route path="/Modify" element={<ModifyPage />}></Route>
+          <Route path="/Modify" element={<ModifyPages />}></Route>
           <Route path="/item" element={<ItemPage />}></Route>
 
           <Route path="/error" element={<ErrorPage />}></Route>

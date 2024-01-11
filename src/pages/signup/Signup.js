@@ -1,4 +1,4 @@
-import { Button, Checkbox, Form, Input, Modal } from "antd";
+import { Button, Checkbox, Form, Input, Modal, Radio } from "antd";
 import React, { useState } from "react";
 import DaumPostcode from "react-daum-postcode";
 import BasicLayout from "../../layouts/BasicLayout";
@@ -6,7 +6,7 @@ import {
   MyInput,
   SignupWrap,
   postCodeStyle,
-  themeObj
+  themeObj,
 } from "../../styles/signup/signup";
 
 const initState = {
@@ -19,6 +19,8 @@ const initState = {
   detailedAddress: "",
   phone: "",
   email: "",
+  gender: "",
+  month: "",
   agreement: true,
 };
 
@@ -69,8 +71,7 @@ const Signup = () => {
     setMemberInfo({ ...values });
     values.address = address;
     values.zonecode = zonecode;
-    setZonecode("");
-    setAddress("");
+
     console.log("Success:", values);
   };
   const onFinishFailed = errorInfo => {
@@ -113,224 +114,299 @@ const Signup = () => {
 
   return (
     <>
-      <BasicLayout>
-        <SignupWrap>
-          <div className="signimg">
-            <img src={process.env.PUBLIC_URL + "/assets/images/signup.svg"} />
-          </div>
-          <span>
-            회원가입시 첫 구매 10% 할인쿠폰이 지급됩니다! (30,000원 이상 구매시)
-          </span>
-          <div className="signinfo">회원정보입력</div>
-          <Form
-            name="basic"
-            labelCol={{
-              span: 8,
-            }}
-            wrapperCol={{
-              span: 16,
-            }}
-            initialValues={{
-              remember: true,
-              name: memberInfo.name,
-              userid: memberInfo.userid,
-              password: memberInfo.password,
-              confirm: memberInfo.confirm,
-              // zonecode: memberInfo.zonecode,
-              address: memberInfo.address,
-              detailedAddress: memberInfo.detailedAddress,
-              phone: memberInfo.phone,
-              email: memberInfo.email,
-              agreement: memberInfo.agreement,
-            }}
-            autoComplete="off"
-            onFinish={onFinish}
-            onFinishFailed={onFinishFailed}
+      <SignupWrap>
+        <div className="signimg">
+          <img src={process.env.PUBLIC_URL + "/assets/images/signup.svg"} />
+        </div>
+        <span>
+          회원가입시 첫 구매 10% 할인쿠폰이 지급됩니다! (30,000원 이상 구매시)
+        </span>
+        <div className="signinfo">회원정보입력</div>
+        <Form
+          name="basic"
+          labelCol={{
+            span: 8,
+          }}
+          wrapperCol={{
+            span: 16,
+          }}
+          initialValues={{
+            remember: true,
+            name: memberInfo.name,
+            userid: memberInfo.userid,
+            password: memberInfo.password,
+            confirm: memberInfo.confirm,
+            // zonecode: memberInfo.zonecode,
+            address: memberInfo.address,
+            detailedAddress: memberInfo.detailedAddress,
+            phone: memberInfo.phone,
+            email: memberInfo.email,
+            gender: memberInfo.gender,
+            month: memberInfo.month,
+            agreement: memberInfo.agreement,
+          }}
+          autoComplete="off"
+          onFinish={onFinish}
+          onFinishFailed={onFinishFailed}
+        >
+          <div style={{ marginTop: "20px" }}>이름*</div>
+          <Form.Item
+            name="name"
+            rules={[
+              {
+                type: "text",
+              },
+            ]}
           >
-            <div style={{ marginTop: "20px" }}>이름*</div>
+            <Input style={{ width: "1220px", height: "50px" }} />
+          </Form.Item>
+
+          <div style={{ marginTop: "5rem" }}>아이디*</div>
+          <div style={{ display: "flex" }}>
             <Form.Item
-              name="name"
-              rules={[
-                {
-                  type: "text",
-                },
-              ]}
-            >
-              <Input style={{ width: "1220px", height: "50px" }} />
-            </Form.Item>
-
-            <div style={{ marginTop: "5rem" }}>아이디*</div>
-            <div style={{ display: "flex" }}>
-              <Form.Item
-                name="userid"
-                rules={[
-                  {
-                    required: true,
-                    message: "아이디를 입력하세요!",
-                  },
-                ]}
-              >
-                <Input style={{ width: "973px", height: "50px" }} />
-              </Form.Item>
-              <Form.Item>
-                <Button
-                  type="button"
-                  onClick={values => handleCheckDuplicate(values)}
-                  style={{
-                    width: "225px",
-                    height: "50px",
-                    background: "#D68000",
-                    color: "white",
-                    border: "none",
-                    marginLeft: "8px",
-                  }}
-                >
-                  중복확인
-                </Button>
-              </Form.Item>
-            </div>
-
-            <div>비밀번호*</div>
-            <Form.Item name="password">
-              <Input style={{ width: 1220, height: 50 }} />
-            </Form.Item>
-            <div>비밀번호 확인*</div>
-            <Form.Item
-              name="confirm"
-              dependencies={["password"]}
-              hasFeedback
-              rules={[
-                ({ getFieldValue }) => ({
-                  validator(_, value) {
-                    if (!value || getFieldValue("password") === value) {
-                      return Promise.resolve();
-                    }
-                    return Promise.reject(
-                      new Error("비밀번호 다시 확인해주세요!"),
-                    );
-                  },
-                }),
-              ]}
-            >
-              <Input style={{ width: 1220, height: 50 }} />
-            </Form.Item>
-
-            <div>주소*</div>
-            <div style={{ display: "flex" }} onClick={toggleHandler}>
-              <Form.Item>
-                <Input style={{ width: 193, height: 50 }} value={zonecode} />
-              </Form.Item>
-
-              <Form.Item>
-                <Button
-                  type="button"
-                  // onClick={toggleHandler}
-                  style={{
-                    width: "110px",
-                    height: "50px",
-                    backgroundColor: "#D68000",
-                    border: "none",
-                    marginLeft: "8px",
-                    color: "white",
-                  }}
-                >
-                  우편검색
-                </Button>
-              </Form.Item>
-            </div>
-
-            {isOpen && (
-              <Modal
-                title="Basic Modal"
-                open={isModalOpen}
-                onOk={handleOk}
-                onCancel={handleCancel}
-                footer=""
-              >
-                <DaumPostcode
-                  theme={themeObj}
-                  style={postCodeStyle}
-                  onComplete={completeHandler}
-                  onClose={closeHandler}
-                />
-              </Modal>
-            )}
-            <div style={{ marginTop: "2rem" }}>기본주소</div>
-            <Form.Item>
-              <Input style={{ width: 1220, height: 50 }} value={address} />
-            </Form.Item>
-            <div>상세주소</div>
-            <Form.Item name="detailedAddress">
-              <MyInput value={detailedAddress} onChange={inputChangeHandler} />
-            </Form.Item>
-            <div>휴대전화*</div>
-            <Form.Item
-              name="phone"
+              name="userid"
               rules={[
                 {
                   required: true,
-                  message: "전화번호를 입력 해주세요",
+                  message: "아이디를 입력하세요!",
                 },
               ]}
             >
-              <Input style={{ width: 1220, height: 50 }} />
-            </Form.Item>
-            <div>이메일*</div>
-            <Form.Item
-              name="email"
-              rules={[
-                {
-                  type: "email",
-                },
-              ]}
-            >
-              <MyInput />
-            </Form.Item>
-
-            <Form.Item
-              style={{
-                width: "100%",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center", // 추가: 세로 정렬을 위한 속성
-                borderTop: "3px solid #868686 ",
-                flexDirection: "column", // 추가: 세로 방향 정렬을 위한 속성
-                marginTop: "5rem",
-              }}
-              name="agreement"
-              valuePropName="checked"
-              rules={[
-                {
-                  validator: (_, value) =>
-                    value
-                      ? Promise.resolve()
-                      : Promise.reject(new Error("잘못된 정보 입니다.")),
-                },
-              ]}
-              {...tailFormItemLayout}
-            >
-              <Checkbox style={{ marginTop: "20px" }}>
-                동의하시겠습니까?
-              </Checkbox>
+              <Input style={{ width: "973px", height: "50px" }} />
             </Form.Item>
             <Form.Item>
               <Button
-                type="primary"
-                htmlType="submit"
+                type="button"
+                onClick={values => handleCheckDuplicate(values)}
                 style={{
-                  
-                  background: "#D68000",
-                  width: "110px",
+                  width: "225px",
                   height: "50px",
-                  marginTop: "1rem", // 추가: 버튼 위 간격 조절을 위한 속성
+                  background: "#D68000",
+                  color: "white",
+                  border: "none",
+                  marginLeft: "8px",
                 }}
               >
-                회원가입
+                중복확인
               </Button>
             </Form.Item>
-          </Form>
-        </SignupWrap>
-      </BasicLayout>
+          </div>
+
+          <div>비밀번호*</div>
+          <Form.Item name="password">
+            <Input.Password style={{ width: 1220, height: 50 }} />
+          </Form.Item>
+          <div>비밀번호 확인*</div>
+          <Form.Item
+            name="confirm"
+            dependencies={["password"]}
+            hasFeedback
+            rules={[
+              ({ getFieldValue }) => ({
+                validator(_, value) {
+                  if (!value || getFieldValue("password") === value) {
+                    return Promise.resolve();
+                  }
+                  return Promise.reject(
+                    new Error("비밀번호 다시 확인해주세요!"),
+                  );
+                },
+              }),
+            ]}
+          >
+            <Input.Password style={{ width: 1220, height: 50 }} />
+          </Form.Item>
+
+          <div>주소*</div>
+          <div style={{ display: "flex", width: 193 }} onClick={toggleHandler}>
+            <Form.Item>
+              <Input style={{ width: 193, height: 50 }} value={zonecode} />
+            </Form.Item>
+
+            <Form.Item>
+              <Button
+                type="button"
+                // onClick={toggleHandler}
+                style={{
+                  width: "110px",
+                  height: "50px",
+                  backgroundColor: "#D68000",
+                  border: "none",
+                  marginLeft: "8px",
+                  color: "white",
+                }}
+              >
+                우편검색
+              </Button>
+            </Form.Item>
+          </div>
+
+          {isOpen && (
+            <Modal
+              title="Basic Modal"
+              open={isModalOpen}
+              onOk={handleOk}
+              onCancel={handleCancel}
+              footer=""
+            >
+              <DaumPostcode
+                theme={themeObj}
+                style={postCodeStyle}
+                onComplete={completeHandler}
+                onClose={closeHandler}
+              />
+            </Modal>
+          )}
+          <div style={{ marginTop: "2rem" }}>기본주소</div>
+          <Form.Item>
+            <Input style={{ width: 1220, height: 50 }} value={address} />
+          </Form.Item>
+          <div>상세주소</div>
+          <Form.Item name="detailedAddress">
+            <MyInput value={detailedAddress} onChange={inputChangeHandler} />
+          </Form.Item>
+          <div>휴대전화*</div>
+          <Form.Item
+            name="phone"
+            rules={[
+              {
+                required: true,
+                message: "전화번호를 입력 해주세요",
+              },
+            ]}
+          >
+            <Input style={{ width: 1220, height: 50 }} />
+          </Form.Item>
+          <div>이메일*</div>
+          <Form.Item
+            name="email"
+            rules={[
+              {
+                type: "email",
+              },
+            ]}
+          >
+            <MyInput />
+          </Form.Item>
+          <div>우리아이 성별*</div>
+          <Form.Item name="gender">
+            <Radio.Group>
+              <Radio.Button
+                value="a"
+                style={{ height: 50, lineHeight: "50px" }}
+              >
+                남
+              </Radio.Button>
+              <Radio.Button
+                value="b"
+                style={{ height: 50, lineHeight: "50px" }}
+              >
+                여
+              </Radio.Button>
+            </Radio.Group>
+          </Form.Item>
+
+          <div>월령/개월 수*</div>
+          <Form.Item name="month">
+            <Radio.Group
+              style={{
+                width: "1220px",
+                display: "flex",
+                borderBottom: "3px solid #868686",
+                paddingBottom: "50px",
+              }}
+            >
+              <Radio.Button
+                value="1"
+                style={{
+                  height: 50,
+                  width: "25%",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                임신/출산 (~0개월)
+              </Radio.Button>
+              <Radio.Button
+                value="2"
+                style={{
+                  height: 50,
+                  width: "25%",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                신생아 (1~3개월)
+              </Radio.Button>
+              <Radio.Button
+                value="3"
+                style={{
+                  height: 50,
+                  width: "25%",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                베이비 (4~23개월)
+              </Radio.Button>
+              <Radio.Button
+                value="4"
+                style={{
+                  height: 50,
+                  width: "25%",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                키즈(24개월~)
+              </Radio.Button>
+            </Radio.Group>
+          </Form.Item>
+
+          <Form.Item
+            style={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center", // 추가: 세로 정렬을 위한 속성
+              borderTop: "3px solid #868686 ",
+              flexDirection: "column", // 추가: 세로 방향 정렬을 위한 속성
+              marginTop: "5rem",
+            }}
+            name="agreement"
+            valuePropName="checked"
+            rules={[
+              {
+                validator: (_, value) =>
+                  value
+                    ? Promise.resolve()
+                    : Promise.reject(new Error("잘못된 정보 입니다.")),
+              },
+            ]}
+            {...tailFormItemLayout}
+          >
+            <Checkbox style={{ marginTop: "20px" }}>동의하시겠습니까?</Checkbox>
+          </Form.Item>
+          <Form.Item>
+            <Button
+              type="primary"
+              htmlType="submit"
+              style={{
+                background: "#D68000",
+                width: "110px",
+                height: "50px",
+                marginTop: "1rem", // 추가: 버튼 위 간격 조절을 위한 속성
+              }}
+            >
+              회원가입
+            </Button>
+          </Form.Item>
+        </Form>
+      </SignupWrap>
     </>
   );
 };

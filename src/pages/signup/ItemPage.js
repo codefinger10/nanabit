@@ -17,12 +17,17 @@ const ItemWrap = styled.div`
     }
   }
   .itemtext {
-    margin-top: 70px;
+    margin: 70px 0 0 120px;
     font-size: 30px;
   }
-  span {
+  .itemspan {
     font-size: 25px;
     color: #e9b25f;
+    margin-left: 120px;
+    span {
+      font-size: 25px;
+      font-weight: 800;
+    }
   }
 `;
 const ItemInfo = styled.div`
@@ -41,6 +46,49 @@ const ItemInfo = styled.div`
       border-bottom: 3px solid #e9b25f;
       color: #e9b25f;
     }
+  }
+`;
+const StyledDiv = styled.div`
+  display: flex;
+  width: 1220px;
+  margin-top: 150px;
+  color: #868686;
+  font-family: "Roboto";
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 35px;
+  gap: 150px;
+  border-bottom: 1px solid #868686;
+  padding-bottom: 50px;
+  margin: 0 auto;
+
+  .reviewtext {
+    width: 750px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    .reviewtotal {
+      font-size: 20px;
+      span {
+        font-size: 25px;
+        font-weight: 800;
+      }
+    }
+  }
+`;
+
+const StyledButton = styled.button`
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 30px;
+  margin-right: 15px;
+  color: #d9d9d9;
+
+  &:hover {
+    color: #e9b25f; /* Change the color for hover effect */
   }
 `;
 
@@ -68,9 +116,36 @@ const ItemPage = () => {
     }
   };
   const [reviews, setReviews] = useState([
-    { id: 1, text: '매우 만족스러운 상품입니다.', rating: 5, date: '2024-01-09' },
-    { id: 2, text: '고품질이며 가격 대비 훌륭합니다.', rating: 4, date: '2024-01-08' },
-    { id: 3, text: '빠른 배송 서비스에 감사드립니다.', rating: 5, date: '2024-01-07' },
+    {
+      id: 1,
+      text: "우리 꼬물이가 벌써부터 포크말고 젓가락 연습을 하는 날이 오다니 정말 기대되네요. 꼬물이가 좋아하는 뽀로로라서 구매를 하게 되었고 꽤 높은 곳에서 떨어뜨렸는데 멀쩡해요. 안심하고 막 사용해도 괜찮을 것 같네요. 이제 막 포크에서 젓가락으로 넘어가려는 애기엄마라면 무조건 강추입니당. 열심히 젓가락질 하려고 하는 모습이 기특해서 사진을 얼마나 찍었는지요~ 사진을 두장밖에 못넣어서 아쉽네용 ㅎㅎ.",
+      rating: 5,
+      date: "2024-01-09",
+    },
+    {
+      id: 2,
+      text: "고품질이며 가격 대비 훌륭합니다.",
+      rating: 4,
+      date: "2024-01-08",
+    },
+    {
+      id: 3,
+      text: "빠른 배송 서비스에 감사드립니다.",
+      rating: 5,
+      date: "2024-01-05",
+    },
+    {
+      id: 4,
+      text: "상품 너무 별로네요.",
+      rating: 2,
+      date: "2024-01-04",
+    },
+    {
+      id: 5,
+      text: "배송이 너무 느려요.",
+      rating: 3,
+      date: "2024-01-02",
+    },
     // ... 다른 리뷰 데이터
   ]);
 
@@ -88,8 +163,11 @@ const ItemPage = () => {
   };
 
   const sortReviewsByDate = () => {
-    const sortedReviews = [...reviews].sort((a, b) => new Date(b.date) - new Date(a.date));
+    const sortedReviews = [...reviews].sort(
+      (a, b) => new Date(b.date) - new Date(a.date),
+    );
     setReviews(sortedReviews);
+    console.log(sortedReviews);
   };
 
   const sortReviewsByRatingHigh = () => {
@@ -103,11 +181,11 @@ const ItemPage = () => {
   };
 
   return (
-    <BasicLayout>
+    <>
       <ItemWrap>
         <div className="itemimg">
           <img
-            src={process.env.PUBLIC_URL + "/assets/images/babyitem.jpg"}
+            src={process.env.PUBLIC_URL + "/assets/images/majpg.jpg"}
             alt="baby item"
           />
         </div>
@@ -117,9 +195,9 @@ const ItemPage = () => {
             젓가락
           </div>
           <span className="itemspan">
-            평점{} 리뷰{}
+            평점 <span>{4.8}</span> 리뷰 <sapn>{52}</sapn>
           </span>
-          <div style={{ marginBottom: "200px" }}>
+          <div style={{ marginBottom: "200px", marginLeft: "120px" }}>
             <Select
               style={{ width: "604px", height: "54px" }}
               placeholder="옵션 없음"
@@ -191,13 +269,16 @@ const ItemPage = () => {
           </div>
         </ItemInfo>
         {selectedSection === "productInfo" && (
-          <div>
+          <div style={{ textAlign: "center", margin: "100px 0" }}>
             {/* 상품 정보 표시 */}
-            상세설명이 나오는 부분
+            <img
+              style={{}}
+              src={process.env.PUBLIC_URL + "/assets/images/mama.jpg"}
+            />
           </div>
         )}
         {selectedSection === "purchaseInfo" && (
-          <div style={{ textAlign: "center", margin: "100px 0 100px 0" }}>
+          <div style={{ textAlign: "center", margin: "100px 0" }}>
             {/* 구매 안내 표시 */}
             <img
               style={{ height: "1000px" }}
@@ -206,40 +287,82 @@ const ItemPage = () => {
           </div>
         )}
         {selectedSection === "reviews" && (
-          <div style={{borderBottom:"1px solid #868686" ,paddingBottom:"50px" }}>
+          <div
+            style={{ borderBottom: "1px solid #868686", paddingBottom: "50px" }}
+          >
             {/* 리뷰 표시 */}
-            <div style={{ display: "flex", marginTop: "150px"}}>
-              <div>
-                <span>
-                  [뽀로로] 우리아기가 좋아하는 젓가락 뽀롱뽀롱 뽀로로 아이 전용
-                  미니 젓가락
-                </span>
-                <div>리뷰 총 {}개</div>
+            <div style={{ margin: "100px 0" }}>
+              <StyledDiv>
+                <div className="reviewtext">
+                  <div>
+                    [뽀로로] 우리아기가 좋아하는 젓가락 뽀롱뽀롱 뽀로로 아이
+                    전용 미니 젓가락
+                    <div className="reviewtotal">
+                      리뷰 총 <span>{52}</span> 개
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  style={{
+                    width: 472,
+                    height: 108,
+                    color: "#E9B25F",
+                    background: "#FFF7EC",
+                    textAlign: "center",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    fontSize: "7rem",
+                    fontWeight: 900,
+                  }}
+                >
+                  <span>평점 {4.8}</span>
+                </div>
+              </StyledDiv>
+              <div
+                style={{ margin: "0 auto", width: "1220px", marginTop: "25px" }}
+              >
+                <div>
+                  <StyledButton onClick={sortReviewsByDate}>
+                    최신순
+                  </StyledButton>
+                  <StyledButton onClick={sortReviewsByRatingHigh}>
+                    평점높은순
+                  </StyledButton>
+                  <StyledButton onClick={sortReviewsByRatingLow}>
+                    평점낮은순
+                  </StyledButton>
+                </div>
+                <ul>
+                  {reviews.map(review => (
+                    <li key={review.id}>
+                      <div
+                        style={{
+                          width: 1220,
+                          height: 60,
+                          display: "flex",
+                          justifyContent: "space-between",
+                          paddingTop: 30,
+                          fontSize: 20,
+                        }}
+                      >
+                        <p>
+                          {review.id}<span> {review.rating}</span>
+                        </p>
+
+                        <p>날짜: {review.date}</p>
+                      </div>
+                      <p>{review.text}</p>
+                    </li>
+                  ))}
+                </ul>
               </div>
-
-              <div>평점 {}</div>
-            </div>
-            <div>
-            <button onClick={sortReviewsByDate}>최신순</button>
-            <button onClick={sortReviewsByRatingHigh}>평점높은순</button>
-            <button onClick={sortReviewsByRatingLow}>평점낮은순</button>
-          </div>
-          <ul>
-            {reviews.map((review) => (
-              <li key={review.id}>
-                <p>{review.text}</p>
-                <p>평점: {review.rating}</p>
-                <p>날짜: {review.date}</p>
-              </li>
-            ))}
-          </ul>
-            <div>
-
             </div>
           </div>
         )}
       </div>
-    </BasicLayout>
+    </>
   );
 };
 
