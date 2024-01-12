@@ -1,5 +1,5 @@
 import React from "react";
-import { ComTitle } from "../styles/communitytitlestyle";
+import { ComTitle } from "../../styles/communitytitlestyle";
 
 export const CommunityTitle = ({ maintxt, subtxt }) => {
   return (

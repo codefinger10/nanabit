@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Avatar, List } from "antd";
-import DefaultButton from "../../../components/DefaultButton";
+import DefaultButton from "../../../components/basic/DefaultButton";
 import styled from "@emotion/styled";
 
 const data = [
