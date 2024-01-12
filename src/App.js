@@ -12,7 +12,7 @@ import MainPage from "./pages/mainPage/MainPage";
 import MonthlyPage from "./pages/monthlyPage/MonthlyPage";
 import MyPage from "./pages/myPage/MyPage";
 import OrderComplete from "./pages/orderComplete/OrderComplete";
-import OrderList from "./pages/orderList/OrderList";
+import OrderList from "./pages/orderList/OrderListPage";
 import PaymentPage from "./pages/paymentPage/PaymentPage";
 import ReviewPage from "./pages/reviewPage/ReviewPage";
 
@@ -34,7 +34,7 @@ const App = () => {
         <Routes>
           <Route path="*" element={<h1>파일이없네요.</h1>}></Route>
           {/* <Route path="/intro" element={<Intro />}></Route> */}
-          <Route path="/" element={<BasicLayout />}></Route>
+          {/* <Route path="/" element={<BasicLayout />}></Route> */}
 
           <Route path="/login" element={<LoginPage />}></Route>
 
