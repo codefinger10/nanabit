@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 
-import ReturnViewCom from "../../components/orderlist/ReturnViewCom";
+import ReturnViewCom from "./ReturnView";
 import InfoTitle from "../../components/titleItems/InfoTitle";
-import OrderViewCom from "../../components/orderlist/OrderViewCom";
+import OrderViewCom from "./OrderView";
+import ReturnView from "./ReturnView";
+import OrderView from "./OrderView";
 
 const OrderList = () => {
   const infoText = "ORDER-LIST";
@@ -37,11 +39,7 @@ const OrderList = () => {
           </button>
         </div>
         <div className="page-content">
-          {orderSelectButton === "orderView" ? (
-            <OrderViewCom />
-          ) : (
-            <ReturnViewCom />
-          )}
+          {orderSelectButton === "orderView" ? <OrderView /> : <ReturnView />}
         </div>
       </div>
     </div>
