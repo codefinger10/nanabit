@@ -61,6 +61,24 @@ const ModifyPages = () => {
       gap: 10px;
     }
   `;
+  const [childInfo, setChildInfo] = useState([]);
+  const handleClickAdd = () => {
+    // 최대 3개까지만 추가할 수 있도록 조건 추가
+    if (childInfo.length < 3) {
+      // 새로운 월령/개월 수 및 우리아이 성별 정보를 추가합니다.
+      const newChildInfo = [...childInfo, { month: "", gender: "" }];
+      setChildInfo(newChildInfo);
+    }
+  };
+  const handleClickRemove = index => {
+    // 최소 하나는 유지해야 하므로, childInfo의 길이가 1보다 작으면 삭제하지 않습니다.
+    if (childInfo.length > 1) {
+      const newChildInfo = [...childInfo];
+      newChildInfo.splice(index, 1);
+      setChildInfo(newChildInfo);
+    }
+  };
+
   return (
     <div style={{ margin: "0 auto", width: 1220, padding: "80px 0" }}>
       <ModifyInfo>회원정보</ModifyInfo>
@@ -100,12 +118,12 @@ const ModifyPages = () => {
         </Form.Item>
         <div>현재 비밀번호</div>
         <Form.Item name="password">
-          <Input style={{ width: 1220, height: 50 }} />
+          <Input.Password style={{ width: 1220, height: 50 }} />
         </Form.Item>
 
         <div>새 비밀번호</div>
         <Form.Item name="newpassword">
-          <Input style={{ width: 1220, height: 50 }} />
+          <Input.Password style={{ width: 1220, height: 50 }} />
         </Form.Item>
         <div>새 비밀번호 확인</div>
         <Form.Item
@@ -149,79 +167,148 @@ const ModifyPages = () => {
         >
           <MyInput />
         </Form.Item>
-        <div>우리아이 성별*</div>
-        <Form.Item name="gender">
-          <Radio.Group>
-            <Radio.Button value="a" style={{ height: 50, lineHeight: "50px" }}>
-              남
-            </Radio.Button>
-            <Radio.Button value="b" style={{ height: 50, lineHeight: "50px" }}>
-              여
-            </Radio.Button>
-          </Radio.Group>
-        </Form.Item>
-
-        <div>월령/개월 수*</div>
-        <Form.Item name="month">
-          <Radio.Group
+        <div
+          style={{
+            display: "flex",
+            gap: 20,
+            borderBottom: "3px solid #C5C5C5",
+            paddingBottom: 50,
+          }}
+        >
+          <div
             style={{
-              width: "1220px",
-              display: "flex",
-              borderBottom: "3px solid #868686",
-              paddingBottom: "50px",
+              color: "#E9B25F",
+              fontFamily: "Noto Sans KR",
+              fontSize: "50px",
+              fontStyle: "normal",
+              fontWeight: 700,
+              lineHeight: "normal",
             }}
           >
-            <Radio.Button
-              value="1"
+            우리아이 정보입력
+          </div>
+          <Form.Item>
+            <Button
+              type="primary"
               style={{
-                height: 50,
-                width: "25%",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
+                backgroundColor: "#E9B25F",
+                width: "115px",
+                height: "50px",
+                marginTop: "1rem", // 추가: 버튼 위 간격 조절을 위한 속성
               }}
+              onClick={handleClickAdd}
             >
-              임신/출산 (~0개월)
-            </Radio.Button>
-            <Radio.Button
-              value="2"
-              style={{
-                height: 50,
-                width: "25%",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              신생아 (1~3개월)
-            </Radio.Button>
-            <Radio.Button
-              value="3"
-              style={{
-                height: 50,
-                width: "25%",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              베이비 (4~23개월)
-            </Radio.Button>
-            <Radio.Button
-              value="4"
-              style={{
-                height: 50,
-                width: "25%",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              키즈(24개월~)
-            </Radio.Button>
-          </Radio.Group>
-        </Form.Item>
+              추가하기
+            </Button>
+          </Form.Item>
+        </div>
 
+        {childInfo.map((item, index) => (
+          <div key={index}>
+            <div style={{ paddingTop: 30 }}>월령/개월 수*</div>
+            <Form.Item name={`month${index}`} style={{ height: 50 }}>
+              <Radio.Group
+                style={{
+                  width: "1220px",
+                  display: "flex",
+                  paddingBottom: "50px",
+                }}
+              >
+                <Radio.Button
+                  value="1"
+                  style={{
+                    height: 50,
+                    width: "25%",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  임신/출산 (~0개월)
+                </Radio.Button>
+                <Radio.Button
+                  value="2"
+                  style={{
+                    height: 50,
+                    width: "25%",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  신생아 (1~3개월)
+                </Radio.Button>
+                <Radio.Button
+                  value="3"
+                  style={{
+                    height: 50,
+                    width: "25%",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  베이비 (4~23개월)
+                </Radio.Button>
+                <Radio.Button
+                  value="4"
+                  style={{
+                    height: 50,
+                    width: "25%",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  키즈(24개월~)
+                </Radio.Button>
+              </Radio.Group>
+            </Form.Item>
+
+            <div>우리아이 성별*</div>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                borderBottom: "3px solid #C5C5C5",
+              }}
+            >
+              <Form.Item name={`gender${index}`} style={{ paddingBottom: 50 }}>
+                <Radio.Group style={{ display: "flex" }}>
+                  <Radio.Button
+                    value="a"
+                    style={{ height: 50, lineHeight: "50px" }}
+                  >
+                    남
+                  </Radio.Button>
+                  <Radio.Button
+                    value="b"
+                    style={{ height: 50, lineHeight: "50px" }}
+                  >
+                    여
+                  </Radio.Button>
+                </Radio.Group>
+              </Form.Item>
+              <Form.Item>
+                <Button
+                  type="primary"
+                  value={item.id}
+                  style={{
+                    border: "1px solid #FF4E4E ",
+                    color: "#FF4E4E",
+                    backgroundColor: "#FFFFFF",
+                    width: "115px",
+                    height: "50px",
+                    marginTop: "1rem", // 추가: 버튼 위 간격 조절을 위한 속성
+                  }}
+                  onClick={() => handleClickRemove(item.id)}
+                >
+                  삭제하기
+                </Button>
+              </Form.Item>
+            </div>
+          </div>
+        ))}
         <ModifyEventInfo>
           <div className="ModifyEventInfo-ing">
             회원정보 수정 시 적립금을 지급하는 이벤트를 진행중입니다

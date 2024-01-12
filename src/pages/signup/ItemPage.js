@@ -190,58 +190,48 @@ const ItemPage = () => {
           />
         </div>
         <div>
-          <div className="itemtext">
-            [뽀로로] 우리아이가 좋아하는 젓가락 뽀롱뽀롱 뽀로로 아이 전용 미니
-            젓가락
+          <div style={{paddingBottom:250 }}>
+            <div className="itemtext">
+              [뽀로로] 우리아이가 좋아하는 젓가락 뽀롱뽀롱 뽀로로 아이 전용 미니
+              젓가락
+            </div>
+            <span className="itemspan">
+              평점 <span>{4.8}</span> 리뷰 <sapn>{52}</sapn>
+            </span>
           </div>
-          <span className="itemspan">
-            평점 <span>{4.8}</span> 리뷰 <sapn>{52}</sapn>
-          </span>
-          <div style={{ marginBottom: "200px", marginLeft: "120px" }}>
-            <Select
-              style={{ width: "604px", height: "54px" }}
-              placeholder="옵션 없음"
-              onChange={onGenderChange}
-              allowClear
+            <div>
+              <PrettyCounter />
+            </div>
+            <Button
+              type="primary"
+              htmlType="submit"
+              style={{
+                backgroundColor: "#FFF",
+                border: "1px solid #D68000 ",
+                color: "#D68000",
+                width: 150,
+                height: 50,
+                fontWeight: "bold",
+                marginRight: "20px",
+                marginLeft: "535px",
+                marginTop: "20px",
+              }}
             >
-              <Select.Option value="male">male</Select.Option>
-              <Select.Option value="female">female</Select.Option>
-              <Select.Option value="other">other</Select.Option>
-            </Select>
-          </div>
-          <div>
-            <PrettyCounter />
-          </div>
-          <Button
-            type="primary"
-            htmlType="submit"
-            style={{
-              backgroundColor: "#FFF",
-              border: "1px solid #D68000 ",
-              color: "#D68000",
-              width: 150,
-              height: 50,
-              fontWeight: "bold",
-              marginRight: "20px",
-              marginLeft: "535px",
-              marginTop: "20px",
-            }}
-          >
-            장바구니
-          </Button>
-          <Button
-            type="primary"
-            style={{
-              backgroundColor: "#D68000",
-              color: "#FFFFFF",
-              border: "none",
-              fontWeight: "bold",
-              width: 150,
-              height: 50,
-            }}
-          >
-            바로구매
-          </Button>
+              장바구니
+            </Button>
+            <Button
+              type="primary"
+              style={{
+                backgroundColor: "#D68000",
+                color: "#FFFFFF",
+                border: "none",
+                fontWeight: "bold",
+                width: 150,
+                height: 50,
+              }}
+            >
+              바로구매
+            </Button>
         </div>
       </ItemWrap>
       <div>
@@ -348,7 +338,8 @@ const ItemPage = () => {
                         }}
                       >
                         <p>
-                          {review.id}<span> {review.rating}</span>
+                          {review.id}
+                          <span> {review.rating}</span>
                         </p>
 
                         <p>날짜: {review.date}</p>
