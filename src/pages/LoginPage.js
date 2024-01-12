@@ -1,5 +1,5 @@
 import React from "react";
-import LoginForm from "../components/LoginForm";
+import LoginForm from "../components/loginpage/LoginForm";
 import {
   FindBt,
   LoginBox,
@@ -9,7 +9,7 @@ import {
   LoginMain,
   LoginPageBt,
   LoginPageWrap,
-} from "../styles/loginpagestyle";
+} from "../styles/loginpage/loginpagestyle";
 
 const LoginPage = () => {
   return (

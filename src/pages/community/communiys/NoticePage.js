@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Pagination } from "antd";
 import { CommuMain } from "../styles/commStyle";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import CommunityTitle from "../../../components/CommunityTitle";
+import CommunityTitle from "../../../components/basic/CommunityTitle";
 import { CommuBt } from "../styles/commBtStyle";
 
 const NoticePage = () => {

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import DefaultButton from "../../../components/DefaultButton";
+import DefaultButton from "../../../components/basic/DefaultButton";
 import { useNavigate, useParams } from "react-router";
-import CommunityTitle from "../../../components/CommunityTitle";
+import CommunityTitle from "../../../components/basic/CommunityTitle";
 import { NoticeBoard } from "../styles/commNotice";
 import Asd from "./Asd";
 

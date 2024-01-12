@@ -1,5 +1,5 @@
 import React from "react";
-import { Buttons } from "../styles/buttonsstyle";
+import { Buttons } from "../../styles/buttonsstyle";
 
 const DefaultButton = ({ txt, txtColor, borderColor, type, aa, bb }) => {
   return (

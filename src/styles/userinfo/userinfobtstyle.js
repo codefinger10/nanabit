@@ -3,19 +3,21 @@ import styled from "@emotion/styled";
 export const UserInformBt = styled.div`
   display: flex;
   align-items: center;
+  justify-content: space-around;
   width: 1157px;
   height: 151px;
   border: 1px solid #d9d9d9;
   margin: 57px auto;
+
   img {
     width: 97px;
     height: 97px;
-    margin-left: 27px;
+    flex-shrink: 0.5;
   }
   h2 {
-    margin-left: 64px;
-    line-height: 2.5rem;
+    line-height: 18px;
     font-weight: 400;
+    font-size: 12px;
     color: #949494;
   }
   button {
@@ -25,7 +27,7 @@ export const UserInformBt = styled.div`
     font-weight: 500;
     background-color: #e9b25f;
     border: none;
-    margin-left: 220px;
     color: #ffffff;
+    flex-shrink: 1;
   }
 `;
