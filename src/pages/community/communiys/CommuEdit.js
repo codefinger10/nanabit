@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import DefaultButton from "../../../components/DefaultButton";
+import DefaultButton from "../../../components/basic/DefaultButton";
 import { NoticeBoard } from "../styles/commNotice";
-import CommunityTitle from "../../../components/CommunityTitle";
+import CommunityTitle from "../../../components/basic/CommunityTitle";
 
 const CommuEdit = () => {
   const { id } = useParams();

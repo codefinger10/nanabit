@@ -1,3 +1,4 @@
+import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 
 export const TextArea = styled.div`
@@ -25,6 +26,11 @@ export const ItemPacket = styled.div`
 export const ItemImg = styled.div`
   width: 230px;
   height: 230px;
+  img {
+    object-fit: cover;
+    width: 230px;
+    height: 230px;
+  }
 `;
 
 export const ItemDecArea = styled.div`
@@ -44,11 +50,46 @@ export const ItemTagBoxDiv = styled.div`
 export const ReviewWish = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 8px;
   text-align: center;
   font-size: 15px;
 `;
+export const StyledLabel = styled.label`
+  width: 14px;
+  height: 14px;
+  display: inline-block;
+  position: relative;
+  margin: 0;
+  padding: 0;
+  font-size: 0;
 
+  img {
+    max-width: 100%;
+    max-height: 100%;
+    transition: opacity 0.3s ease-in-out;
+    display: block;
+    opacity: ${props => (props.isChecked ? 1 : 0)};
+  }
+
+  &:hover img {
+    cursor: pointer;
+    opacity: 1;
+  }
+
+  &:hover::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("/assets/images/heart.svg");
+    background-repeat: no-repeat;
+    background-size: contain;
+    opacity: ${props => (props.isChecked || props.isHovered ? 1 : 0)};
+    transition: opacity 0.3s ease-in-out;
+  }
+`;
 export const ItemTitlePrice = styled.div`
   width: 230px;
   margin-top: 3px;

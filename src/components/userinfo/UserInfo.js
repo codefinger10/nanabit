@@ -1,9 +1,9 @@
 import React from "react";
-import { UserInformBt } from "../styles/userinfobtstyle";
+import { UserInform } from "../../styles/userinfo/userinfostyle";
 
-export const UserInfoBt = () => {
+export const UserInfo = () => {
   return (
-    <UserInformBt>
+    <UserInform>
       <img src={process.env.PUBLIC_URL + "/assets/images/userInfo.svg"} />
       <div>
         <h2>
@@ -12,9 +12,8 @@ export const UserInfoBt = () => {
 
         <h2>0원이상 구매시 1.5%을 추가적립 받으실 수 있습니다.</h2>
       </div>
-      <button>회원정보 수정하기</button>
-    </UserInformBt>
+    </UserInform>
   );
 };
 
-export default UserInfoBt;
+export default UserInfo;
