@@ -6,7 +6,7 @@ import OrderViewCom from "../../components/orderlist/OrderViewCom";
 
 const OrderList = () => {
   const infoText = "ORDER-LIST";
-  const infoText = "ORDER-LIST";
+  // const infoText = "ORDER-LIST";
 
   // 주문/취소 버튼
   const [orderSelectButton, setSelectOrderButton] = useState("orderView");
