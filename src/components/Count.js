@@ -6,7 +6,6 @@ const CounterWrapper = styled.div`
   align-items: center;
   gap: 10px;
   font-family: "Arial", sans-serif;
-  margin-left: 715px;
   margin-top: 20px;
 `;
 
