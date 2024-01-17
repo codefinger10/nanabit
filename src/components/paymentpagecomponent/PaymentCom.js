@@ -52,6 +52,7 @@ const Payment = () => {
           </div>
         </div>
         <hr />
+        
         <div className="주문자 정보">
           <div className="userName">
             <p>이름</p>
