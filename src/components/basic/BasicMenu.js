@@ -27,7 +27,7 @@ const items = [
 const items1 = [
   {
     label: (
-      <Link to="https://www.aliyun.com" rel="noopener noreferrer">
+      <Link to="/product" rel="noopener noreferrer">
         임신/출산 (~0개월)
       </Link>
     ),
