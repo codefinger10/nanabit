@@ -1,8 +1,7 @@
 import styled from "@emotion/styled";
-import { Button, Form, Select } from "antd";
+import { Button, Form } from "antd";
 import React, { useState } from "react";
-import PrettyCounter from "../../components/Count";
-import BasicLayout from "../../layouts/BasicLayout";
+import PrettyCounter from "../../components/signup/Count";
 
 const ItemWrap = styled.div`
   min-height: 680px;
