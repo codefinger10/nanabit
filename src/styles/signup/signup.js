@@ -144,4 +144,3 @@ export const addbt = {
   marginTop: "1rem", // 추가: 버튼 위 간격 조절을 위한 속성
 }
 
-

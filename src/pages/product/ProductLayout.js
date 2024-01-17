@@ -79,9 +79,26 @@ const ProductLayout = () => {
       image: "https://via.placeholder.com/150",
     });
   }
+  // 2024 01 17 오류수정
+  // useEffect(() => {
+  // setProductData(dummyDataByButton[activeButton]);
+  // }, [activeButton]);
+
+  const [wishlist, setWishlist] = useState(
+    Array(productData.length).fill(false),
+  );
+  const handleCheckboxChange = index => {
+    setWishlist(prevWishlist => {
+      const updatedWishlist = [...prevWishlist];
+      updatedWishlist[index] = !updatedWishlist[index];
+      return updatedWishlist;
+    });
+  };
 
   useEffect(() => {
     setProductData(dummyDataByButton[activeButton]);
+    // Wishlist 상태를 각각의 상품에 대해 독립적으로 초기화
+    setWishlist(Array(dummyDataByButton[activeButton].length).fill(false));
   }, [activeButton]);
 
   const handleButtonClick = buttonName => {
@@ -120,9 +137,17 @@ const ProductLayout = () => {
           키즈(24개월~)
         </MealButton>
       </div>
+
       <GridContainer>
-        {productData.map(product => (
-          <ProductCard key={product.id} product={product} />
+        {productData.map((product, index) => (
+          // <ProductCard key={product.id} product={product} />
+          <ProductCard
+            key={index}
+            product={product}
+            index={index}
+            wishlist={wishlist}
+            onCheckboxChange={handleCheckboxChange}
+          />
         ))}
       </GridContainer>
     </div>

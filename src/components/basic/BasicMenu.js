@@ -172,12 +172,14 @@ const BasicMenu = () => {
           items: items1,
         }}
       >
-        <a onClick={e => e.preventDefault()}>
+        <Link to="/product">
+          {/* <a onClick={e => e.preventDefault()}> */}
           <Space>
             이유식
             {/* <DownOutlined /> */}
           </Space>
-        </a>
+          {/* </a> */}
+        </Link>
       </Dropdown>
 
       <Dropdown
@@ -234,12 +236,13 @@ const BasicMenu = () => {
           items: community6,
         }}
       >
-        <a onClick={e => e.preventDefault()}>
+        <Link to="/commu">
+          {/* <a onClick={e => e.preventDefault()}> */}
           <Space>
             커뮤니티
             {/* <DownOutlined /> */}
           </Space>
-        </a>
+        </Link>
       </Dropdown>
     </ul>
   );
