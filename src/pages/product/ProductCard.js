@@ -1,12 +1,15 @@
 // ProductCard.js
-import React from "react";
-import styled from "styled-components";
+import React, { useState } from "react";
+
+import { StyledLabel } from "../../styles/mainstyle";
+import styled from "@emotion/styled";
+import Heart from "../../components/product/Heart";
 
 const CardContainer = styled.div`
   padding: 16px;
   margin: 16px;
 
-  img {
+  .card-img {
     width: 263px;
     height: 263px;
   }
@@ -21,11 +24,12 @@ const ProductName = styled.h3`
 const ProductCard = ({ product }) => {
   return (
     <CardContainer>
-      <img src={product.image} alt={product.name} />
+      <img className="card-img" src={product.image} alt={product.name} />
       <ProductName>{product.name}</ProductName>
       <p>{product.description}</p>
       <p>가격: {product.price} 원</p>
       <button>장바구니에 추가</button>
+      <Heart />
     </CardContainer>
   );
 };

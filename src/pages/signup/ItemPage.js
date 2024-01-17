@@ -1,8 +1,7 @@
 import styled from "@emotion/styled";
-import { Button, Form, Select } from "antd";
+import { Button, Form } from "antd";
 import React, { useState } from "react";
-import PrettyCounter from "../../components/Count";
-import BasicLayout from "../../layouts/BasicLayout";
+import PrettyCounter from "../../components/signup/Count";
 
 const ItemWrap = styled.div`
   min-height: 680px;
@@ -190,7 +189,7 @@ const ItemPage = () => {
           />
         </div>
         <div>
-          <div style={{paddingBottom:250 }}>
+          <div style={{ paddingBottom: 250 }}>
             <div className="itemtext">
               [뽀로로] 우리아이가 좋아하는 젓가락 뽀롱뽀롱 뽀로로 아이 전용 미니
               젓가락
@@ -199,39 +198,39 @@ const ItemPage = () => {
               평점 <span>{4.8}</span> 리뷰 <sapn>{52}</sapn>
             </span>
           </div>
-            <div>
-              <PrettyCounter />
-            </div>
-            <Button
-              type="primary"
-              htmlType="submit"
-              style={{
-                backgroundColor: "#FFF",
-                border: "1px solid #D68000 ",
-                color: "#D68000",
-                width: 150,
-                height: 50,
-                fontWeight: "bold",
-                marginRight: "20px",
-                marginLeft: "535px",
-                marginTop: "20px",
-              }}
-            >
-              장바구니
-            </Button>
-            <Button
-              type="primary"
-              style={{
-                backgroundColor: "#D68000",
-                color: "#FFFFFF",
-                border: "none",
-                fontWeight: "bold",
-                width: 150,
-                height: 50,
-              }}
-            >
-              바로구매
-            </Button>
+          <div>
+            <PrettyCounter />
+          </div>
+          <Button
+            type="primary"
+            htmlType="submit"
+            style={{
+              backgroundColor: "#FFF",
+              border: "1px solid #D68000 ",
+              color: "#D68000",
+              width: 150,
+              height: 50,
+              fontWeight: "bold",
+              marginRight: "20px",
+              marginLeft: "535px",
+              marginTop: "20px",
+            }}
+          >
+            장바구니
+          </Button>
+          <Button
+            type="primary"
+            style={{
+              backgroundColor: "#D68000",
+              color: "#FFFFFF",
+              border: "none",
+              fontWeight: "bold",
+              width: 150,
+              height: 50,
+            }}
+          >
+            바로구매
+          </Button>
         </div>
       </ItemWrap>
       <div>
