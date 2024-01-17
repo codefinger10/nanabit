@@ -230,8 +230,9 @@ const Signup = () => {
               </>
             )}
           </Form.List>
+          <div className="agreesign">
           <Form.Item
-            style={agreeItem}
+          
             name="agreement"
             valuePropName="checked"
             rules={[
@@ -244,13 +245,16 @@ const Signup = () => {
             ]}
             {...tailFormItemLayout}
           >
-            <Checkbox style={{ marginTop: "20px" }}>동의하시겠습니까?</Checkbox>
+            <Checkbox style={{ marginTop: "20px", marginRight:"400px" }}>동의하시겠습니까?</Checkbox>
           </Form.Item>
+          </div>
+          <div className="signupbt">
           <Form.Item>
             <Button type="primary" htmlType="submit" style={buttonPrimaryStyle}>
               회원가입
             </Button>
           </Form.Item>
+          </div>
         </Form>
       </SignupWrap>
     </>

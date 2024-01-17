@@ -1,3 +1,4 @@
+import { Button, Radio } from "antd";
 import styled from "styled-components";
 
 export const ModifyEventInfo = styled.div`
@@ -43,56 +44,53 @@ export const ModifyBt = styled.div`
 `;
 
 export const modifyInfo = {
-  margin: "0 auto",
-  width: 1220,
-  padding: "80px 0",
-};
+    margin: "0 auto", width: 1220, padding: "80px 0"
+}
 export const modifyInputBt = {
-  width: 1220,
-  height: 50,
-};
+    width: 1220, height: 50
+}
 export const modifybabyInfo = {
-  display: "flex",
-  gap: 20,
-  borderBottom: "3px solid #C5C5C5",
-  paddingBottom: 50,
-};
+    display: "flex",
+    gap: 20,
+    borderBottom: "3px solid #C5C5C5",
+    paddingBottom: 50,
+}
 export const modifybabyInfoPush = {
-  color: "#E9B25F",
-  fontFamily: "Noto Sans KR",
-  fontSize: "50px",
-  fontStyle: "normal",
-  fontWeight: 700,
-  lineHeight: "normal",
-};
+    color: "#E9B25F",
+    fontFamily: "Noto Sans KR",
+    fontSize: "50px",
+    fontStyle: "normal",
+    fontWeight: 700,
+    lineHeight: "normal",
+}
 
 export const modifyAdd = {
-  backgroundColor: "#E9B25F",
-  width: "115px",
-  height: "50px",
-  marginTop: "1rem", // 추가: 버튼 위 간격 조절을 위한 속성
-};
+    backgroundColor: "#E9B25F",
+                width: "115px",
+                height: "50px",
+                marginTop: "1rem", // 추가: 버튼 위 간격 조절을 위한 속성
+}
 
-export const modifyWithdrawal = {
-  border: "1px solid #FF4E4E",
-  backgroundColor: "#FFF",
-  color: "#FF4E4E",
-  width: "110px",
-  height: "50px",
-  marginTop: "1rem",
-  // 추가: 버튼 위 간격 조절을 위한 속성\
-};
+export const modifyWithdrawal ={
+    border: "1px solid #FF4E4E",
+    backgroundColor: "#FFF",
+    color: "#FF4E4E",
+    width: "110px",
+    height: "50px",
+    marginTop: "1rem",
+    // 추가: 버튼 위 간격 조절을 위한 속성\
+}
 export const modifyInfoBt = {
-  background: "#D68000",
-  width: "110px",
-  height: "50px",
-  marginTop: "1rem",
-  paddingLeft: "12px", // 추가: 버튼 위 간격 조절을 위한 속성\
-};
+    background: "#D68000",
+    width: "110px",
+    height: "50px",
+    marginTop: "1rem",
+    paddingLeft: "12px", // 추가: 버튼 위 간격 조절을 위한 속성\
+}
 
 export const modifyCancel = {
-  background: "#868686",
-  width: "110px",
-  height: "50px",
-  marginTop: "1rem", // 추가: 버튼 위 간격 조절을 위한 속성\
-};
+    background: "#868686",
+    width: "110px",
+    height: "50px",
+    marginTop: "1rem", // 추가: 버튼 위 간격 조절을 위한 속성\
+}

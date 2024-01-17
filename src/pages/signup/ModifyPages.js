@@ -1,5 +1,6 @@
 import { Button, Form, Input } from "antd";
 import React, { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 import {
   MyInput,
   addbt,
@@ -12,11 +13,14 @@ import {
   ModifyBt,
   ModifyEventInfo,
   ModifyInfo,
+  modifyAdd,
   modifyCancel,
   modifyInfo,
   modifyInfoBt,
   modifyInputBt,
   modifyWithdrawal,
+  modifybabyInfo,
+  modifybabyInfoPush,
 } from "../../styles/signup/Modify";
 
 const initState = {
@@ -26,7 +30,8 @@ const initState = {
   confirm: "",
   phone: "",
   email: "",
-  baby: [{ month: "", gender: "" }],
+  gender: "",
+  month: "",
 };
 
 const ModifyPages = () => {
@@ -38,6 +43,25 @@ const ModifyPages = () => {
   };
   const onFinishFailed = errorInfo => {
     console.log("Failed:", errorInfo);
+  };
+
+  const [components, setComponents] = useState([]);
+
+  console.log(components);
+
+  const addComponent = () => {
+    if (components.length < 3) {
+      const uniqueValue = uuidv4(); // 고유한 값 생성
+      setComponents([...components, { uniqueValue }]);
+    }
+  };
+
+  const deleteComponent = uniqueValue => {
+    console.log(uniqueValue);
+    const updatedComponents = components.filter(
+      comp => comp.uniqueValue !== uniqueValue,
+    );
+    setComponents(updatedComponents);
   };
 
   return (
@@ -59,7 +83,8 @@ const ModifyPages = () => {
           confirm: memberInfo.confirm,
           phone: memberInfo.phone,
           email: memberInfo.email,
-          baby: [{ month: "", gender: "" }],
+          gender: memberInfo.gender,
+          month: memberInfo.month,
         }}
         autoComplete="off"
         onFinish={onFinish}

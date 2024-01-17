@@ -19,6 +19,18 @@ export const SignupWrap = styled.div`
     padding-top: 1rem;
     padding-bottom: 1rem;
   }
+  .agreesign{
+    display: flex;
+    justify-content: center;
+    width: 1220px;
+  }
+  .signupbt{
+    display: flex;
+    justify-content: center;
+    width: 1220px;
+
+  }
+  
 `;
 export const MyInput = styled(Input)`
   width: 1220px;
@@ -42,19 +54,19 @@ export const postCodeStyle = {
 };
 
 export const BabyInfo = styled.div`
-  display: flex;
-  gap: 20;
-  border-bottom: 3px solid #c5c5c5;
-  padding-bottom: 50;
-`;
+    display: flex;
+    gap : 20;
+    border-Bottom: 3px solid #C5C5C5;
+    padding-Bottom: 50;
+`
 export const BabyInfoPush = styled.div`
-  color: #e9b25f;
-  font-family: "Noto Sans KR";
-  font-size: "50px";
-  font-style: "normal";
-  font-weight: 700;
-  line-height: "normal";
-`;
+    color: #E9B25F;
+    font-Family: "Noto Sans KR";
+    font-Size: "50px";
+    font-Style: "normal";
+    font-Weight: 700;
+    line-Height: "normal";
+`
 
 export const formStyle = {
   marginTop: "20px",
@@ -100,16 +112,17 @@ export const formItemLayout = {
 };
 
 export const emailtitle = {
-  width: 1220,
-  height: 50,
-};
+  width: 1220, height: 50
+}
 
-export const babyInfo = {
+
+
+export const babyInfo ={
   display: "flex",
   gap: 20,
   borderBottom: "3px solid #C5C5C5",
   paddingBottom: 50,
-};
+}
 
 export const babyInfoPush = {
   color: "#E9B25F",
@@ -118,26 +131,16 @@ export const babyInfoPush = {
   fontStyle: "normal",
   fontWeight: 700,
   lineHeight: "normal",
-};
+}
 
 export const inputBt = {
-  width: "1220px",
-  height: "50px",
-};
+  width: "1220px", height: "50px"
+}
 
 export const addbt = {
   backgroundColor: "#E9B25F",
   width: "115px",
   height: "50px",
   marginTop: "1rem", // 추가: 버튼 위 간격 조절을 위한 속성
-};
+}
 
-export const agreeItem = {
-  width: "100%",
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center", // 추가: 세로 정렬을 위한 속성
-  borderTop: "3px solid #868686 ",
-  flexDirection: "column", // 추가: 세로 방향 정렬을 위한 속성
-  marginTop: "5rem",
-};

@@ -1,96 +1,17 @@
-import styled from "@emotion/styled";
+import Icon from "@ant-design/icons/lib/components/Icon";
 import { Button, Form } from "antd";
 import React, { useState } from "react";
-import PrettyCounter from "../../components/signup/Count";
-
-const ItemWrap = styled.div`
-  min-height: 680px;
-  display: flex;
-  gap: 20px;
-  margin: 0 auto;
-  .itemimg {
-    img {
-      margin-top: 70px;
-      width: 500px;
-      height: 500px;
-    }
-  }
-  .itemtext {
-    margin: 70px 0 0 120px;
-    font-size: 30px;
-  }
-  .itemspan {
-    font-size: 25px;
-    color: #e9b25f;
-    margin-left: 120px;
-    span {
-      font-size: 25px;
-      font-weight: 800;
-    }
-  }
-`;
-const ItemInfo = styled.div`
-  display: flex;
-  font-size: 3rem;
-  height: 80px;
-  justify-content: center;
-  align-items: center;
-  gap: 250px;
-  cursor: pointer;
-  border-top: 1px solid #d9d9d9;
-  border-bottom: 1px solid #d9d9d9;
-  background-color: #f9f9f9;
-  div {
-    &:hover {
-      border-bottom: 3px solid #e9b25f;
-      color: #e9b25f;
-    }
-  }
-`;
-const StyledDiv = styled.div`
-  display: flex;
-  width: 1220px;
-  margin-top: 150px;
-  color: #868686;
-  font-family: "Roboto";
-  font-size: 30px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 35px;
-  gap: 150px;
-  border-bottom: 1px solid #868686;
-  padding-bottom: 50px;
-  margin: 0 auto;
-
-  .reviewtext {
-    width: 750px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    .reviewtotal {
-      font-size: 20px;
-      span {
-        font-size: 25px;
-        font-weight: 800;
-      }
-    }
-  }
-`;
-
-const StyledButton = styled.button`
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  font-size: 30px;
-  margin-right: 15px;
-  color: #d9d9d9;
-
-  &:hover {
-    color: #e9b25f; /* Change the color for hover effect */
-  }
-`;
-
+import PrettyCounter from "../../components/Count";
+import {
+  ItemHeart,
+  ItemHover,
+  ItemInfo,
+  ItemMain,
+  ItemPrice,
+  ItemWrap,
+  StyledButton,
+  StyledDiv,
+} from "../../styles/signup/item";
 const ItemPage = () => {
   const [form] = Form.useForm();
 
@@ -178,9 +99,24 @@ const ItemPage = () => {
     const sortedReviews = [...reviews].sort((a, b) => a.rating - b.rating);
     setReviews(sortedReviews);
   };
+  const HeartSvg = () => (
+    <svg width="4em" height="4em" fill="currentColor" viewBox="0 0 1024 1024">
+      <path d="M923 283.6c-13.4-31.1-32.6-58.9-56.9-82.8-24.3-23.8-52.5-42.4-84-55.5-32.5-13.5-66.9-20.3-102.4-20.3-49.3 0-97.4 13.5-139.2 39-10 6.1-19.5 12.8-28.5 20.1-9-7.3-18.5-14-28.5-20.1-41.8-25.5-89.9-39-139.2-39-35.5 0-69.9 6.8-102.4 20.3-31.4 13-59.7 31.7-84 55.5-24.4 23.9-43.5 51.7-56.9 82.8-13.9 32.3-21 66.6-21 101.9 0 33.3 6.8 68 20.3 103.3 11.3 29.5 27.5 60.1 48.2 91 32.8 48.9 77.9 99.9 133.9 151.6 92.8 85.7 184.7 144.9 188.6 147.3l23.7 15.2c10.5 6.7 24 6.7 34.5 0l23.7-15.2c3.9-2.5 95.7-61.6 188.6-147.3 56-51.7 101.1-102.7 133.9-151.6 20.7-30.9 37-61.5 48.2-91 13.5-35.3 20.3-70 20.3-103.3 0.1-35.3-7-69.6-20.9-101.9z" />
+    </svg>
+  );
+  const [bbb, setBbb] = useState(false);
+  const aaa = tno => {
+    if (!bbb) {
+      setBbb(true);
+      console.log(`상품${tno}번 찜했습니다.`);
+    } else {
+      setBbb(false);
+    }
+  };
+  const HeartIcon = props => <Icon component={HeartSvg} {...props} />;
 
   return (
-    <>
+    <ItemMain>
       <ItemWrap>
         <div className="itemimg">
           <img
@@ -188,19 +124,35 @@ const ItemPage = () => {
             alt="baby item"
           />
         </div>
-        <div>
-          <div style={{ paddingBottom: 250 }}>
-            <div className="itemtext">
-              [뽀로로] 우리아이가 좋아하는 젓가락 뽀롱뽀롱 뽀로로 아이 전용 미니
-              젓가락
-            </div>
+        <div style={{ width: "800px" }}>
+          <div style={{ paddingBottom: 220 }}>
+            <ItemHover>
+              <div className="itemtext">
+                [뽀로로] 우리아이가 좋아하는 젓가락 뽀롱뽀롱 뽀로로 아이 전용
+                미니 젓가락
+              </div>
+              <ItemHeart onClick={() => aaa(1)}>
+                <HeartIcon
+                  style={bbb ? { color: "red" } : { color: "#D9D9D9" }}
+                />
+              </ItemHeart>
+            </ItemHover>
             <span className="itemspan">
               평점 <span>{4.8}</span> 리뷰 <sapn>{52}</sapn>
             </span>
           </div>
-          <div>
-            <PrettyCounter />
-          </div>
+          <ItemPrice>
+            <div>
+              <PrettyCounter />
+            </div>
+            <div>
+              <div className="itemFree">무료배송</div>
+              <div className="itemOnePrice">
+                1개 <b>8,500</b> <sapn>원</sapn>
+              </div>
+            </div>
+          </ItemPrice>
+
           <Button
             type="primary"
             htmlType="submit"
@@ -208,11 +160,10 @@ const ItemPage = () => {
               backgroundColor: "#FFF",
               border: "1px solid #D68000 ",
               color: "#D68000",
-              width: 150,
+              width: "48%",
               height: 50,
               fontWeight: "bold",
               marginRight: "20px",
-              marginLeft: "535px",
               marginTop: "20px",
             }}
           >
@@ -225,7 +176,7 @@ const ItemPage = () => {
               color: "#FFFFFF",
               border: "none",
               fontWeight: "bold",
-              width: 150,
+              width: "48%",
               height: 50,
             }}
           >
@@ -352,7 +303,7 @@ const ItemPage = () => {
           </div>
         )}
       </div>
-    </>
+    </ItemMain>
   );
 };
 

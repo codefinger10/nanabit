@@ -1,7 +1,7 @@
 import React from "react";
 import CreditCardMadal from "../../components/paymentpagecomponent/CreditCardMadal";
 import BankTransferModal from "../../components/paymentpagecomponent/BankTransferModal";
-import Payment from "../../components/paymentpagecomponent/Payment";
+import Payment from "../../components/paymentpagecomponent/PaymentCom";
 
 const PaymentPage = () => {
   return (
@@ -9,9 +9,9 @@ const PaymentPage = () => {
       {/* 카드결제 모달 */}
       <CreditCardMadal />
       {/* 무통장결제 모달 */}
-      <BankTransferModal />
+      {/* <BankTransferModal /> */}
       {/* 결제창 */}
-      <Payment />
+      {/* <Payment /> */}
     </>
   );
 };
