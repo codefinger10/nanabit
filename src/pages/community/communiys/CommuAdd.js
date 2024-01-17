@@ -2,14 +2,20 @@ import React from "react";
 import DefaultButton from "../../../components/basic/DefaultButton";
 import { useNavigate } from "react-router";
 import CommunityTitle from "../../../components/basic/CommunityTitle";
-import { NoticeBoard } from "../styles/commNotice";
+import { NoticeBoard } from "../styles/commStyle";
 
 const CommuAdd = () => {
   const navigate = useNavigate();
 
   const handleClika = () => {
-    navigate("../notice");
+    navigate(-1);
   };
+
+  const todays = new Date();
+  const day = todays.getDate();
+  const month = todays.getMonth() + 1;
+  const year = todays.getFullYear();
+  const today = `${year}.${month}.${day}`;
 
   return (
     <>
@@ -29,20 +35,23 @@ const CommuAdd = () => {
           </div>
         </div>
         <textarea />
-        <div className="bts">
-          <DefaultButton
-            aa={handleClika}
-            type="button"
-            txt="뒤로가기"
-            txtColor="#868686"
-            borderColor="#868686"
-          />
-          <DefaultButton
-            type="Submit"
-            txt="등록하기"
-            txtColor="#42B0FF"
-            borderColor="#42B0FF"
-          />
+        <div className="wrap-footer">
+          <p>작성일:{today}</p>
+          <div className="bts">
+            <DefaultButton
+              aa={handleClika}
+              type="button"
+              txt="뒤로가기"
+              txtColor="#868686"
+              borderColor="#868686"
+            />
+            <DefaultButton
+              type="Submit"
+              txt="등록하기"
+              txtColor="#42B0FF"
+              borderColor="#42B0FF"
+            />
+          </div>
         </div>
       </NoticeBoard>
     </>

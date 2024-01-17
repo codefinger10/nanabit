@@ -1,7 +1,6 @@
 import styled from "@emotion/styled";
 import React from "react";
 import { Outlet } from "react-router";
-import BasicLayout from "../../layouts/BasicLayout";
 
 const CommunityPage = () => {
   const Commu = styled.div`
@@ -12,11 +11,9 @@ const CommunityPage = () => {
   `;
 
   return (
-    <BasicLayout>
-      <Commu>
-        <Outlet />
-      </Commu>
-    </BasicLayout>
+    <Commu>
+      <Outlet />
+    </Commu>
   );
 };
 

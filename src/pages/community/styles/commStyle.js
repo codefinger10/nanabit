@@ -108,3 +108,81 @@ export const CommuMain = styled.div`
     margin-bottom: 62px;
   }
 `;
+
+export const CommuBt = styled.button`
+  border: 1px solid ${props => (props.active ? "#e9b25f" : "#d9d9d9")};
+  background: #fff;
+  color: ${props => (props.active ? "#e9b25f" : "#bababa")};
+  text-align: center;
+  font-family: Noto Sans KR;
+  font-size: 25px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  width: 33.3%;
+  height: 75px;
+  cursor: pointer;
+  margin-bottom: 50px;
+`;
+
+export const NoticeBoard = styled.form`
+  .wrap {
+    font-size: 1.8rem;
+    color: #868686;
+  }
+  .aaa {
+    display: flex;
+    align-items: center;
+    height: 40px;
+    border-top: 1px solid #868686;
+  }
+
+  .bbb {
+    display: flex;
+    align-items: center;
+    height: 40px;
+    border-top: 1px solid #868686;
+    margin-bottom: 30px;
+    border-bottom: 1px solid #868686;
+  }
+  span {
+    width: 20%;
+  }
+  input {
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-left: 1px solid #868686;
+    padding-left: 20px;
+  }
+
+  textarea {
+    width: 100%;
+    height: 550px;
+    resize: none;
+    font-size: 2rem;
+    margin-bottom: 15px;
+    padding: 10px;
+  }
+
+  .wrap-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    p {
+      color: #868686;
+      font-family: Noto Sans KR;
+      font-size: 20px;
+      font-style: normal;
+      font-weight: 350;
+      line-height: normal;
+    }
+  }
+
+  .bts {
+    display: flex;
+    justify-content: end;
+    gap: 15px;
+  }
+`;
