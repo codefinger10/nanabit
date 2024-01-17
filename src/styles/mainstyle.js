@@ -18,6 +18,24 @@ export const TextArea = styled.div`
     font-style: normal;
   }
 `;
+export const RcSwiperWrap = styled.div`
+  align-items: center;
+  display: flex;
+  width: 1190px;
+  margin: 0 auto;
+  .rcswiper-one-group {
+    width: 230px !important;
+  }
+  .slide-next-bt {
+    background-image: url("/assets/images/slidenextbt.svg");
+  }
+  .slide-prev-bt {
+    background-image: url("/assets/images/slideprevbt.svg");
+  }
+`;
+export const SwiperOneGroup = styled.div`
+  width: 230px;
+`;
 
 export const ItemPacket = styled.div`
   width: 230px;
@@ -37,7 +55,7 @@ export const ItemDecArea = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
+  width: 230px;
   margin-top: 13px;
 `;
 
@@ -50,22 +68,24 @@ export const ItemTagBoxDiv = styled.div`
 export const ReviewWish = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 5px;
   text-align: center;
   font-size: 15px;
+  margin-right: 0;
+  margin-top: auto;
 `;
 export const StyledLabel = styled.label`
   width: 14px;
   height: 14px;
   display: inline-block;
   position: relative;
-  margin: 0;
+  margin: auto;
   padding: 0;
   font-size: 0;
-
-  img {
+  transform: translate(-50%, -50%) img {
     max-width: 100%;
     max-height: 100%;
+    margin: 0 auto;
     transition: opacity 0.3s ease-in-out;
     display: block;
     opacity: ${props => (props.isChecked ? 1 : 0)};
@@ -74,6 +94,7 @@ export const StyledLabel = styled.label`
   &:hover img {
     cursor: pointer;
     opacity: 1;
+    margin: 0 auto;
   }
 
   &:hover::before {
@@ -88,6 +109,7 @@ export const StyledLabel = styled.label`
     background-size: contain;
     opacity: ${props => (props.isChecked || props.isHovered ? 1 : 0)};
     transition: opacity 0.3s ease-in-out;
+    margin: 0 auto;
   }
 `;
 export const ItemTitlePrice = styled.div`
