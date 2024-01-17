@@ -1,4 +1,3 @@
-import styled from "@emotion/styled";
 import React from "react";
 import UserInfoBt from "../../components/userinfo/UserInfoBt";
 import {
@@ -6,13 +5,11 @@ import {
   InfoBtWrap,
   InfoHead,
   InfoMain,
-  InfoTitle,
   InfoWrap,
   MyPageHeader,
   MyPageWrap,
-  ProductWrap,
+  ProductWrap
 } from "../../styles/mypage/mypagestyle";
-import AddressInfo from "../address/AddressInfo";
 
 const MyPage = () => {
   return (
@@ -51,6 +48,9 @@ const MyPage = () => {
         <h2>Wish-List</h2>
         <h3>*찜은 최대 12개까지만 가능합니다</h3>
       </ProductWrap>
+      <div>
+        
+      </div>
     </MyPageWrap>
   );
 };
