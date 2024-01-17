@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 // Import Swiper styles
@@ -13,8 +13,10 @@ import {
   ItemPacket,
   ItemTagBoxDiv,
   ItemTitlePrice,
+  RcSwiperWrap,
   ReviewWish,
   StyledLabel,
+  SwiperOneGroup,
   TextArea,
 } from "../../styles/mainstyle";
 import MainItemBoxTag from "./MainItemBoxTag";
@@ -30,25 +32,33 @@ const MainRcSwiper = ({ txt, title, review }) => {
 
   // 데모데이터 자료연동
   const [demoData, setDemoData] = useState(null);
+  const swiperRef = useRef(null);
+  const nextElRef = useRef(null);
+  const prevElRef = useRef(null);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchDataAndCenterSwiper = async () => {
       try {
         const res = await getDemoList({ setDemoData });
-        console.log("알이에스", res);
+
+        // 데이터를 가져온 후 Swiper 인스턴스가 생성되어 있으면 가운데 정렬
+        if (swiperRef.current) {
+          swiperRef.current.center();
+        }
       } catch (error) {
         console.error(error);
       }
     };
+    // if (item.isChecked) {
+    //   setIsChecked(true);
+    // }
 
-    fetchData(); // 비동기 함수 호출
-  }, []); // 빈 배열을 전달하여 컴포넌트가 마운트될 때만 useEffect가 실행되도록 함
+    fetchDataAndCenterSwiper(); // 비동기 함수 호출
+  }, []); // 빈 배열을 전달하여 컴포넌트가 마운트될 때만 useEffect가 실행
 
-  // demoData를 사용하여 UI를 렌더링하는 로직 작성
   if (!demoData) {
     return <p>Loading...</p>;
   }
-
   return (
     <div>
       {/* 사용자기준 추천상품 추후 사용자 토큰에 따라 ... */}
@@ -60,68 +70,84 @@ const MainRcSwiper = ({ txt, title, review }) => {
           </span>
           <i>👶🏻 내 자녀를 위한 추천상품 👶🏻</i>
         </TextArea>
-
-        <Swiper
-          navigation={true}
-          modules={[Navigation]}
-          className="mySwiper"
-          slidesPerView={4}
-          spaceBetween={45}
-          slidesPerGroup={4}
-        >
-          {demoData.map(Item => (
-            <SwiperSlide key={Item.id}>
-              <ItemPacket>
-                <ItemImg>
-                  <img src={Item.이미지} />
-                </ItemImg>
-                <ItemDecArea>
-                  <ItemTagBoxDiv>
-                    <MainItemBoxTag txt={"인기상품"} type={1} />
-                    <MainItemBoxTag txt={"신상품"} type={2} />
-                  </ItemTagBoxDiv>
-                  <ReviewWish>
-                    <div>
-                      <span>리뷰</span> <b>{Item.리뷰수}1</b>
-                    </div>
-                    <StyledLabel
-                      htmlFor="fileInput"
-                      isChecked={isChecked}
-                      isHovered={isHovered}
-                      onMouseEnter={() => setIsHovered(true)}
-                      onMouseLeave={() => setIsHovered(false)}
-                    >
-                      <img
-                        src={
-                          isChecked
-                            ? process.env.PUBLIC_URL +
-                              "/assets/images/heart.svg"
-                            : process.env.PUBLIC_URL +
-                              "/assets/images/heartoff.svg"
-                        }
-                        alt="wishlist"
-                      />
-                      <input
-                        type="checkbox"
-                        id="fileInput"
-                        style={{ display: "none" }}
-                        checked={isChecked}
-                        onChange={handleCheckboxChange}
-                      />
-                    </StyledLabel>
-                  </ReviewWish>
-                </ItemDecArea>
-                <ItemTitlePrice>
-                  <span>
-                    모유감성 PPSU 배앓이방지 젖병 젖꼭지 단계선택 리필
-                  </span>
-                  <br />
-                  <b>6,800원</b>
-                </ItemTitlePrice>
-              </ItemPacket>
-            </SwiperSlide>
-          ))}
-        </Swiper>
+        <RcSwiperWrap>
+          <Swiper
+            navigation={{
+              nextEl: nextElRef.current,
+              prevEl: prevElRef.current,
+            }}
+            modules={[Navigation]}
+            className="mainSlideSett"
+            slidesPerView={4}
+            spaceBetween={40}
+            slidesPerGroup={4}
+            slideActiveClass="rcswiper-one-group"
+          >
+            <SwiperOneGroup>
+              {demoData.map(Item => (
+                <SwiperSlide key={Item.id} style={{ width: "230px" }}>
+                  <ItemPacket>
+                    <ItemImg>
+                      <img src={Item.이미지} />
+                    </ItemImg>
+                    <ItemDecArea>
+                      <ItemTagBoxDiv>
+                        {Item.인기상품 ? (
+                          <MainItemBoxTag txt={"인기상품"} type={1} />
+                        ) : null}
+                        {Item.신상품 ? (
+                          <MainItemBoxTag txt={"신상품"} type={2} />
+                        ) : null}
+                      </ItemTagBoxDiv>
+                      <ReviewWish>
+                        <div>
+                          <span>리뷰</span>
+                          <b>{Item.리뷰수 > 99 ? 99 + "+" : Item.리뷰수}</b>
+                        </div>
+                        <StyledLabel
+                          htmlFor="fileInput"
+                          isChecked={isChecked}
+                          isHovered={isHovered}
+                          onMouseEnter={() => setIsHovered(true)}
+                          onMouseLeave={() => setIsHovered(false)}
+                        >
+                          <img
+                            src={
+                              isChecked
+                                ? process.env.PUBLIC_URL +
+                                  "/assets/images/heart.svg"
+                                : process.env.PUBLIC_URL +
+                                  "/assets/images/heartoff.svg"
+                            }
+                            alt="wishlist"
+                          />
+                          <input
+                            type="checkbox"
+                            id="fileInput"
+                            style={{ display: "none" }}
+                            checked={isChecked}
+                            onChange={handleCheckboxChange}
+                          />
+                        </StyledLabel>
+                      </ReviewWish>
+                    </ItemDecArea>
+                    <ItemTitlePrice>
+                      <span>{Item.제품명}</span>
+                      <br />
+                      <b>{Item.가격.toLocaleString()}원</b>
+                    </ItemTitlePrice>
+                  </ItemPacket>
+                </SwiperSlide>
+              ))}
+            </SwiperOneGroup>
+          </Swiper>
+          <button className="slide-prev-bt" ref={prevElRef}>
+            {/* 이전 버튼 이미지 */}
+          </button>
+          <button className="slide-next-bt" ref={nextElRef}>
+            {/* 다음 버튼 이미지 */}
+          </button>
+        </RcSwiperWrap>
       </div>
       {/* 인기상품 */}
       <div>

@@ -11,7 +11,7 @@ import DetailPage from "./pages/itemPage/DetailPage";
 import MainPage from "./pages/mainPage/MainPage";
 import MonthlyPage from "./pages/monthlyPage/MonthlyPage";
 import MyPage from "./pages/myPage/MyPage";
-import OrderComplete from "./pages/orderComplete/OrderComplete";
+import OrderCompletePage from "./pages/orderComplete/OrderCompletePage";
 import OrderList from "./pages/orderList/OrderListPage";
 import PaymentPage from "./pages/paymentPage/PaymentPage";
 import ReviewPage from "./pages/reviewPage/ReviewPage";
@@ -57,7 +57,7 @@ const App = () => {
           <Route path="/monthly" element={<MonthlyPage />}></Route>
           <Route path="/mypage" element={<MyPage />}></Route>
 
-          <Route path="/oc" element={<OrderComplete />}></Route>
+          <Route path="/oc" element={<OrderCompletePage />}></Route>
           <Route path="/ol" element={<OrderList />}></Route>
           <Route path="/payment" element={<PaymentPage />}></Route>
           <Route path="/review" element={<ReviewPage />}></Route>

@@ -1,6 +1,6 @@
 import React from "react";
-import MdRecoSwiper from "../../components/mainPageComponent/MainRcSwiper";
-import MainSwiper from "../../components/mainPageComponent/MainSwiper";
+import MdRecoSwiper from "../../components/mainpagecomponent/MainRcSwiper";
+import MainSwiper from "../../components/mainpagecomponent/MainSwiper";
 
 const MainPage = () => {
   return (
