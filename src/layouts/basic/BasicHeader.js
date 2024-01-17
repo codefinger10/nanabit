@@ -3,15 +3,18 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { HeaderNav } from "../../styles/basicLay/basicHeaderStyle";
 import BasicMenu from "../../components/basic/BasicMenu";
+import { useSelector } from "react-redux";
 
 const BasicHeader = () => {
+  const loginState = useSelector(state => state.loginSlice);
+  console.log(loginState);
   return (
     <HeaderNav>
       <div className="heder-top">
         <div className="heder-inwrap">
           <div className="header-top-left">
             <ul>
-              <Link to="/main">
+              <Link to="/">
                 <img
                   className="logo"
                   src={process.env.PUBLIC_URL + "/assets/images/logo.svg"}
@@ -32,9 +35,19 @@ const BasicHeader = () => {
 
           <div className="header-top-right">
             <ul className="member-menu">
-              <li>
-                <Link to="/login">로그인</Link>
-              </li>
+              {/* <li> */}
+              {/* <Link to="/login">로그인</Link> */}
+              {/* </li> */}
+              {/* -------------로그인----- */}
+
+              <div>
+                {loginState.username ? (
+                  <Link to="/logout">로그아웃</Link>
+                ) : (
+                  <Link to="/login">로그인</Link>
+                )}
+              </div>
+              {/* ------------------ */}
               <li>
                 <Link to="/signUp">회원가입</Link>
               </li>

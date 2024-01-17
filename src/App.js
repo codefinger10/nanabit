@@ -7,7 +7,7 @@ import LoginPage from "./pages/LoginPage";
 import CartPage from "./pages/cartpage/CartPage";
 import CommunityPage from "./pages/community/CommunityPage";
 import ErrorPage from "./pages/errorPage/ErrorPage";
-import DetailPage from "./pages/itemPage/DetailPage";
+import DetailPage from "./pages/itemPage/ItemPage";
 import MainPage from "./pages/mainPage/MainPage";
 import MonthlyPage from "./pages/monthlyPage/MonthlyPage";
 import MyPage from "./pages/myPage/MyPage";
@@ -26,15 +26,17 @@ import NoticePage from "./pages/community/communiys/NoticePage";
 
 import BasicLayout from "./layouts/BasicLayout";
 import ModifyPages from "./pages/signup/ModifyPages";
+import ProductPage from "./pages/product/ProductPage";
 
 const App = () => {
   return (
     <Wrap>
       <BasicLayout>
         <Routes>
-          <Route path="*" element={<h1>파일이없네요.</h1>}></Route>
+          {/* <Route path="*" element={<h1>파일이없네요.</h1>}></Route> */}
           {/* <Route path="/intro" element={<Intro />}></Route> */}
           {/* <Route path="/" element={<BasicLayout />}></Route> */}
+          <Route path="/" element={<MainPage />}></Route>
 
           <Route path="/login" element={<LoginPage />}></Route>
 
@@ -45,14 +47,18 @@ const App = () => {
             {/* 커뮤니티 */}
             <Route path="notice/:id" element={<NoticePage />} />
             {/* 등록 */}
+
             <Route path="add" element={<CommuAdd />} />
             {/* 수정 */}
             <Route path="edit/:id" element={<CommuEdit />} />
             {/* 읽기 */}
             <Route path="read/:id" element={<CommuRead />} />
           </Route>
+
+          <Route path="/product/" element={<ProductPage />}>
+            <Route path="product/:id" element={<ProductPage />} />
+          </Route>
           <Route path="/detail" element={<DetailPage />}></Route>
-          <Route path="/main" element={<MainPage />}></Route>
 
           <Route path="/monthly" element={<MonthlyPage />}></Route>
           <Route path="/mypage" element={<MyPage />}></Route>

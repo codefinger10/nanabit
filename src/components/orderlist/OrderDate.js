@@ -19,7 +19,7 @@ const OrderDate = () => {
       <RangePicker onChange={handleDateChange} />
       {/* 선택된 날짜 출력 */}
       {selectedDate && (
-        <div>
+        <div className="date">
           선택된 날짜: {selectedDate[0].format("YYYY-MM-DD")} ~{" "}
           {selectedDate[1].format("YYYY-MM-DD")}
         </div>
