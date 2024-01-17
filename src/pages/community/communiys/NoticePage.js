@@ -3,7 +3,7 @@ import { Pagination } from "antd";
 import { CommuMain } from "../styles/commStyle";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import CommunityTitle from "../../../components/basic/CommunityTitle";
-import { CommuBt } from "../styles/commBtStyle";
+import { CommuBt } from "../styles/commStyle";
 
 const NoticePage = () => {
   const { id } = useParams();
@@ -35,7 +35,7 @@ const NoticePage = () => {
         for (let i = 0; i < 10; i++) {
           dummyData.push({
             docs: `나나빛으로 육아를 하지마요...`,
-            name: "이주영",
+            name: "소통",
             data: today,
           });
         }
@@ -48,7 +48,7 @@ const NoticePage = () => {
         for (let i = 0; i < 15; i++) {
           dummyData.push({
             docs: `나나빛으로 육아를?? `,
-            name: "김주영",
+            name: "답변완료",
             data: today,
           });
         }
@@ -58,18 +58,22 @@ const NoticePage = () => {
     }
   }, [id]);
 
+  let asdasd = "";
+
   const handleNotice = id => {
     navigate(`../notice/${id}`);
   };
   let maintxt = "공지사항";
   let subtxt = "배송 및 상품관련 공지사항을 확인해 주세요.";
-
+  asdasd = "작성자";
   if (id === "2") {
     maintxt = "소통해요";
     subtxt = "소통과 관련된 내용을 확인해 주세요.";
+    asdasd = "분류";
   } else if (id === "3") {
     maintxt = "1:1 문의";
     subtxt = "문의사항이 있으면 언제든지 문의해 주세요.";
+    asdasd = "답변상태";
   }
 
   return (
@@ -91,7 +95,7 @@ const NoticePage = () => {
               <tr>
                 <th scope="col">번호</th>
                 <th scope="col">제목</th>
-                <th scope="col">작성자</th>
+                <th scope="col">{asdasd}</th>
                 <th scope="col">작성일</th>
               </tr>
             </thead>

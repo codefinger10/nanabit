@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import DefaultButton from "../../../components/basic/DefaultButton";
 import { useNavigate, useParams } from "react-router";
 import CommunityTitle from "../../../components/basic/CommunityTitle";
-import { NoticeBoard } from "../styles/commNotice";
+import { NoticeBoard } from "../styles/commStyle";
 import Asd from "./Asd";
 
 const CommuRead = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [post, setPost] = useState({});
+  const [post, setPost] = useState({ title: "", author: "", content: "" });
 
   useEffect(() => {
     const fakeData = {
@@ -18,7 +18,7 @@ const CommuRead = () => {
     };
 
     setPost(fakeData);
-  }, [id]);
+  }, []);
 
   const handleGoBack = () => {
     navigate(-1);
@@ -47,21 +47,24 @@ const CommuRead = () => {
           </div>
         </div>
         <textarea value={post.content} readOnly />
-        <div className="bts">
-          <DefaultButton
-            aa={handleGoBack}
-            type="button"
-            txt="뒤로가기"
-            txtColor="#868686"
-            borderColor="#868686"
-          />
-          <DefaultButton
-            aa={handleEdit}
-            type="button"
-            txt="수정하기"
-            txtColor="#42B0FF"
-            borderColor="#42B0FF"
-          />
+        <div className="wrap-footer">
+          <p>작성일:</p>
+          <div className="bts">
+            <DefaultButton
+              aa={handleGoBack}
+              type="button"
+              txt="뒤로가기"
+              txtColor="#868686"
+              borderColor="#868686"
+            />
+            <DefaultButton
+              aa={handleEdit}
+              type="button"
+              txt="수정하기"
+              txtColor="#42B0FF"
+              borderColor="#42B0FF"
+            />
+          </div>
         </div>
         <Asd />
       </NoticeBoard>
