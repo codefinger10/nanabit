@@ -47,7 +47,7 @@ const Address = ({ onAddressChange }) => {
     <>
       <div>주소*</div>
       <div style={{ display: 'flex', width: 193 }} onClick={toggleHandler}>
-        <Form.Item>
+        <Form.Item valuePropName='zipCode'>
           <Input style={{ width: 193, height: 50 }} value={zonecode} />
         </Form.Item>
 
@@ -86,7 +86,7 @@ const Address = ({ onAddressChange }) => {
       )}
 
       <div style={{ marginTop: '2rem' }}>기본주소</div>
-      <Form.Item>
+      <Form.Item valuePropName='address'>
         <Input style={{ width: 1220, height: 50 }} value={address} />
       </Form.Item>
       <div>상세주소</div>
