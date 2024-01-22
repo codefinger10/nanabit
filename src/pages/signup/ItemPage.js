@@ -1,5 +1,5 @@
 import Icon from "@ant-design/icons/lib/components/Icon";
-import { Button, Form } from "antd";
+import { Button, Form, Modal } from "antd";
 import React, { useState } from "react";
 import PrettyCounter from "../../components/Count";
 import {
@@ -12,6 +12,8 @@ import {
   StyledButton,
   StyledDiv,
 } from "../../styles/signup/item";
+import ImgSwiper from "../../components/signup/ImgSwiper";
+import ResultModal from "../../components/signup/ResultModal";
 const ItemPage = () => {
   const [form] = Form.useForm();
 
@@ -38,30 +40,40 @@ const ItemPage = () => {
   const [reviews, setReviews] = useState([
     {
       id: 1,
+      user: "육아천재꼬물이엄마",
+      pic: "https://i.namu.wiki/i/WGsJjdq_YZ55OqLwDcVy03tPUDeuy2bFGjbv7hGdqeTxhugt9oQVd9skQTplZArzk64Id35mmLbkbcMwWEo2-g.webp",
       text: "우리 꼬물이가 벌써부터 포크말고 젓가락 연습을 하는 날이 오다니 정말 기대되네요. 꼬물이가 좋아하는 뽀로로라서 구매를 하게 되었고 꽤 높은 곳에서 떨어뜨렸는데 멀쩡해요. 안심하고 막 사용해도 괜찮을 것 같네요. 이제 막 포크에서 젓가락으로 넘어가려는 애기엄마라면 무조건 강추입니당. 열심히 젓가락질 하려고 하는 모습이 기특해서 사진을 얼마나 찍었는지요~ 사진을 두장밖에 못넣어서 아쉽네용 ㅎㅎ.",
       rating: 5,
       date: "2024-01-09",
     },
     {
       id: 2,
+      user: "육아천재꼬물이엄마",
+      pic: "https://i.namu.wiki/i/WGsJjdq_YZ55OqLwDcVy03tPUDeuy2bFGjbv7hGdqeTxhugt9oQVd9skQTplZArzk64Id35mmLbkbcMwWEo2-g.webp",
       text: "고품질이며 가격 대비 훌륭합니다.",
       rating: 4,
       date: "2024-01-08",
     },
     {
       id: 3,
+      user: "육아천재꼬물이엄마",
+      pic: "https://i.namu.wiki/i/WGsJjdq_YZ55OqLwDcVy03tPUDeuy2bFGjbv7hGdqeTxhugt9oQVd9skQTplZArzk64Id35mmLbkbcMwWEo2-g.webp",
       text: "빠른 배송 서비스에 감사드립니다.",
       rating: 5,
       date: "2024-01-05",
     },
     {
       id: 4,
+      user: "육아천재꼬물이엄마",
+      pic: "https://i.namu.wiki/i/WGsJjdq_YZ55OqLwDcVy03tPUDeuy2bFGjbv7hGdqeTxhugt9oQVd9skQTplZArzk64Id35mmLbkbcMwWEo2-g.webp",
       text: "상품 너무 별로네요.",
       rating: 2,
       date: "2024-01-04",
     },
     {
       id: 5,
+      user: "육아천재꼬물이엄마",
+      pic: "https://i.namu.wiki/i/WGsJjdq_YZ55OqLwDcVy03tPUDeuy2bFGjbv7hGdqeTxhugt9oQVd9skQTplZArzk64Id35mmLbkbcMwWEo2-g.webp",
       text: "배송이 너무 느려요.",
       rating: 3,
       date: "2024-01-02",
@@ -114,15 +126,21 @@ const ItemPage = () => {
     }
   };
   const HeartIcon = props => <Icon component={HeartSvg} {...props} />;
-
+  const [isOpen, setIsOpen] = useState(false);
+  const handleClickModal = () => {
+    setIsOpen(true);
+  };
+  const handleOk = () => {
+    setIsOpen(false);
+  };
+  const handleCancel = () => {
+    setIsOpen(false);
+  };
   return (
     <ItemMain>
       <ItemWrap>
-        <div className="itemimg">
-          <img
-            src={process.env.PUBLIC_URL + "/assets/images/majpg.jpg"}
-            alt="baby item"
-          />
+        <div style={{ width: "600px", height: "520px" }}>
+          <ImgSwiper />
         </div>
         <div style={{ width: "800px" }}>
           <div style={{ paddingBottom: 220 }}>
@@ -154,6 +172,7 @@ const ItemPage = () => {
           </ItemPrice>
 
           <Button
+            onClick={handleClickModal}
             type="primary"
             htmlType="submit"
             style={{
@@ -169,6 +188,19 @@ const ItemPage = () => {
           >
             장바구니
           </Button>
+          {isOpen && (
+            <Modal
+              title="smartstore 내용:"
+              open={handleClickModal}
+              onOk={handleOk}
+              okText="확인"
+              onCancel={handleCancel}
+              cancelText="취소"
+            >
+              <p>장바구니에 상품을 담았습니다.</p>
+              <p>장바구니로 이동하시겠습니까?</p>
+            </Modal>
+          )}
           <Button
             type="primary"
             style={{
@@ -287,11 +319,12 @@ const ItemPage = () => {
                           fontSize: 20,
                         }}
                       >
-                        <p>
-                          {review.id}
-                          <span> {review.rating}</span>
-                        </p>
-
+                        <div>
+                          <p>
+                            {review.user}
+                            <span> {review.rating}</span>
+                          </p>
+                        </div>
                         <p>날짜: {review.date}</p>
                       </div>
                       <p>{review.text}</p>

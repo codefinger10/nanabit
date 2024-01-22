@@ -1,14 +1,14 @@
 import { Button, Checkbox, Form, Input } from "antd";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Address from "../../components/signup/Address";
 import ChildComponent from "../../components/signup/ChildComponent ";
 import {
   MyInput,
   SignupWrap,
   addbt,
-  agreeItem,
   babyInfo,
   babyInfoPush,
+  buttonPrimaryBack,
   buttonPrimaryStyle,
   buttonStyle,
   emailtitle,
@@ -16,17 +16,18 @@ import {
   formStyle,
   inputBt,
 } from "../../styles/signup/signup";
+import { postSign } from "../../api/signupapi/SignupApi";
 const initState = {
-  name: "",
-  userid: "",
-  password: "",
+  nm: "",
+  uid: "",
+  upw: "",
   confirm: "",
-  zonecode: "",
+  zipCode: "",
   address: "",
-  detailedAddress: "",
-  phone: "",
+  addressDetail: "",
+  phoneNumber: "",
   email: "",
-  baby: [{ month: "", gender: "" }],
+  children: [{ ichildAge: "", gender: "" }],
   agreement: true,
 };
 
@@ -44,9 +45,9 @@ const Signup = () => {
   const onFinish = values => {
     setMemberInfo({ ...values });
     values.address = address;
-    values.zonecode = zonecode;
-
+    values.zipCode = zonecode;
     console.log("Success:", values);
+    postSign({values ,successFn, failFn, errFn })
   };
   const onFinishFailed = errorInfo => {
     console.log("Failed:", errorInfo);
@@ -81,6 +82,26 @@ const Signup = () => {
     },
   };
 
+  const successFn = () => {
+    setReDirct(0); 
+
+    setPopTitle("새글 등록 성공");
+    setContent("새로운 할일이 등록되었습니다. 목록으로 이동합니다.");
+  };
+  const failFn = () => {
+    setReDirct(1);
+    setPopTitle("새글 등록 실패");
+    setContent("새로운 할일이 등록에 실패하였습니다. 다시 등록해주세요.");
+  };
+  const errFn = () => {
+    setReDirct(1);
+    setPopTitle("새글 등록 실패");
+    setContent("서버가 불안정합니다. 잠시후 다시 등록해주세요.");
+  };
+  const [popTitle, setPopTitle] = useState("");
+  const [popContent, setContent] = useState("");
+  const [popRedrect, setReDirct] = useState(0);
+
   return (
     <>
       <SignupWrap>
@@ -101,16 +122,16 @@ const Signup = () => {
           }}
           initialValues={{
             remember: true,
-            name: memberInfo.name,
-            userid: memberInfo.userid,
-            password: memberInfo.password,
+            nm: memberInfo.nm,
+            uid: memberInfo.uid,
+            upw: memberInfo.upw,
             confirm: memberInfo.confirm,
-            // zonecode: memberInfo.zonecode,1
+            zipCode: memberInfo.zipCode,
             address: memberInfo.address,
-            detailedAddress: memberInfo.detailedAddress,
-            phone: memberInfo.phone,
+            addressDetail: memberInfo.addressDetail,
+            phoneNumber: memberInfo.phoneNumber,
             email: memberInfo.email,
-            baby: [{ month: "", gender: "" }],
+            children: [{ ichildAge: "", gender: "" }],
 
             agreement: memberInfo.agreement,
           }}
@@ -120,7 +141,7 @@ const Signup = () => {
         >
           <div style={formStyle}>이름*</div>
           <Form.Item
-            name="name"
+            name="nm"
             rules={[
               {
                 type: "text",
@@ -133,7 +154,7 @@ const Signup = () => {
           <div style={formStyle}>아이디*</div>
           <div style={flexContainer}>
             <Form.Item
-              name="userid"
+              name="uid"
               rules={[
                 {
                   required: true,
@@ -155,18 +176,18 @@ const Signup = () => {
           </div>
 
           <div>비밀번호*</div>
-          <Form.Item name="password">
+          <Form.Item name="upw">
             <Input.Password style={inputBt} />
           </Form.Item>
           <div>비밀번호 확인*</div>
           <Form.Item
             name="confirm"
-            dependencies={["password"]}
+            dependencies={["upw"]}
             hasFeedback
             rules={[
               ({ getFieldValue }) => ({
                 validator(_, value) {
-                  if (!value || getFieldValue("password") === value) {
+                  if (!value || getFieldValue("upw") === value) {
                     return Promise.resolve();
                   }
                   return Promise.reject(
@@ -182,7 +203,7 @@ const Signup = () => {
           <Address onAddressChange={updateAddressInfo} />
           <div>휴대전화*</div>
           <Form.Item
-            name="phone"
+            name="phoneNumber"
             rules={[
               {
                 required: true,
@@ -204,7 +225,7 @@ const Signup = () => {
             <MyInput />
           </Form.Item>
 
-          <Form.List name="baby">
+          <Form.List name="children">
             {(fields, { add, remove }) => (
               <>
                 <div style={babyInfo}>
@@ -231,29 +252,39 @@ const Signup = () => {
             )}
           </Form.List>
           <div className="agreesign">
-          <Form.Item
-          
-            name="agreement"
-            valuePropName="checked"
-            rules={[
-              {
-                validator: (_, value) =>
-                  value
-                    ? Promise.resolve()
-                    : Promise.reject(new Error("잘못된 정보 입니다.")),
-              },
-            ]}
-            {...tailFormItemLayout}
-          >
-            <Checkbox style={{ marginTop: "20px", marginRight:"400px" }}>동의하시겠습니까?</Checkbox>
-          </Form.Item>
+            <Form.Item
+              name="agreement"
+              valuePropName="checked"
+              rules={[
+                {
+                  validator: (_, value) =>
+                    value
+                      ? Promise.resolve()
+                      : Promise.reject(new Error("약관 동의를 체크해주세요.")),
+                },
+              ]}
+              {...tailFormItemLayout}
+            >
+              <Checkbox style={{ marginTop: "20px", marginRight: "400px" }}>
+                동의하시겠습니까?
+              </Checkbox>
+            </Form.Item>
           </div>
           <div className="signupbt">
-          <Form.Item>
-            <Button type="primary" htmlType="submit" style={buttonPrimaryStyle}>
-              회원가입
-            </Button>
-          </Form.Item>
+            <Form.Item>
+              <Button type="primary" style={buttonPrimaryBack}>
+                <span style={{ color: "#868686" }}>뒤로가기</span>
+              </Button>
+            </Form.Item>
+            <Form.Item>
+              <Button
+                type="primary"
+                htmlType="submit"
+                style={buttonPrimaryStyle}
+              >
+                회원가입
+              </Button>
+            </Form.Item>
           </div>
         </Form>
       </SignupWrap>
