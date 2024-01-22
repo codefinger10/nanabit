@@ -9,9 +9,9 @@ const PaymentPage = () => {
       {/* 카드결제 모달 */}
       <CreditCardMadal />
       {/* 무통장결제 모달 */}
-      {/* <BankTransferModal /> */}
+      <BankTransferModal />
       {/* 결제창 */}
-      {/* <Payment /> */}
+      <Payment />
     </>
   );
 };
