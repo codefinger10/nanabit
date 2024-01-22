@@ -1,56 +1,95 @@
 import { Button, Form, Input } from "antd";
-import React from "react";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import useCustomLogin from "../../hooks/useCustomLogin";
 const onFinish = values => {
   console.log("Success:", values);
 };
 const onFinishFailed = errorInfo => {
   console.log("Failed:", errorInfo);
 };
-const LoginForm = () => (
+
+// // 초기값
+// const initState = {
+//   uid: "",
+//   upw: "",
+// };
+// const [loginParam, setLoginParam] = useState(initState);
+// const handleChange = e => {
+//   // e.target.name
+//   // e.target.value
+//   loginParam[e.target.name] = e.target.value;
+//   setLoginParam({ ...loginParam });
+// };
+
+// // 커스텀 훅 사용하기
+// const { doLogin, moveToPath } = useCustomLogin();
+
+// // slice 값(state)을 읽을때        useSelector
+// // slice 값(state)를 업데이트할때  useDispatch()
+// const dispatch = useDispatch();
+// const handleClick = e => {
+//   // loginSlice 의  state 업데이트
+//   // dispatch(login(loginParam));
+//   // dispatch(loginPostAsync({ loginParam, successFn, failFn, errorFn }));
+
+//   // 아래 구문을 실행하고 나면 Promise 돌려 받아요
+//   doLogin({ loginParam, successFn, failFn, errorFn });
+// };
+
+// const successFn = result => {
+//   console.log("성공", result);
+//   moveToPath("/");
+// };
+
+// const failFn = result => {
+//   console.log("실패", result);
+//   alert("이메일 및 비밀번호 확인하세요.");
+// };
+
+// const errorFn = result => {
+//   console.log("에러", result);
+// };
+
+const LoginForm = () => {
   // 전체 로그인 폼 style
-  <div
-    style={{
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      height: "252px",
-      maxWidth: "800px",
-      margin: "0 auto",
-    }}
-  >
+
+  return (
     <Form
       style={{
-        width: "100%",
+        width: "540px",
         maxWidth: 800,
+        height: "252px",
+        margin: "0  auto  74px auto",
       }}
       initialValues={{
         remember: true,
+        uid: "",
+        upw: "",
       }}
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}
       autoComplete="off"
+      layout="vertical"
+      requiredMark={false}
     >
       {/* 유저 아이디 style */}
       <Form.Item
-        name="username"
+        name="uid"
+        label={<label style={{ color: "#E9B25F", fontSize: "20px" }}>ID</label>}
         rules={[
           {
             required: true,
             message: "아이디를 입력해주세요!",
+            whitespace: true,
           },
         ]}
-        // 유저 아이디 창 길이조절
-        wrapperCol={{
-          offset: 4,
-          span: 16,
-        }}
-        style={{ height: "70px" }}
+        style={{ height: "80px" }}
       >
         {/* 유저 아이디 인풋 스타일 */}
         <Input
           placeholder="아이디를 입력하세요."
           style={{
-            height: "60px",
             fontSize: "20px",
             borderRadius: "0px",
             borderTop: "none",
@@ -64,25 +103,20 @@ const LoginForm = () => (
 
       {/* 유저 패스워드 style */}
       <Form.Item
-        name="password"
+        name="upw"
+        label={<label style={{ color: "#E9B25F", fontSize: "20px" }}>PW</label>}
         rules={[
           {
             required: true,
             message: "비밀번호를 입력해주세요!",
           },
         ]}
-        // 유저 패스워드 창 길이조절
-        wrapperCol={{
-          offset: 4,
-          span: 16,
-        }}
-        style={{ height: "70px" }}
+        style={{ height: "80px" }}
       >
         {/* 유저 패스워드 인풋 스타일 */}
         <Input.Password
           placeholder="비밀번호를 입력하세요."
           style={{
-            height: "60px",
             fontSize: "20px",
             borderRadius: "0px",
             borderTop: "none",
@@ -95,18 +129,13 @@ const LoginForm = () => (
       </Form.Item>
 
       {/* 버튼 창 길이조절 */}
-      <Form.Item
-        wrapperCol={{
-          offset: 4,
-          span: 16,
-        }}
-      >
+      <Form.Item>
         {/* 버튼 style */}
         <Button
           type="primary"
           htmlType="submit"
           style={{
-            width: "100%",
+            width: "540px",
             height: "60px",
             background: "#E9B25F",
             fontSize: "25px",
@@ -116,6 +145,6 @@ const LoginForm = () => (
         </Button>
       </Form.Item>
     </Form>
-  </div>
-);
+  );
+};
 export default LoginForm;

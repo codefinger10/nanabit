@@ -41,6 +41,7 @@ export const LoginPageBt = styled.button`
   border: none;
   background: transparent;
   color: #c5c5c5;
+  cursor: pointer;
   h1 {
     margin-top: 10px;
     margin-bottom: 5px;
