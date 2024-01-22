@@ -3,7 +3,23 @@ import React, { useState } from "react";
 
 import { StyledLabel } from "../../styles/mainstyle";
 import styled from "@emotion/styled";
-import Heart from "../../components/product/Heart";
+const products = [
+  {
+    id: 1,
+    name: "상품 1",
+    description: "상품 1의 설명",
+    price: 5000,
+    image: "https://via.placeholder.com/150",
+  },
+  {
+    id: 2,
+    name: "상품 2",
+    description: "상품 2의 설명",
+    price: 7000,
+    image: "https://via.placeholder.com/150",
+  },
+  // ... 다른 상품들
+];
 
 const CardContainer = styled.div`
   padding: 16px;
@@ -29,7 +45,6 @@ const ProductCard = ({ product }) => {
       <p>{product.description}</p>
       <p>가격: {product.price} 원</p>
       <button>장바구니에 추가</button>
-      <Heart />
     </CardContainer>
   );
 };

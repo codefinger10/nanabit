@@ -2,91 +2,55 @@ import React, { useEffect, useState } from "react";
 import ProductCard from "./ProductCard";
 import styled from "@emotion/styled";
 import CommunityTitle from "../../components/basic/CommunityTitle";
+import { Pagination } from "antd";
+import LowHighBt from "../../components/product/LowHighBt";
+import {
+  GridContainer,
+  MealButton,
+  PagiWarp,
+  ProductWrap,
+} from "../../styles/product/ProductGridStyle";
 
 const ProductLayout = () => {
-  const MealButton = styled.button`
-    border: 1px solid ${props => (props.active ? "#e9b25f" : "#d9d9d9")};
-    background: #fff;
-    color: ${props => (props.active ? "#e9b25f" : "#bababa")};
-    text-align: center;
-    font-family: Noto Sans KR;
-    font-size: 25px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
-    width: 25%;
-    height: 75px;
-    cursor: pointer;
-    margin-bottom: 50px;
-  `;
-
-  const GridContainer = styled.div`
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
-    margin: 20px;
-  `;
-
   const [productData, setProductData] = useState([]);
-  const [activeButton, setActiveButton] = useState("임신/출산 (~0개월)");
+  const [activeCategory, setActiveCategory] = useState("이유식");
+  const [activeSubcategory, setActiveSubcategory] = useState("중분류1");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(16);
 
-  const dummyDataByButton = {};
+  // 더미데이터
+  const generateDummyData = (start, end) => {
+    const dummyData = [];
+    for (let i = start; i <= end; i++) {
+      dummyData.push({
+        id: i,
+        name: `상품 ${i}`,
+        description: `상품 ${i}의 설명`,
+        price: i * 5000,
+        image: "https://via.placeholder.com/150",
+      });
+    }
+    return dummyData;
+  };
 
-  // 임신/출산 (~0개월) 데이터 생성
-  dummyDataByButton["임신/출산 (~0개월)"] = [];
-  for (let i = 1; i <= 16; i++) {
-    dummyDataByButton["임신/출산 (~0개월)"].push({
-      id: i,
-      name: `상품 ${i}`,
-      description: `상품 ${i}의 설명`,
-      price: i * 5000,
-      image: "https://via.placeholder.com/150",
-    });
-  }
+  const generateRandomDummyData = () => {
+    const numItems = Math.floor(Math.random() * 30) + 1;
+    return generateDummyData(1, numItems);
+  };
 
-  // 신생아 (1~3개월) 데이터 생성
-  dummyDataByButton["신생아 (1~3개월)"] = [];
-  for (let i = 9; i <= 16; i++) {
-    dummyDataByButton["신생아 (1~3개월)"].push({
-      id: i,
-      name: `상품 ${i}`,
-      description: `상품 ${i}의 설명`,
-      price: i * 5000,
-      image: "https://via.placeholder.com/150",
-    });
-  }
-
-  // 베이비 (4~23개월) 데이터 생성
-  dummyDataByButton["베이비 (4~23개월)"] = [];
-  for (let i = 17; i <= 24; i++) {
-    dummyDataByButton["베이비 (4~23개월)"].push({
-      id: i,
-      name: `상품 ${i}`,
-      description: `상품 ${i}의 설명`,
-      price: i * 5000,
-      image: "https://via.placeholder.com/150",
-    });
-  }
-
-  // 키즈(24개월~) 데이터 생성
-  dummyDataByButton["키즈(24개월~)"] = [];
-  for (let i = 25; i <= 32; i++) {
-    dummyDataByButton["키즈(24개월~)"].push({
-      id: i,
-      name: `상품 ${i}`,
-      description: `상품 ${i}의 설명`,
-      price: i * 5000,
-      image: "https://via.placeholder.com/150",
-    });
-  }
-  // 2024 01 17 오류수정
-  // useEffect(() => {
-  // setProductData(dummyDataByButton[activeButton]);
-  // }, [activeButton]);
+  const dummyDataByCategory = {
+    이유식: [
+      { name: "중분류1", data: generateRandomDummyData() },
+      { name: "중분류2", data: generateRandomDummyData() },
+      { name: "중분류3", data: generateRandomDummyData() },
+      { name: "중분류4", data: generateRandomDummyData() },
+    ],
+  };
 
   const [wishlist, setWishlist] = useState(
-    Array(productData.length).fill(false),
+    Array(dummyDataByCategory[activeCategory][0].data.length).fill(false),
   );
+
   const handleCheckboxChange = index => {
     setWishlist(prevWishlist => {
       const updatedWishlist = [...prevWishlist];
@@ -96,61 +60,79 @@ const ProductLayout = () => {
   };
 
   useEffect(() => {
-    setProductData(dummyDataByButton[activeButton]);
-    // Wishlist 상태를 각각의 상품에 대해 독립적으로 초기화
-    setWishlist(Array(dummyDataByButton[activeButton].length).fill(false));
-  }, [activeButton]);
+    const selectedSubcategory = dummyDataByCategory[activeCategory].find(
+      category => category.name === activeSubcategory,
+    );
+    setProductData(selectedSubcategory.data);
+    setWishlist(Array(selectedSubcategory.data.length).fill(false));
+  }, [activeCategory, activeSubcategory]);
 
-  const handleButtonClick = buttonName => {
-    setActiveButton(buttonName);
+  const handleCategoryClick = category => {
+    setActiveCategory(category);
+    // 기본적으로 첫 번째 중분류 선택
+    setActiveSubcategory(dummyDataByCategory[category][0].name);
+    setCurrentPage(1);
   };
 
-  return (
-    <div>
-      <CommunityTitle
-        maintxt="이유식"
-        subtxt="배송 및 상품관련 공지사항을 확인해 주세요."
-      />
-      <div>
-        <MealButton
-          onClick={() => handleButtonClick("임신/출산 (~0개월)")}
-          active={activeButton === "임신/출산 (~0개월)"}
-        >
-          임신/출산 (~0개월)
-        </MealButton>
-        <MealButton
-          onClick={() => handleButtonClick("신생아 (1~3개월)")}
-          active={activeButton === "신생아 (1~3개월)"}
-        >
-          신생아 (1~3개월)
-        </MealButton>
-        <MealButton
-          onClick={() => handleButtonClick("베이비 (4~23개월)")}
-          active={activeButton === "베이비 (4~23개월)"}
-        >
-          베이비 (4~23개월)
-        </MealButton>
-        <MealButton
-          onClick={() => handleButtonClick("키즈(24개월~)")}
-          active={activeButton === "키즈(24개월~)"}
-        >
-          키즈(24개월~)
-        </MealButton>
-      </div>
+  const handleSubcategoryClick = subcategory => {
+    setActiveSubcategory(subcategory);
+    setCurrentPage(1);
+  };
 
-      <GridContainer>
-        {productData.map((product, index) => (
-          // <ProductCard key={product.id} product={product} />
-          <ProductCard
-            key={index}
-            product={product}
-            index={index}
-            wishlist={wishlist}
-            onCheckboxChange={handleCheckboxChange}
+  const handlePageChange = page => {
+    setCurrentPage(page);
+  };
+
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const displayedProducts = productData.slice(startIndex, endIndex);
+
+  return (
+    <ProductWrap>
+      <div>
+        <div className="protitle">
+          <CommunityTitle
+            maintxt="이유식"
+            subtxt="배송 및 상품관련 공지사항을 확인해 주세요."
           />
-        ))}
-      </GridContainer>
-    </div>
+        </div>
+
+        <div>
+          {dummyDataByCategory[activeCategory].map(subcategory => (
+            <MealButton
+              key={subcategory.name}
+              onClick={() => handleSubcategoryClick(subcategory.name)}
+              active={activeSubcategory === subcategory.name}
+            >
+              {subcategory.name}
+            </MealButton>
+          ))}
+        </div>
+
+        <LowHighBt />
+
+        <GridContainer itemsPerPage={itemsPerPage}>
+          {displayedProducts.map((product, index) => (
+            <ProductCard
+              key={index}
+              product={product}
+              index={index + startIndex}
+              wishlist={wishlist}
+              onCheckboxChange={handleCheckboxChange}
+            />
+          ))}
+        </GridContainer>
+        <PagiWarp>
+          <Pagination
+            current={currentPage}
+            onChange={handlePageChange}
+            total={productData.length}
+            pageSize={itemsPerPage}
+            className="pagination"
+          />
+        </PagiWarp>
+      </div>
+    </ProductWrap>
   );
 };
 

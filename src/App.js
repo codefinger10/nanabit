@@ -27,6 +27,7 @@ import NoticePage from "./pages/community/communiys/NoticePage";
 import BasicLayout from "./layouts/BasicLayout";
 import ModifyPages from "./pages/signup/ModifyPages";
 import ProductPage from "./pages/product/ProductPage";
+import SerchPage from "./pages/serch/SerchPage";
 
 const App = () => {
   return (
@@ -70,6 +71,7 @@ const App = () => {
           <Route path="/signup" element={<Signup />}></Route>
           <Route path="/Modify" element={<ModifyPages />}></Route>
           <Route path="/item" element={<ItemPage />}></Route>
+          <Route path="/cc" element={<SerchPage />}></Route>
 
           <Route path="/error" element={<ErrorPage />}></Route>
         </Routes>
