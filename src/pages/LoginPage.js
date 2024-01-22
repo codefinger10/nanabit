@@ -10,8 +10,11 @@ import {
   LoginPageBt,
   LoginPageWrap,
 } from "../styles/loginpage/loginpagestyle";
+import useCustomMove from "../hooks/useCustomMove";
 
 const LoginPage = () => {
+  const { moveToSignUp } = useCustomMove();
+  
   return (
     <>
       <LoginPageWrap>
@@ -24,13 +27,8 @@ const LoginPage = () => {
 
           <LoginForm />
 
-          <FindBt>
-            <button>아이디 찾기</button>
-            <button>비밀번호 찾기</button>
-          </FindBt>
-
           <LoginBtArea>
-            <LoginPageBt>
+            <LoginPageBt onClick={moveToSignUp}>
               <h1>아직 계정이 없으신가요?</h1>
               <h3>회원가입 바로가기</h3>
             </LoginPageBt>

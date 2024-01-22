@@ -20,11 +20,12 @@ export const useCustomMove = () => {
   };
   // 로그인으로 이동
   const moveToLogin = () => {
+    <a href="/login"></a>;
     navigate("/login");
   };
   // 화원가입으로 이동
   const moveToSignUp = () => {
-    navigate("/signUp");
+    <a href="/signUp"></a>;
   };
   // 커뮤니티로 이동
   const moveToCommu = () => {
@@ -98,6 +99,12 @@ export const useCustomMove = () => {
     page,
     size,
     moveToRead,
+    moveToPrev,
+    moveToMain,
+    moveToLogin,
+    moveToSignUp,
+    moveToCommu,
+    moveToMypage,
   };
 };
 
