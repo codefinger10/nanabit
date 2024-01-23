@@ -39,7 +39,7 @@ export const SwiperOneGroup = styled.div`
 
 export const ItemPacket = styled.div`
   width: 230px;
-  height: 350px;
+  height: 330px;
 `;
 export const ItemImg = styled.div`
   width: 230px;
@@ -56,7 +56,7 @@ export const ItemDecArea = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 230px;
-  margin-top: 13px;
+  margin-top: 8px;
 `;
 
 export const ItemTagBoxDiv = styled.div`
@@ -67,56 +67,26 @@ export const ItemTagBoxDiv = styled.div`
 
 export const ReviewWish = styled.div`
   display: flex;
-  flex-wrap: wrap;
+  /* flex-wrap: wrap; */
   gap: 5px;
   text-align: center;
   font-size: 15px;
-  margin-right: 0;
-  margin-top: auto;
+  height: 25px;
+  align-items: center;
+  justify-content: center;
 `;
 export const StyledLabel = styled.label`
   width: 14px;
   height: 14px;
-  display: inline-block;
-  position: relative;
-  margin: auto;
-  padding: 0;
-  font-size: 0;
-  transform: translate(-50%, -50%) img {
-    max-width: 100%;
-    max-height: 100%;
-    margin: 0 auto;
-    transition: opacity 0.3s ease-in-out;
-    display: block;
-    opacity: ${props => (props.isChecked ? 1 : 0)};
-  }
-
-  &:hover img {
-    cursor: pointer;
-    opacity: 1;
-    margin: 0 auto;
-  }
-
-  &:hover::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url("/assets/images/heart.svg");
-    background-repeat: no-repeat;
-    background-size: contain;
-    opacity: ${props => (props.isChecked || props.isHovered ? 1 : 0)};
-    transition: opacity 0.3s ease-in-out;
-    margin: 0 auto;
-  }
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 export const ItemTitlePrice = styled.div`
   width: 230px;
-  margin-top: 3px;
-  span {
-    display: block;
+  margin-top: 5px;
+  text-align: start;
+  p {
     width: 230px;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -127,6 +97,7 @@ export const ItemTitlePrice = styled.div`
   }
   b {
     font-size: 30px;
-    line-height: 10px;
+    line-height: 30px;
+    margin-top: 5px;
   }
 `;

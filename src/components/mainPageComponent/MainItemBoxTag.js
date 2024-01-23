@@ -21,7 +21,9 @@ const MainItemBoxTag = ({ txt, type }) => {
     border-color: ${borderColor};
     width: 70px;
     height: 25px;
-    text-align: center;
+    justify-content: center;
+    align-items: center;
+    display: flex;
 
     span {
       color: ${textColor};

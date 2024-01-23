@@ -20,14 +20,16 @@ import {
   TextArea,
 } from "../../styles/mainstyle";
 import MainItemBoxTag from "./MainItemBoxTag";
-import { getDemoList } from "../../api/mainpageapi/MainPageApi";
+import { getDemoList } from "../../api/mainpageapi/mainPageApi";
 
-const MainRcSwiper = ({ txt, title, review }) => {
-  const [isChecked, setIsChecked] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
-  const handleCheckboxChange = () => {
-    // 체크박스의 상태를 업데이트
-    setIsChecked(!isChecked);
+const MainRcSwiper = () => {
+  const [heartCheckedMap, setHeartCheckedMap] = useState({});
+
+  const handleHeartButtonClick = itemId => {
+    setHeartCheckedMap(prev => ({
+      ...prev,
+      [itemId]: !prev[itemId],
+    }));
   };
 
   // 데모데이터 자료연동
@@ -41,6 +43,13 @@ const MainRcSwiper = ({ txt, title, review }) => {
       try {
         const res = await getDemoList({ setDemoData });
 
+        // 찜 여부 값이 true와 false로 되어 있을 경우
+        const initialHeartCheckedMap = {};
+        res.forEach(item => {
+          initialHeartCheckedMap[item.id] = item.찜여부 === true;
+        });
+        setHeartCheckedMap(initialHeartCheckedMap);
+
         // 데이터를 가져온 후 Swiper 인스턴스가 생성되어 있으면 가운데 정렬
         if (swiperRef.current) {
           swiperRef.current.center();
@@ -49,10 +58,6 @@ const MainRcSwiper = ({ txt, title, review }) => {
         console.error(error);
       }
     };
-    // if (item.isChecked) {
-    //   setIsChecked(true);
-    // }
-
     fetchDataAndCenterSwiper(); // 비동기 함수 호출
   }, []); // 빈 배열을 전달하여 컴포넌트가 마운트될 때만 useEffect가 실행
 
@@ -85,7 +90,10 @@ const MainRcSwiper = ({ txt, title, review }) => {
           >
             <SwiperOneGroup>
               {demoData.map(Item => (
-                <SwiperSlide key={Item.id} style={{ width: "230px" }}>
+                <SwiperSlide
+                  key={Item.id}
+                  style={{ width: "230px", height: "330px" }}
+                >
                   <ItemPacket>
                     <ItemImg>
                       <img src={Item.이미지} />
@@ -104,16 +112,10 @@ const MainRcSwiper = ({ txt, title, review }) => {
                           <span>리뷰</span>
                           <b>{Item.리뷰수 > 99 ? 99 + "+" : Item.리뷰수}</b>
                         </div>
-                        <StyledLabel
-                          htmlFor="fileInput"
-                          isChecked={isChecked}
-                          isHovered={isHovered}
-                          onMouseEnter={() => setIsHovered(true)}
-                          onMouseLeave={() => setIsHovered(false)}
-                        >
+                        <StyledLabel htmlFor={`heartInput-${Item.id}`}>
                           <img
                             src={
-                              isChecked
+                              heartCheckedMap[Item.id]
                                 ? process.env.PUBLIC_URL +
                                   "/assets/images/heart.svg"
                                 : process.env.PUBLIC_URL +
@@ -123,17 +125,16 @@ const MainRcSwiper = ({ txt, title, review }) => {
                           />
                           <input
                             type="checkbox"
-                            id="fileInput"
+                            id={`heartInput-${Item.id}`}
                             style={{ display: "none" }}
-                            checked={isChecked}
-                            onChange={handleCheckboxChange}
+                            checked={heartCheckedMap[Item.id]}
+                            onChange={() => handleHeartButtonClick(Item.id)}
                           />
                         </StyledLabel>
                       </ReviewWish>
                     </ItemDecArea>
                     <ItemTitlePrice>
-                      <span>{Item.제품명}</span>
-                      <br />
+                      <p>{Item.제품명}</p>
                       <b>{Item.가격.toLocaleString()}원</b>
                     </ItemTitlePrice>
                   </ItemPacket>
@@ -149,134 +150,7 @@ const MainRcSwiper = ({ txt, title, review }) => {
           </button>
         </RcSwiperWrap>
       </div>
-      {/* 인기상품 */}
-      <div>
-        <TextArea>
-          <span>
-            육아 3회차 MD가 추천하는
-            <br />
-          </span>
-          <i>🔎 MD 추천상품 🔎</i>
-        </TextArea>
-        <Swiper
-          navigation={true}
-          modules={[Navigation]}
-          className="mySwiper"
-          slidesPerView={4}
-          spaceBetween={45}
-          slidesPerGroup={4}
-        >
-          <SwiperSlide>
-            <ItemPacket>
-              <ItemImg>
-                <img
-                  src={
-                    process.env.PUBLIC_URL + "/assets/images/defaultitemimg.svg"
-                  }
-                />
-              </ItemImg>
-              <ItemDecArea>
-                <ItemTagBoxDiv>
-                  <MainItemBoxTag txt={"인기상품"} type={1} />
-                  <MainItemBoxTag txt={"신상품"} type={2} />
-                </ItemTagBoxDiv>
-                <ReviewWish>
-                  <div>
-                    <span>리뷰</span> <b>{review}1</b>
-                  </div>
-                  <StyledLabel htmlFor="fileInput" isChecked={isChecked}>
-                    <img
-                      src={
-                        isChecked
-                          ? process.env.PUBLIC_URL + "/assets/images/heart.svg"
-                          : process.env.PUBLIC_URL +
-                            "/assets/images/heartoff.svg"
-                      }
-                      alt="wishlist"
-                    />
-                    <input
-                      type="checkbox"
-                      id="fileInput"
-                      style={{ display: "none" }}
-                      checked={isChecked}
-                      onChange={handleCheckboxChange}
-                    />
-                  </StyledLabel>
-                </ReviewWish>
-              </ItemDecArea>
-              <ItemTitlePrice>
-                <span>모유감성 PPSU 배앓이방지 젖병 젖꼭지 단계선택 리필</span>
-                <br />
-                <b>6,800원</b>
-              </ItemTitlePrice>
-            </ItemPacket>
-          </SwiperSlide>
-        </Swiper>
-      </div>
-      {/* 신상품 */}
-      <div>
-        <TextArea>
-          <span>
-            육아 3회차 MD가 추천하는
-            <br />
-          </span>
-          <i>🔎 MD 추천상품 🔎</i>
-        </TextArea>
-        <Swiper
-          navigation={true}
-          modules={[Navigation]}
-          className="mySwiper"
-          slidesPerView={4}
-          spaceBetween={45}
-          slidesPerGroup={4}
-        >
-          <SwiperSlide>
-            <ItemPacket>
-              <ItemImg>
-                <img
-                  src={
-                    process.env.PUBLIC_URL + "/assets/images/defaultitemimg.svg"
-                  }
-                />
-              </ItemImg>
-              <ItemDecArea>
-                <ItemTagBoxDiv>
-                  <MainItemBoxTag txt={"인기상품"} type={1} />
-                  <MainItemBoxTag txt={"신상품"} type={2} />
-                </ItemTagBoxDiv>
-                <ReviewWish>
-                  <div>
-                    <span>리뷰</span> <b>{review}1</b>
-                  </div>
-                  <StyledLabel htmlFor="fileInput" isChecked={isChecked}>
-                    <img
-                      src={
-                        isChecked
-                          ? process.env.PUBLIC_URL + "/assets/images/heart.svg"
-                          : process.env.PUBLIC_URL +
-                            "/assets/images/heartoff.svg"
-                      }
-                      alt="wishlist"
-                    />
-                    <input
-                      type="checkbox"
-                      id="fileInput"
-                      style={{ display: "none" }}
-                      checked={isChecked}
-                      onChange={handleCheckboxChange}
-                    />
-                  </StyledLabel>
-                </ReviewWish>
-              </ItemDecArea>
-              <ItemTitlePrice>
-                <span>모유감성 PPSU 배앓이방지 젖병 젖꼭지 단계선택 리필</span>
-                <br />
-                <b>6,800원</b>
-              </ItemTitlePrice>
-            </ItemPacket>
-          </SwiperSlide>
-        </Swiper>
-      </div>
+      <div style={{ height: "300px" }} />
     </div>
   );
 };
