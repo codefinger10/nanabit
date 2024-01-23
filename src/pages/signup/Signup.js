@@ -1,5 +1,6 @@
-import { Button, Checkbox, Form, Input } from "antd";
+import { Button, Checkbox, Form, Input, Modal } from "antd";
 import React, { useEffect, useState } from "react";
+import { getList, postSign } from "../../api/signupapi/SignupApi";
 import Address from "../../components/signup/Address";
 import ChildComponent from "../../components/signup/ChildComponent ";
 import {
@@ -16,7 +17,6 @@ import {
   formStyle,
   inputBt,
 } from "../../styles/signup/signup";
-import { postSign } from "../../api/signupapi/SignupApi";
 const initState = {
   nm: "",
   uid: "",
@@ -28,13 +28,14 @@ const initState = {
   phoneNumber: "",
   email: "",
   children: [{ ichildAge: "", gender: "" }],
-  agreement: true,
+  agreement: false,
 };
 
 const Signup = () => {
   const [memberInfo, setMemberInfo] = useState(initState);
   const [zonecode, setZonecode] = useState("");
   const [address, setAddress] = useState("");
+  const [agreeBt, setAgreeBt] = useState([]);
 
   const updateAddressInfo = ({ zonecode, address }) => {
     // 주소 정보 업데이트
@@ -47,26 +48,10 @@ const Signup = () => {
     values.address = address;
     values.zipCode = zonecode;
     console.log("Success:", values);
-    postSign({values ,successFn, failFn, errFn })
+    postSign({ values, successFn, failFn, errFn });
   };
   const onFinishFailed = errorInfo => {
     console.log("Failed:", errorInfo);
-  };
-
-  // 예시: 중복확인 요청에 대한 예외 처리
-  const handleCheckDuplicate = async values => {
-    try {
-      const response = await fetch(`/api/checkDuplicate/${values.userid}`);
-      const data = await response.json();
-
-      if (data.isDuplicate) {
-        console.log("아이디가 중복됩니다. 다른 아이디를 입력해주세요.");
-      } else {
-        console.log("아이디가 사용 가능합니다.");
-      }
-    } catch (error) {
-      console.error("중복확인 요청에 실패했습니다:", error.message);
-    }
   };
 
   const tailFormItemLayout = {
@@ -82,25 +67,40 @@ const Signup = () => {
     },
   };
 
-  const successFn = () => {
-    setReDirct(0); 
+  const successFn = () => {};
+  const failFn = () => {};
+  const errFn = () => {};
 
-    setPopTitle("새글 등록 성공");
-    setContent("새로운 할일이 등록되었습니다. 목록으로 이동합니다.");
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const result = await getList();
+        setAgreeBt(result);
+      } catch (error) {
+        alert("데이터 호출에 실패하였습니다.");
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const handleCheckboxChange = (_, checked) => {
+    if (!checked) {
+      setIsModalVisible(true);
+    }
   };
-  const failFn = () => {
-    setReDirct(1);
-    setPopTitle("새글 등록 실패");
-    setContent("새로운 할일이 등록에 실패하였습니다. 다시 등록해주세요.");
+
+  const handleModalOk = () => {
+    setIsModalVisible(false);
   };
-  const errFn = () => {
-    setReDirct(1);
-    setPopTitle("새글 등록 실패");
-    setContent("서버가 불안정합니다. 잠시후 다시 등록해주세요.");
+
+  const handleModalCancel = () => {
+    setIsModalVisible(false);
   };
-  const [popTitle, setPopTitle] = useState("");
-  const [popContent, setContent] = useState("");
-  const [popRedrect, setReDirct] = useState(0);
+  const [userId, setUserId] = useState("");
+  const handleClickCheck = () => {};
 
   return (
     <>
@@ -132,7 +132,6 @@ const Signup = () => {
             phoneNumber: memberInfo.phoneNumber,
             email: memberInfo.email,
             children: [{ ichildAge: "", gender: "" }],
-
             agreement: memberInfo.agreement,
           }}
           autoComplete="off"
@@ -167,8 +166,8 @@ const Signup = () => {
             <Form.Item>
               <Button
                 type="button"
-                onClick={values => handleCheckDuplicate(values)}
                 style={buttonStyle}
+                onChange={e => setUserId(e.target.value)}
               >
                 중복확인
               </Button>
@@ -265,9 +264,33 @@ const Signup = () => {
               ]}
               {...tailFormItemLayout}
             >
-              <Checkbox style={{ marginTop: "20px", marginRight: "400px" }}>
+              <Checkbox
+                style={{ marginTop: "20px", marginRight: "400px" }}
+                onClick={handleCheckboxChange}
+              >
                 동의하시겠습니까?
               </Checkbox>
+              <Modal
+                open={isModalVisible}
+                onOk={handleModalOk}
+                onCancel={handleModalCancel}
+              >
+                {agreeBt.map((item, iclause) => (
+                  <li key={iclause}>
+                    <h3>{item.title}</h3>
+                    <div
+                      style={{
+                        overflow: "scroll",
+                        height: 350,
+                        overflowX: "hidden",
+                      }}
+                    >
+                      <p>{item.contents}</p>
+                    </div>
+                    <Checkbox>{item.required}</Checkbox>
+                  </li>
+                ))}
+              </Modal>
             </Form.Item>
           </div>
           <div className="signupbt">
