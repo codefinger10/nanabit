@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import ReactQuill from "react-quill";
 
 export const CommuMain = styled.div`
   position: relative;
@@ -184,5 +185,79 @@ export const NoticeBoard = styled.form`
     display: flex;
     justify-content: end;
     gap: 15px;
+  }
+`;
+
+export const StyledReactQuill = styled(ReactQuill)`
+  margin: 0 auto;
+  height: 800px;
+  margin-bottom: 55px;
+  width: 90%;
+  .ql-toolbar {
+    text-align: left;
+    border-radius: 5px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+  }
+  .ql-container {
+    border: none;
+  }
+`;
+
+export const Axx = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 1050px;
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.15);
+  margin-bottom: 30px;
+  input {
+    border: none;
+    width: 90%;
+    height: 100px;
+    color: #000;
+    font-family: Noto Sans KR;
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px;
+    border-bottom: #868686;
+  }
+  hr {
+    width: 90%;
+    margin: 0 auto;
+    height: 1px;
+    background: #868686;
+    margin-bottom: 22px;
+  }
+`;
+
+export const Azxc = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+  .ps {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+  }
+  p {
+    color: #868686;
+    font-family: Noto Sans KR;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 350;
+    line-height: normal;
+  }
+  .bts {
+    display: flex;
+    gap: 20px;
+    button {
+      cursor: pointer;
+    }
   }
 `;

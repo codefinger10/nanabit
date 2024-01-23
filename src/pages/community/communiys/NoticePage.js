@@ -1,118 +1,65 @@
 import React, { useEffect, useState } from "react";
 import { Pagination } from "antd";
 import { CommuMain } from "../styles/commStyle";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import CommunityTitle from "../../../components/basic/CommunityTitle";
 import { CommuBt } from "../styles/commStyle";
 
-const NoticePage = () => {
-  const { id } = useParams();
-  const [tableData, setTableData] = useState([]);
-  const navigate = useNavigate();
-  const todays = new Date();
-  const day = todays.getDate();
-  const month = todays.getMonth() + 1;
-  const year = todays.getFullYear();
-  const today = `${year}.${month}.${day}`;
+const initState = {
+  iboard: 0,
+  boardCode: 0,
+  title: "",
+  createdAt: "",
+};
 
-  useEffect(() => {
-    if (id === "1") {
-      const setId = () => {
-        const dummyData = [];
-        for (let i = 0; i < 5; i++) {
-          dummyData.push({
-            docs: `나나빛으로 육아를 시작해 보세요!`,
-            name: "주영",
-            data: today,
-          });
-        }
-        setTableData(dummyData);
-      };
-      setId();
-    } else if (id === "2") {
-      const setId = () => {
-        const dummyData = [];
-        for (let i = 0; i < 10; i++) {
-          dummyData.push({
-            docs: `나나빛으로 육아를 하지마요...`,
-            name: "소통",
-            data: today,
-          });
-        }
-        setTableData(dummyData);
-      };
-      setId();
-    } else {
-      const setId = () => {
-        const dummyData = [];
-        for (let i = 0; i < 15; i++) {
-          dummyData.push({
-            docs: `나나빛으로 육아를?? `,
-            name: "답변완료",
-            data: today,
-          });
-        }
-        setTableData(dummyData);
-      };
-      setId();
-    }
-  }, [id]);
+const NoticePage = () => {
+  const [tableData, setTableData] = useState([initState]);
+
+  useEffect(() => {}, []);
 
   let asdasd = "";
 
-  const handleNotice = id => {
-    navigate(`../notice/${id}`);
-  };
   let maintxt = "공지사항";
   let subtxt = "배송 및 상품관련 공지사항을 확인해 주세요.";
-  asdasd = "작성자";
-  if (id === "2") {
-    maintxt = "소통해요";
-    subtxt = "소통과 관련된 내용을 확인해 주세요.";
-    asdasd = "분류";
-  } else if (id === "3") {
-    maintxt = "1:1 문의";
-    subtxt = "문의사항이 있으면 언제든지 문의해 주세요.";
-    asdasd = "답변상태";
-  }
+  // asdasd = "작성자";
+  // if (id === "2") {
+  //   maintxt = "소통해요";
+  //   subtxt = "소통과 관련된 내용을 확인해 주세요.";
+  //   asdasd = "분류";
+  // } else if (id === "3") {
+  //   maintxt = "1:1 문의";
+  //   subtxt = "문의사항이 있으면 언제든지 문의해 주세요.";
+  //   asdasd = "답변상태";
+  // }
 
   return (
     <>
       <CommuMain>
         <CommunityTitle maintxt={maintxt} subtxt={subtxt} />
-        <CommuBt onClick={() => handleNotice(1)} active={id === "1"}>
-          공지사항
-        </CommuBt>
-        <CommuBt onClick={() => handleNotice(2)} active={id === "2"}>
-          소통해요
-        </CommuBt>
-        <CommuBt onClick={() => handleNotice(3)} active={id === "3"}>
-          1:1 문의
-        </CommuBt>
+        <CommuBt>공지사항</CommuBt>
+        <CommuBt>소통해요</CommuBt>
+        <CommuBt>1:1 문의</CommuBt>
         <div>
           <table>
             <thead>
               <tr>
                 <th scope="col">번호</th>
                 <th scope="col">제목</th>
-                <th scope="col">{asdasd}</th>
+                <th scope="col">작성자</th>
                 <th scope="col">작성일</th>
               </tr>
             </thead>
-            {tableData.map((item, idx) => (
-              <tbody key={idx}>
+            {tableData.map(item => (
+              <tbody key={item.iboard}>
                 <tr>
-                  <td>{idx + 1}</td>
+                  <td>{item.iboard}</td>
                   <td className="td-docs">
-                    <Link
-                      to={`/commu/read/${idx}`}
-                      style={{ color: "#868686" }}
-                    >
-                      {item.docs}
+                    <Link to={`/commu/read/`} style={{ color: "#868686" }}>
+                      {item.title}
                     </Link>
                   </td>
-                  <td>{item.name}</td>
-                  <td>{item.data}</td>
+                  <td>{item.iboard}</td>
+                  <td>{item.createdAt}</td>
                 </tr>
               </tbody>
             ))}
@@ -129,12 +76,7 @@ const NoticePage = () => {
             </Link>
           </div>
         </div>
-        <Pagination
-          defaultCurrent={1}
-          total={tableData.length}
-          pageSize={15}
-          className="pagination"
-        />
+        <Pagination defaultCurrent={1} pageSize={15} className="pagination" />
       </CommuMain>
     </>
   );
