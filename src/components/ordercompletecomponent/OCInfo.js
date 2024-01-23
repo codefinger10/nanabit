@@ -1,79 +1,118 @@
 import React from "react";
 import styled from "styled-components";
 
-const InfoWrap = styled.div`
-  .custom-table {
-    border-spacing: 0 8px;
-  }
+const BorderWrap = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-  .custom-table tbody tr:last-child td {
-    border-bottom: none;
+  .orderInfoTitle {
+    height: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    p {
+      font-size: 20px;
+      color: #e9b25f;
+      text-align: left;
+      margin-left: 35px;
+      font-weight: 600;
+    }
   }
 `;
-const dataSource = [
-  {
-    key: "1",
-    name: "Mike",
-    age: 32,
-    address: "10 Downing Street",
-  },
-  {
-    key: "2",
-    name: "John",
-    age: 42,
-    address: "10 Downing Street",
-  },
-];
+const BorderLinemanager = styled.table`
+  border-collapse: collapse;
+  border-bottom: 3px solid #e9b25f;
+  border-top: 3px solid #e9b25f;
 
-const columns = [
-  {
-    title: "Header",
-    dataIndex: "name",
-    key: "name",
-    render: (text, record) => (
-      <div>
-        <div style={{ fontWeight: "bold" }}>Name</div>
-        <div style={{ fontWeight: "bold" }}>Age</div>
-        <div style={{ fontWeight: "bold" }}>Address</div>
-      </div>
-    ),
-  },
-  {
-    title: "Data",
-    dataIndex: "name",
-    key: "name",
-    render: (text, record) => (
-      <div>
-        <div>{text}</div>
-        <div>{record.age}</div>
-        <div>{record.address}</div>
-      </div>
-    ),
-  },
-];
+  td {
+    border-left: 1px solid #d9d9d9;
+    border-bottom: 1px solid #d9d9d9;
 
+    &:first-child {
+      border-left: none;
+    }
+  }
+
+  .tableName {
+    font-size: 16px;
+    height: 50px;
+    width: 190px;
+    text-align: left;
+
+    p {
+      margin-left: 35px;
+    }
+  }
+
+  .tableDesc {
+    font-size: 16px;
+    height: 50px;
+    width: 960px;
+    text-align: left;
+
+    p {
+      margin-left: 35px;
+    }
+  }
+`;
 const OCInfo = () => {
   return (
-    <table>
-      <tbody>
-        <tr>
-          <td>항목명</td>
-          <td>내용</td>
-        </tr>
-        <tr>
-          <td>항목명</td>
-          <td>내용</td>
-        </tr>
-        <tr>
-          <td>항목명</td>
-          <td>내용</td>
-        </tr>
-        <tr>
-          <td>항목명</td>
-          <td>내용</td>
-        </tr>
-      </tbody>
-    </table>
+    <BorderWrap>
+      <div>
+        <div style={{ width: "1150px", height: "50px" }} />
+        <div className="orderInfoTitle">
+          <p>주문정보</p>
+        </div>
+
+        <BorderLinemanager>
+          <thead>
+            <tr>
+              <td className="tableName">
+                <p>주문자</p>
+              </td>
+              <td className="tableDesc">
+                <p>내용</p>
+              </td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td className="tableName">
+                <p>주문자 연락처</p>
+              </td>
+              <td className="tableDesc">
+                <p>내용</p>
+              </td>
+            </tr>
+            <tr>
+              <td className="tableName">
+                <p>배송지</p>
+              </td>
+              <td className="tableDesc">
+                <p>내용</p>
+              </td>
+            </tr>
+            <tr>
+              <td className="tableName">
+                <p>이메일</p>
+              </td>
+              <td className="tableDesc">
+                <p>내용</p>
+              </td>
+            </tr>
+            <tr className="noBorder">
+              <td className="tableName">
+                <p>결제수단</p>
+              </td>
+              <td className="tableDesc">
+                <p>내용</p>
+              </td>
+            </tr>
+          </tbody>
+        </BorderLinemanager>
+      </div>
+    </BorderWrap>
   );
 };
 
