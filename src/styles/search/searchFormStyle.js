@@ -20,22 +20,32 @@ export const SearchBt = styled.button`
   margin-right: 20px;
   /* margin-bottom: 50px; */
 `;
-
 export const SearchWrap = styled.div`
   position: relative;
   display: flex;
-  /* width: 100%; */
-  /* height: 100%; */
-  /* margin: 0 auto; */
   max-width: 1280px;
   margin: 0 auto;
+  justify-content: center; /* 수평 중앙 정렬을 위해 추가 */
+  align-items: center;
   /* background-color: aqua; */
+  padding-top: 66px;
 
+  /* border: 1px solid #868686; */
+  .border-word {
+    position: relative;
+    /* width: 1280px; */
+    /* padding: 50px; */
+  }
   .srech-init {
+    justify-content: center; /* 수평 중앙 정렬을 위해 추가 */
+    align-items: center;
+    /* width: 1280px; */
+    width: 1280%;
     height: 100%;
     position: relative;
-    /* background-color: pink; */
     margin: 0 auto;
+    border: 1px solid #868686;
+    padding: 30px 100px 30px 100px;
   }
 
   h1 {
@@ -49,38 +59,42 @@ export const SearchWrap = styled.div`
   }
 
   .cateBt {
-    /* margin-top: 70px; */
-    /* background-color: red; */
     display: flex;
     height: 100%;
   }
 
   .input-cate {
     margin-top: 15px;
-    /* margin-bottom: 20px; */
-    /* width: 100%; */
-
     display: flex;
     align-items: center;
     margin-bottom: 20px;
-    /* height: 50px; */
-    /* background-color: aqua; */
   }
   .input-price {
-    border-bottom: 1px solid #000000;
+    border-bottom: 1px solid #868686;
     display: flex;
     align-items: center;
     gap: 20px;
   }
   .input-price input {
     height: 30px;
-    /* margin-right: 30px; */
   }
   .input-price p {
     font-size: 25px;
   }
 
-  .input-serch {
+  .input-search {
     display: flex;
+    align-items: center;
+  }
+`;
+
+export const SearchWrapf = styled.div`
+  position: relative;
+  display: flex;
+  max-width: 1280px;
+  margin: 0 auto;
+  .srech-initf {
+    width: 1280px;
+    margin: 0 auto;
   }
 `;

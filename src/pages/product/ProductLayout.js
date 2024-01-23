@@ -4,30 +4,97 @@ import styled from "@emotion/styled";
 import CommunityTitle from "../../components/basic/CommunityTitle";
 import { Pagination } from "antd";
 import LowHighBt from "../../components/product/LowHighBt";
+import { getList } from "../../api/product/productApi";
 import {
   GridContainer,
   MealButton,
   PagiWarp,
   ProductWrap,
 } from "../../styles/product/ProductGridStyle";
+import useCustomMove from "../../hooks/useCustomMove";
 
-const ProductLayout = () => {
+// 데이터 초기화 값
+const listState = {
+  imiddle: 0,
+  imain: 0,
+  sortBy: 0,
+  page: 0,
+};
+const initState = [
+  {
+    iproduct: 1,
+    productNm: "string",
+    price: 0,
+    rcFl: 0,
+    popFl: 0,
+    newFl: 0,
+    reviewCnt: 0,
+    likeProduct: 0,
+    productPic: ["string"],
+  },
+];
+
+const ProductLayout = ({ iproduct }) => {
+  const { imain, sortBy, page, moveToRead } = useCustomMove();
   const [productData, setProductData] = useState([]);
-  const [activeCategory, setActiveCategory] = useState("이유식");
+
+  const [activeCategory, setActiveCategory] = useState("");
   const [activeSubcategory, setActiveSubcategory] = useState("중분류1");
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(16);
+  // const [itemsPerPage] = useState(16);
+
+  // 하나의 자료만 가져온다.
+  useEffect(() => {
+    getList({ iproduct })
+      .then(result => {
+        productData(result);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }, [iproduct]);
+  // 리스트목록
+  const [serverData, setServerData] = useState([
+    {
+      iproduct: 1,
+      productNm: "string",
+      price: 0,
+      rcFl: 0,
+      popFl: 0,
+      newFl: 0,
+      reviewCnt: 0,
+      likeProduct: 0,
+      productPic: ["string"],
+    },
+  ]);
+  useEffect(() => {
+    getList({ imain, sortBy, page })
+      .then(result => {
+        console.log("결과", result);
+        setServerData(result);
+      })
+      .catch(err => {
+        console.log("호출에 실패", err);
+        alert("데이터 호출에 실패하였습니다");
+      });
+  }, [imain, sortBy, page]);
 
   // 더미데이터
-  const generateDummyData = (start, end) => {
+  const getList = (start, end) => {
     const dummyData = [];
     for (let i = start; i <= end; i++) {
       dummyData.push({
         id: i,
-        name: `상품 ${i}`,
+        iproduct: 0,
+        imiddle: 0,
+        productNm: `상품인데에dkdkdk에에에에에에에 ${i}`,
+        popFl: 1,
+        newFl: 1,
+        sortBy: 0,
+        reviewCnt: i + 2,
         description: `상품 ${i}의 설명`,
         price: i * 5000,
-        image: "https://via.placeholder.com/150",
+        pics: ["https://via.placeholder.com/150"],
       });
     }
     return dummyData;
@@ -35,7 +102,7 @@ const ProductLayout = () => {
 
   const generateRandomDummyData = () => {
     const numItems = Math.floor(Math.random() * 30) + 1;
-    return generateDummyData(1, numItems);
+    // return generateDummyData(1, numItems);
   };
 
   const dummyDataByCategory = {
@@ -46,26 +113,6 @@ const ProductLayout = () => {
       { name: "중분류4", data: generateRandomDummyData() },
     ],
   };
-
-  const [wishlist, setWishlist] = useState(
-    Array(dummyDataByCategory[activeCategory][0].data.length).fill(false),
-  );
-
-  const handleCheckboxChange = index => {
-    setWishlist(prevWishlist => {
-      const updatedWishlist = [...prevWishlist];
-      updatedWishlist[index] = !updatedWishlist[index];
-      return updatedWishlist;
-    });
-  };
-
-  useEffect(() => {
-    const selectedSubcategory = dummyDataByCategory[activeCategory].find(
-      category => category.name === activeSubcategory,
-    );
-    setProductData(selectedSubcategory.data);
-    setWishlist(Array(selectedSubcategory.data.length).fill(false));
-  }, [activeCategory, activeSubcategory]);
 
   const handleCategoryClick = category => {
     setActiveCategory(category);
@@ -83,9 +130,9 @@ const ProductLayout = () => {
     setCurrentPage(page);
   };
 
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const displayedProducts = productData.slice(startIndex, endIndex);
+  // const startIndex = (currentPage - 1) * itemsPerPage;
+  // const endIndex = startIndex + itemsPerPage;
+  // const displayedProducts = productData.slice(startIndex, endIndex);
 
   return (
     <ProductWrap>
@@ -98,27 +145,26 @@ const ProductLayout = () => {
         </div>
 
         <div>
-          {dummyDataByCategory[activeCategory].map(subcategory => (
+          {serverData.iproduct.map(item => (
             <MealButton
-              key={subcategory.name}
-              onClick={() => handleSubcategoryClick(subcategory.name)}
-              active={activeSubcategory === subcategory.name}
+              key={item.iproduct}
+              onClick={() => handleSubcategoryClick(item.name)}
+              active={activeSubcategory === item.imiddle}
             >
-              {subcategory.name}
+              {item.name}
             </MealButton>
           ))}
         </div>
 
         <LowHighBt />
 
-        <GridContainer itemsPerPage={itemsPerPage}>
-          {displayedProducts.map((product, index) => (
+        <GridContainer>
+          {serverData.iproduct.map(item => (
             <ProductCard
-              key={index}
-              product={product}
-              index={index + startIndex}
-              wishlist={wishlist}
-              onCheckboxChange={handleCheckboxChange}
+              key={item.iproduct}
+              // index={index + startIndex}
+              wishlist={item}
+              moveToRead={item.iproduct}
             />
           ))}
         </GridContainer>
@@ -127,7 +173,6 @@ const ProductLayout = () => {
             current={currentPage}
             onChange={handlePageChange}
             total={productData.length}
-            pageSize={itemsPerPage}
             className="pagination"
           />
         </PagiWarp>

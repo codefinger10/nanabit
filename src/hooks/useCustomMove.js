@@ -92,8 +92,10 @@ export const useCustomMove = () => {
       search: queryStrDeafult,
     });
   };
+  const sortBy = () => {};
 
   return {
+    sortBy,
     moveToList,
     moveToModify,
     page,
@@ -107,5 +109,4 @@ export const useCustomMove = () => {
     moveToMypage,
   };
 };
-
 export default useCustomMove;

@@ -1,11 +1,19 @@
 import { Dropdown, Space } from "antd";
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { HeaderNav } from "../../styles/basicLay/basicHeaderStyle";
 import BasicMenu from "../../components/basic/BasicMenu";
 import { useSelector } from "react-redux";
 
-const BasicHeader = () => {
+const BasicHeader = ({ onSearch }) => {
+  // 검색어를 검색페이지에서 표시되도록
+  const [searchTextInput, setSearchTextInput] = useState("");
+  const handleSearchText = e => {
+    setSearchTextInput(e.target.value);
+  };
+  const handleSearchClick = () => {
+    onSearch(searchTextInput);
+  };
   const loginState = useSelector(state => state.loginSlice);
   console.log(loginState);
   return (
@@ -14,12 +22,12 @@ const BasicHeader = () => {
         <div className="heder-inwrap">
           <div className="header-top-left">
             <ul>
-              <Link to="/">
+              <a href="/">
                 <img
                   className="logo"
                   src={process.env.PUBLIC_URL + "/assets/images/logo.svg"}
                 ></img>
-              </Link>
+              </a>
             </ul>
             <div className="header-search">
               <form className="search-form">
@@ -27,8 +35,15 @@ const BasicHeader = () => {
                   type="text"
                   placeholder="세상에 밝고 빛나는 아이가 태어나다"
                   className="search-word"
+                  onChange={handleSearchText}
                 />
-                <input type="button" className="search-bt" />
+                <Link to="/cc">
+                  <input
+                    type="button"
+                    className="search-bt"
+                    onClick={handleSearchClick}
+                  />
+                </Link>
               </form>
             </div>
           </div>
@@ -36,39 +51,39 @@ const BasicHeader = () => {
           <div className="header-top-right">
             <ul className="member-menu">
               {/* <li> */}
-              {/* <Link to="/login">로그인</Link> */}
+              {/* <a to="/login">로그인</a> */}
               {/* </li> */}
               {/* -------------로그인----- */}
 
               <div>
                 {loginState.username ? (
-                  <Link to="/logout">로그아웃</Link>
+                  <a href="/logout">로그아웃</a>
                 ) : (
-                  <Link to="/login">로그인</Link>
+                  <a href="/login">로그인</a>
                 )}
               </div>
               {/* ------------------ */}
               <li>
-                <Link to="/signUp">회원가입</Link>
+                <a href="/signUp">회원가입</a>
               </li>
               <li>
-                <Link to="/commu">
+                <a href="/commu">
                   <img src={process.env.PUBLIC_URL + "/assets/images/cs.svg"} />
-                </Link>
+                </a>
               </li>
               <li>
-                <Link to="/ol">
+                <a href="/ol">
                   <img
                     src={process.env.PUBLIC_URL + "/assets/images/truck.svg"}
                   />
-                </Link>
+                </a>
               </li>
               <li>
-                <Link to="/cart">
+                <a href="/cart">
                   <img
                     src={process.env.PUBLIC_URL + "/assets/images/cart.svg"}
                   />
-                </Link>
+                </a>
               </li>
             </ul>
           </div>
