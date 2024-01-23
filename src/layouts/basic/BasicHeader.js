@@ -15,7 +15,7 @@ const BasicHeader = ({ onSearch }) => {
     onSearch(searchTextInput);
   };
   const loginState = useSelector(state => state.loginSlice);
-  console.log(loginState);
+  // console.log(loginState);
   return (
     <HeaderNav>
       <div className="heder-top">

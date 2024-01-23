@@ -14,12 +14,12 @@ export const setCookie = (nm, value, day = 1) => {
 
 // getCookie( 쿠키이름)
 // 로그인된 정보 필요시
-export const getCookie = nm => {
-  return cookie.get(nm);
+export const getCookie = name => {
+  return cookie.get(name);
 };
 
 // removeCookie( 쿠키이름, 저장된 경로 기본값)
 // 로그아웃시 정보 삭제
-export const removeCookie = (nm, path = "/") => {
-  cookie.remove(nm, { path });
+export const removeCookie = (name, path = "/") => {
+  cookie.remove(name, { path });
 };

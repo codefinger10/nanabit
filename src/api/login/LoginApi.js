@@ -1,5 +1,6 @@
 import { API_SERVER_HOST } from "../../util/util";
 import jwtAxios from "../../util/jwtUtil";
+import axios from "axios";
 
 const host = `${API_SERVER_HOST}/api/user/sign-in`;
 // 로그인 하기 위한 정보보내기
@@ -8,14 +9,13 @@ const host = `${API_SERVER_HOST}/api/user/sign-in`;
 export const loginPost = async ({ loginParam, successFn, failFn, errorFn }) => {
   try {
     // 만약에 API 서버가 JSON 을 원한다면
-    const header = { headers: { "Content-Type": "x-www-urlencoded" } };
-
-    const formData = new FormData();
+    // const header = { headers: { "Content-Type": "x-www-urlencoded" } };
+    // const formData = new FormData();
     // formData.append("이름", "값")
-    formData.append("uid", loginParam.uid);
-    formData.append("upw", loginParam.upw);
+    // formData.append("uid", loginParam.uid);
+    // formData.append("upw", loginParam.upw);
 
-    const res = await jwtAxios.post(`${host}`, formData, header);
+    const res = await axios.post(`${host}`, loginParam);
 
     const status = res.status.toString();
 

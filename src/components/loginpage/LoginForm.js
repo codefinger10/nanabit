@@ -2,57 +2,47 @@ import { Button, Form, Input } from "antd";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import useCustomLogin from "../../hooks/useCustomLogin";
-const onFinish = values => {
-  console.log("Success:", values);
+import { login, loginPostAsync } from "../../slices/loginSlice";
+
+// 초기값
+const initState = {
+  uid: "winter123",
+  upw: "xptmxm123!@#",
 };
-const onFinishFailed = errorInfo => {
-  console.log("Failed:", errorInfo);
-};
-
-// // 초기값
-// const initState = {
-//   uid: "",
-//   upw: "",
-// };
-// const [loginParam, setLoginParam] = useState(initState);
-// const handleChange = e => {
-//   // e.target.name
-//   // e.target.value
-//   loginParam[e.target.name] = e.target.value;
-//   setLoginParam({ ...loginParam });
-// };
-
-// // 커스텀 훅 사용하기
-// const { doLogin, moveToPath } = useCustomLogin();
-
-// // slice 값(state)을 읽을때        useSelector
-// // slice 값(state)를 업데이트할때  useDispatch()
-// const dispatch = useDispatch();
-// const handleClick = e => {
-//   // loginSlice 의  state 업데이트
-//   // dispatch(login(loginParam));
-//   // dispatch(loginPostAsync({ loginParam, successFn, failFn, errorFn }));
-
-//   // 아래 구문을 실행하고 나면 Promise 돌려 받아요
-//   doLogin({ loginParam, successFn, failFn, errorFn });
-// };
-
-// const successFn = result => {
-//   console.log("성공", result);
-//   moveToPath("/");
-// };
-
-// const failFn = result => {
-//   console.log("실패", result);
-//   alert("이메일 및 비밀번호 확인하세요.");
-// };
-
-// const errorFn = result => {
-//   console.log("에러", result);
-// };
 
 const LoginForm = () => {
   // 전체 로그인 폼 style
+
+  // 커스텀 훅 사용하기
+  const { doLogin, moveToPath } = useCustomLogin();
+
+  const [loginParam, setLoginParam] = useState(initState);
+  const handleChange = e => {
+    loginParam[e.target.name] = e.target.value;
+    setLoginParam({ ...loginParam });
+  };
+
+  const dispatch = useDispatch();
+  const handleClick = e => {
+    // dispatch(login(loginParam));
+    // dispatch(loginPostAsync({ loginParam, successFn, failFn, errorFn }));
+
+    doLogin({ loginParam, successFn, failFn, errorFn });
+  };
+
+  const successFn = result => {
+    console.log("성공", result);
+    moveToPath("/");
+  };
+
+  const failFn = result => {
+    console.log("실패", result);
+    alert("이메일 및 비밀번호 확인하세요.");
+  };
+
+  const errorFn = result => {
+    console.log("에러", result);
+  };
 
   return (
     <Form
@@ -64,11 +54,9 @@ const LoginForm = () => {
       }}
       initialValues={{
         remember: true,
-        uid: "",
-        upw: "",
+        uid: loginParam.uid,
+        upw: loginParam.upw,
       }}
-      onFinish={onFinish}
-      onFinishFailed={onFinishFailed}
       autoComplete="off"
       layout="vertical"
       requiredMark={false}
@@ -134,6 +122,8 @@ const LoginForm = () => {
         <Button
           type="primary"
           htmlType="submit"
+          onClick={() => handleClick()}
+          // onClick={handleClick()}
           style={{
             width: "540px",
             height: "60px",
