@@ -4,6 +4,8 @@ import React, { useState } from "react";
 const LowHighFilterContainer = styled.div`
   display: flex;
   justify-content: flex-end;
+  margin: 0 auto;
+  max-width: 1280px;
 `;
 
 const LowHighFilter = styled.button`
@@ -17,6 +19,7 @@ const LowHighFilter = styled.button`
   line-height: normal;
   height: 35px;
   margin-right: 10px;
+  padding-top: 20px;
   cursor: pointer;
 `;
 
