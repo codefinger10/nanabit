@@ -25,14 +25,14 @@ const initState = {
 };
 
 // 쿠키 정보 읽어와서 initState 변경하기
-const loadMemberCookie = () => {
-  const memberInfo = getCookie();
-  return memberInfo;
+const loadnmCookie = () => {
+  const nmInfo = getCookie();
+  return nmInfo;
 };
 
 const loginSlice = createSlice({
   name: "loginSlice",
-  initialState: loadMemberCookie() || initState,
+  initialState: loadnmCookie() || initState,
   // store 의 state 를 업데이트 하는 함수 모음
   reducers: {
     login: (state, action) => {
@@ -42,7 +42,7 @@ const loginSlice = createSlice({
     // 로그아웃
     logout: (state, action) => {
       console.log("logout.....");
-      removeCookie("member", "/");
+      removeCookie("nm", "/");
       return { ...initState };
     },
   },
@@ -60,7 +60,7 @@ const loginSlice = createSlice({
         if (!payload.error) {
           // 이때 필요한 정보를 보관한다.
           // 쿠키는 문자열입니다. 객체를 JSON 문자로 변환
-          setCookie("member", JSON.stringify(payload));
+          setCookie("nm", JSON.stringify(payload));
         }
         return payload;
       })

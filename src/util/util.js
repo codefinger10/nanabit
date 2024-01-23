@@ -19,6 +19,4 @@ export const getNum = (check, basic) => {
 //     pw: "",
 // }
 
-export const API_SERVER_HOST = "http://112.222.157.156:5223";
-
-
+export const API_SERVER_HOST = "";
