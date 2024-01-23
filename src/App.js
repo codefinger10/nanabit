@@ -8,7 +8,7 @@ import CartPage from "./pages/cartpage/CartPage";
 import CommunityPage from "./pages/community/CommunityPage";
 import ErrorPage from "./pages/errorPage/ErrorPage";
 import DetailPage from "./pages/itemPage/ItemPage";
-import MainPage from "./pages/mainPage/MainPage";
+// import MainPage from "./pages/mainPage/MainPage";
 import MonthlyPage from "./pages/monthlyPage/MonthlyPage";
 import MyPage from "./pages/myPage/MyPage";
 import OrderCompletePage from "./pages/orderComplete/OrderCompletePage";
@@ -37,7 +37,7 @@ const App = () => {
           {/* <Route path="*" element={<h1>파일이없네요.</h1>}></Route> */}
           {/* <Route path="/intro" element={<Intro />}></Route> */}
           {/* <Route path="/" element={<BasicLayout />}></Route> */}
-          <Route path="/" element={<MainPage />}></Route>
+          {/* <Route path="/" element={<MainPage />}></Route> */}
 
           <Route path="/login" element={<LoginPage />}></Route>
 
