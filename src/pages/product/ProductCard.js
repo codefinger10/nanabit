@@ -1,116 +1,40 @@
-import React, { useState } from "react";
+// ProductCard.js
+
+import React, { useEffect, useState } from "react";
 import styled from "@emotion/styled";
+import {
+  CardContainer,
+  CardFlex,
+  HeartButton,
+  TagStyle,
+} from "../../styles/product/productCardStyle";
 
-const CardContainer = styled.div`
-  padding: 16px;
-  margin: 16px;
+const initData = {
+  iproduct: 0,
+  productNm: "",
+  price: 0,
+  rcFl: 0,
+  popFl: 0,
+  newFl: 0,
+  reviewCnt: 0,
+  likeProduct: 0,
+  repPic: "",
+};
+const ProductCard = ({ product }) => {
+  const [isHeartChecked, setHeartChecked] = useState(product.likeProduct === 1);
 
-  .card-img {
-    width: 263px;
-    height: 263px;
-    object-fit: cover;
-  }
-
-  .productNm {
-    overflow: hidden;
-    color: #595959;
-    width: 260px;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    font-family: "Noto Sans KR";
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
-  }
-  .price {
-    color: #2d2d2d;
-
-    font-family: "Noto Sans KR";
-    font-size: 30px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
-  }
-`;
-
-const CardFlex = styled.div`
-  position: relative;
-  display: flex;
-  align-items: center;
-  width: 263px;
-  justify-content: space-between;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  .tagform {
-    display: flex;
-  }
-  .review {
-    display: flex;
-    align-items: center;
-  }
-  p {
-    font-size: 20px;
-  }
-`;
-
-const HeartButton = styled.button`
-  width: 16px;
-  height: 16px;
-  background: none;
-  border: none;
-  cursor: pointer;
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-
-    filter: ${({ checked }) => (checked ? "none" : "grayscale(100%)")};
-  }
-`;
-const TagStyle = styled.div`
-  width: 77px;
-  height: 28px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50px;
-  ${({ color, borderColor, letterSpacing }) => `
-    border: 1px solid ${borderColor};
-    color: ${color};
-    letter-spacing: ${letterSpacing};
-  `}
-  text-align: left;
-
-  font-size: 15px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: normal;
-`;
-const ProductCard = ({ iproduct }) => {
-  // 체크박스 0, 1
-  const [isHeartChecked, setHeartChecked] = useState(
-    iproduct.isHeartChecked === 1,
-  );
   const handleHeartButtonClick = () => {
     const newValue = !isHeartChecked ? 1 : 0;
     setHeartChecked(!isHeartChecked);
     console.log(newValue);
   };
 
-  // 인기상품, 신상품
-
   return (
     <CardContainer>
-      <img
-        className="card-img"
-        src={iproduct.productPic}
-        alt={iproduct.productPic}
-      />
+      <img className="card-img" src={product.repPic} alt={product.repPic} />
       <CardFlex>
         <div className="tagform">
-          {iproduct.popFl === 1 && (
+          {product.popFl === 1 && (
             <TagStyle
               color="#FF4F4F"
               borderColor="#FF4F4F"
@@ -119,7 +43,7 @@ const ProductCard = ({ iproduct }) => {
               인기상품
             </TagStyle>
           )}
-          {iproduct.newFl === 1 && (
+          {product.newFl === 1 && (
             <TagStyle
               color="#4F95FF"
               borderColor="#4F95FF"
@@ -131,9 +55,8 @@ const ProductCard = ({ iproduct }) => {
         </div>
 
         <div className="review">
-          <p>리뷰{iproduct.reviewCnt}</p>
+          <p>리뷰{product.reviewCnt}</p>
           <HeartButton
-            key={iproduct.likeProduct}
             checked={isHeartChecked}
             onClick={handleHeartButtonClick}
           >
@@ -149,8 +72,8 @@ const ProductCard = ({ iproduct }) => {
           </HeartButton>
         </div>
       </CardFlex>
-      <p className="productNm">{iproduct.productNm}</p>
-      <h2 className="price">{iproduct.price}원</h2>
+      <p className="productNm">{product.productNm}</p>
+      <h2 className="price">{product.price}원</h2>
     </CardContainer>
   );
 };
