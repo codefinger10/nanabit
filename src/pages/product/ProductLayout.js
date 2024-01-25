@@ -38,19 +38,29 @@ const ProductLayout = () => {
   }, [activeSubcategory]);
 
   const fetchData = subcategory => {
-    getProductPage(
-      0,
-      0,
-      subcategory,
-      0,
-      data => {
-        setProductData(data.products);
-        setServerData(Array(data.products.length).fill(false));
-      },
-      () => {
-        alert("데이터 호출에 실패하였습니다.");
-      },
-    );
+    getProductPage({
+      productParam: { sortBy: 0, imain: 0, imiddle: subcategory, page: 0 },
+      successFn,
+      failFn,
+      errorFn,
+    });
+  };
+
+  const successFn = data => {
+    console.log("successFn : ", data);
+    // setProductData(data.products);
+    // setServerData(Array(data.products.length).fill(false));
+  };
+  const failFn = data => {
+    console.log("failFn : ", data);
+    alert("failFn : 데이터 호출에 실패하였습니다.");
+  };
+
+  const errorFn = data => {
+    console.log("errorFn : ", data);
+    alert("서버상태 불안정 그래서, 데모테스트했음.");
+    setProductData(data.products);
+    setServerData(Array(data.products.length).fill(false));
   };
 
   const handleCheckboxChange = index => {

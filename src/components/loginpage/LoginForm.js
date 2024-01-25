@@ -6,8 +6,8 @@ import useCustomLogin from "../../hooks/useCustomLogin";
 const LoginForm = () => {
   // 초기값
   const initState = {
-    uid: "",
-    upw: "",
+    uid: "winter123",
+    upw: "xptmxm123!@#",
   };
 
   const [loginParam, setLoginParam] = useState(initState);
@@ -54,8 +54,8 @@ const LoginForm = () => {
       }}
       initialValues={{
         remember: true,
-        uid: "",
-        upw: "",
+        uid: loginParam.uid,
+        upw: loginParam.upw,
       }}
       onValuesChange={(changedValues, allValues) => {
         onValuesChanged(changedValues, allValues);

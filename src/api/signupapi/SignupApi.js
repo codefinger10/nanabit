@@ -1,5 +1,4 @@
 import axios from "axios";
-import jwtAxios from "../../util/jwtUtil";
 
 export const postSign = async ({ values, successFn, failFn, errFn }) => {
   console.log(values);
@@ -39,9 +38,9 @@ export const getList = async () => {
   }
 };
 
-export const postSignCheck = async userObject => {
+export const postSignCheck = async () => {
   try {
-    const res = await axios.post(`/api/user/sign-up/check-id`, userObject);
+    const res = await axios.post(`/api/user/sign-up/check`);
     console.log(res);
     const status = res.status.toString();
     const httpSt = status.charAt(0);
@@ -55,10 +54,9 @@ export const postSignCheck = async userObject => {
   }
 };
 
-export const putModify = async values => {
-  console.log(values);
+export const putModify = async () => {
   try {
-    const res = await jwtAxios.put(`/api/user/modify`, values);
+    const res = await axios.put(`/api/user/modify`);
     console.log(res);
     const status = res.status.toString();
     const httpSt = status.charAt(0);
@@ -72,11 +70,9 @@ export const putModify = async values => {
   }
 };
 
-export const postModify = async values => {
-  console.log(values);
-  // {upw: "xptmxm123!@#"}
+export const postModify = async () => {
   try {
-    const res = await jwtAxios.post(`/api/user/modify`, values);
+    const res = await axios.post(`/api/user/modify`);
     console.log(res);
     const status = res.status.toString();
     const httpSt = status.charAt(0);
@@ -92,7 +88,7 @@ export const postModify = async values => {
 
 export const deleteModify = async () => {
   try {
-    const res = await jwtAxios.delete(`/api/user/modify`);
+    const res = await axios.delete(`/api/user/modify`);
     console.log(res);
     const status = res.status.toString();
     const httpSt = status.charAt(0);

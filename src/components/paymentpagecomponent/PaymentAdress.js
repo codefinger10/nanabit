@@ -5,7 +5,7 @@ import {
   PostNum,
   Detailadress,
   Selectadress,
-} from "../../styles/payment/paymentaddressstyle";
+} from "../../styles/payment/paymentadressstyle";
 
 const adressDemo = [
   {
@@ -30,22 +30,9 @@ const adressDemo = [
 
 const PaymentAdress = () => {
   const [selectedadress, setSelectedadress] = useState(adressDemo[0].index);
-  const [showPostNum, setShowPostNum] = useState(adressDemo[0].우편번호);
-  const [showAddress, setShowAddress] = useState(adressDemo[0].주소);
-  const [showDtAddress, setShowDtAddress] = useState(adressDemo[0].상세주소);
 
   const onChange = e => {
-    const selectedValue = e.target.value;
-    const selectedAddress = adressDemo.find(
-      address => address.index === selectedValue,
-    );
-
-    if (selectedAddress) {
-      setSelectedadress(selectedValue);
-      setShowPostNum(selectedAddress.우편번호);
-      setShowAddress(selectedAddress.주소);
-      setShowDtAddress(selectedAddress.상세주소);
-    }
+    setSelectedadress(e.target.value);
   };
 
   return (
@@ -64,10 +51,12 @@ const PaymentAdress = () => {
           <p>배송지</p>
         </div>
         <PostNum className="postNum">
+          <br />
+
           <p>우편번호</p>
 
           <div className="postNumDiv">
-            <i>{showPostNum}</i>
+            <i>(41937)</i>
           </div>
 
           <i>
@@ -77,10 +66,10 @@ const PaymentAdress = () => {
         </PostNum>
         <Detailadress>
           <div>
-            <p>{showAddress}</p>
+            <p>대구광역시 중구 중앙대로 394</p>
           </div>
           <div>
-            <p>{showDtAddress}</p>
+            <p>제일빌딩 5F 나나빛</p>
           </div>
         </Detailadress>
 
