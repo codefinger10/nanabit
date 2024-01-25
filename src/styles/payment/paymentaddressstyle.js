@@ -23,6 +23,9 @@ export const PostNum = styled.div`
     font-size: 15px;
     color: #575757;
     font-style: normal;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 `;
 export const Detailadress = styled.div`
@@ -34,7 +37,7 @@ export const Detailadress = styled.div`
   }
   p {
     font-size: 15px;
-    line-height: 40px;
+    line-height: 37px;
     color: #575757;
     margin-left: 10px;
   }

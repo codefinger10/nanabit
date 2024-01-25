@@ -22,7 +22,7 @@ import {
 import MainItemBoxTag from "./MainItemBoxTag";
 import { getDemoList } from "../../api/mainpageapi/mainPageApi";
 
-const MainRcSwiper = () => {
+const MainRcItem = () => {
   const [heartCheckedMap, setHeartCheckedMap] = useState({});
 
   const handleHeartButtonClick = itemId => {
@@ -155,4 +155,4 @@ const MainRcSwiper = () => {
   );
 };
 
-export default MainRcSwiper;
+export default MainRcItem;

@@ -3,24 +3,21 @@ import styled from "@emotion/styled";
 export const ModalWrap = styled.div`
   position: relative;
   display: block;
-  width: 1440px;
-  background-color: rgb(255, 255, 255, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const ModalBody = styled.div`
-  /* position: relative;
-  transform: translate(75%, 25%); */
   background-color: white;
   display: block;
   width: 400px;
-  height: 520px;
-  border: solid 1px #868686;
-  padding: 25px;
 `;
 export const ModalHeader = styled.div`
   display: flex;
   justify-content: space-between;
   margin-bottom: 15px;
+  margin-top: 20px;
 
   p {
     font-size: 20px;
@@ -39,6 +36,7 @@ export const TotalAmount = styled.div`
   }
   b {
     font-size: 30px;
+    line-height: 40px;
   }
 `;
 export const CheckBank = styled.div`
