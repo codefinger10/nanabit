@@ -90,6 +90,7 @@ const ProductLayout = () => {
         <div className="protitle">
           <CommunityTitle
             maintxt="이유식"
+            // 이이이
             subtxt="배송 및 상품관련 공지사항을 확인해 주세요."
           />
         </div>
