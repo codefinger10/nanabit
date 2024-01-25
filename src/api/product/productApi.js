@@ -15,7 +15,7 @@ export const getProductPage = async (
   failFn,
   errorFn,
 ) => {
-  // console.log("getTodoIuser");
+  // console.log("getTodoIuser")
   console.log("getProductPage");
 
   try {
