@@ -1,50 +1,88 @@
+// productApi.js
+
 import axios from "axios";
 import { API_SERVER_HOST } from "../../util/util";
 
-const prefix = `${API_SERVER_HOST}/api/product/productByAgeRange`;
-// ?imiddle=0&imain=0&sortBy=0&page=0
-export const getoist = async iproduct => {
-  try {
-    // http://192.168.0.144:5223/api/product/productByAgeRange?imiddle=0&imain=0&sortBy=0&page=0
-    const res = await axios.get(`${prefix}/${iproduct}`);
-    const status = res.status.toString();
-    const httpSt = status.charAt(0);
-    if (httpSt === "2") {
-      // console.log("성공");
-      return res.data;
-    } else {
-      console.log("에러");
-      return status.error;
-    }
-  } catch (error) {
-    // HTTP 500 류의 오류 (서버에러)
-    console.log(error);
-  }
-};
+// http://192.168.0.144:5223/
+const prefix = `${API_SERVER_HOST}/api/product`;
 
-export const getList = async iproduct => {
-  try {
-    // "http://192.168.0.66:8080/api/todo/list?page=3&size=10"
-    // const res = await axios.get(`${prefix}/list?page=${page}&size=${size}`);
+export const getProductPage = async (
+  sortBy,
+  대분류,
+  중분류,
+  페이지,
+  successFn,
+  failFn,
+  errorFn,
+) => {
+  // console.log("getTodoIuser");
+  console.log("getProductPage");
 
-    const res = await axios.get(`${prefix}/${iproduct}`, {
-      // params: { ...param },
+  try {
+    // const query = `${prefix}/productBySubcategory?sortBy=${sortBy}?대분류=${대분류}?중분류=${중분류}?페이지=${페이지}`;
+    const query = `${prefix}/productBySubcategory`;
+    // const query = `${prefix}/productBySubcategory?sortBy=${sortBy}`;
+    // 예시 const query = `/api/todo/${iuser}?y=${year}&m=${month}&d=${day}`;
+
+    const res = await axios.get(query, {
+      // test.1
+      params: {
+        sortBy,
+        대분류,
+        중분류,
+        페이지,
+      },
     });
 
-    console.log(res.data);
-    // HTTP 상태 코드 파악하여 별도로 처리하기
-    const status = res.status.toString();
+    console.log("목록 서버 데이터 :", res.data);
 
-    const httpSt = status.charAt(0);
-    if (httpSt === "2") {
-      // console.log("성공");
-      return res.data;
+    const resStatus = res.status.toString();
+    if (resStatus.charAt(0) === "2") {
+      // console.log("데이터 정상 : ", res.data.todos);
+      successFn(res.data);
     } else {
-      console.log("에러");
-      return status.error;
+      alert("잘못된 요청입니다.");
     }
   } catch (error) {
-    // HTTP 500 류의 오류 (서버에러)
-    console.log(error);
+    const sampleData = {
+      products: [
+        {
+          iproduct: 7,
+          productNm: "데모데이터",
+          price: 13720,
+          rcFl: 0,
+          popFl: 1,
+          newFl: 1,
+          reviewCnt: 0,
+          likeProduct: 1,
+          repPic: "사진",
+        },
+        {
+          iproduct: 8,
+          productNm: "eleifend",
+          price: 13720,
+          rcFl: 0,
+          popFl: 0,
+          newFl: 0,
+          reviewCnt: 0,
+          likeProduct: 0,
+          repPic: "사진",
+        },
+        {
+          iproduct: 9,
+          productNm: "eleifend",
+          price: 13720,
+          rcFl: 1,
+          popFl: 0,
+          newFl: 0,
+          reviewCnt: 0,
+          likeProduct: 0,
+          repPic: "사진",
+        },
+      ],
+    };
+    successFn(sampleData);
+
+    failFn();
   }
 };
