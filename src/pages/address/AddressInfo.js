@@ -13,6 +13,22 @@ const AddressInfoList = styled.div`
   border-bottom: 1px solid #d9d9d9;
 `;
 
+const AddressBtWrap = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  button {
+    width: 203px;
+    height: 70px;
+    margin-bottom: 74px;
+    background: #e9b25f;
+    border: none;
+    color: #fff;
+    font-size: 20px;
+  }
+`;
+
 export const AddressInfo = () => {
   return (
     <>
@@ -33,6 +49,9 @@ export const AddressInfo = () => {
           <button>주소 수정/삭제</button>
         </AddressInfoWrap>
       </AddressInfoList>
+      <AddressBtWrap>
+        <button>주소 추가하기</button>
+      </AddressBtWrap>
     </>
   );
 };

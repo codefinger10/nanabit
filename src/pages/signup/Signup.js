@@ -1,10 +1,6 @@
 import { Button, Checkbox, Form, Input, Modal } from "antd";
 import React, { useEffect, useState } from "react";
-import {
-  getList,
-  postSign,
-  postSignCheck,
-} from "../../api/signupapi/SignupApi";
+import { getList, postSign } from "../../api/signupapi/SignupApi";
 import Address from "../../components/signup/Address";
 import ChildComponent from "../../components/signup/ChildComponent ";
 import {
@@ -32,6 +28,7 @@ const initState = {
   phoneNumber: "",
   email: "",
   children: [{ ichildAge: "", gender: "" }],
+  agreement: false,
 };
 
 const Signup = () => {
@@ -103,13 +100,7 @@ const Signup = () => {
     setIsModalVisible(false);
   };
   const [userId, setUserId] = useState("");
-  const handleClickCheck = () => {
-    const userObject = {
-      uid: userId,
-    };
-
-    postSignCheck(userObject);
-  };
+  const handleClickCheck = () => {};
 
   return (
     <>
@@ -141,6 +132,7 @@ const Signup = () => {
             phoneNumber: memberInfo.phoneNumber,
             email: memberInfo.email,
             children: [{ ichildAge: "", gender: "" }],
+            agreement: memberInfo.agreement,
           }}
           autoComplete="off"
           onFinish={onFinish}
@@ -165,21 +157,17 @@ const Signup = () => {
               rules={[
                 {
                   required: true,
-
                   message: "아이디를 입력하세요!",
                 },
               ]}
             >
-              <Input
-                style={{ width: "973px", height: "50px" }}
-                onChange={e => setUserId(e.target.value)}
-              />
+              <Input style={{ width: "973px", height: "50px" }} />
             </Form.Item>
             <Form.Item>
               <Button
                 type="button"
                 style={buttonStyle}
-                onClick={handleClickCheck}
+                onChange={e => setUserId(e.target.value)}
               >
                 중복확인
               </Button>
@@ -264,6 +252,7 @@ const Signup = () => {
           </Form.List>
           <div className="agreesign">
             <Form.Item
+              name="agreement"
               valuePropName="checked"
               rules={[
                 {

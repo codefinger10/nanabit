@@ -40,31 +40,11 @@ export const PaymentFooter = styled.div`
   margin-bottom: 60px;
   font-size: 15px;
 `;
-export const PayMethodWrap = styled.div`
+
+export const PaymentMethod = styled.div`
   display: flex;
   justify-content: space-between;
-`;
-
-export const PaymentMethod = styled.button`
   margin-bottom: 30px;
-  opacity: 0.5;
-  border-radius: 10px;
-  border: none;
-  transition: 0.5s;
-  cursor: pointer;
-
-  &:disabled {
-    opacity: 0.5;
-  }
-
-  &:hover {
-    opacity: 1;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-  }
-  &.active-button {
-    opacity: 1;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-  }
   .bankTransfer {
     border: 1px solid #d9d9d9;
     background-color: #f6f6f6;

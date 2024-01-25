@@ -3,9 +3,8 @@ import styled from "@emotion/styled";
 export const ModalWrap = styled.div`
   position: relative;
   display: block;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  width: 1440px;
+  background-color: rgb(255, 255, 255, 0.3);
 `;
 
 export const ModalBody = styled.div`
@@ -14,12 +13,14 @@ export const ModalBody = styled.div`
   background-color: white;
   display: block;
   width: 400px;
+  height: 400px;
+  border: solid 1px #868686;
+  padding: 25px;
 `;
 export const ModalHeader = styled.div`
   display: flex;
   justify-content: space-between;
   margin-bottom: 15px;
-  margin-top: 20px;
 
   p {
     font-size: 20px;
@@ -33,13 +34,11 @@ export const TotalAmount = styled.div`
   background-color: #ddf1ff;
   padding: 12px;
   margin-bottom: 20px;
-
   p {
     font-size: 12px;
   }
   b {
     font-size: 30px;
-    line-height: 40px;
   }
 `;
 export const CardNum = styled.div`
@@ -58,14 +57,6 @@ export const CvcNum = styled.div`
   p {
     font-size: 16px;
     margin-bottom: 5px;
-  }
-`;
-export const AgreeCheckBox = styled.div`
-  gap: 12px;
-  margin-bottom: 10px;
-
-  p {
-    font-size: 12px;
   }
 `;
 export const ModalFooter = styled.div`

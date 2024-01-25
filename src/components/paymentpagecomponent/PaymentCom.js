@@ -27,7 +27,7 @@ const Payment = () => {
                 colorPrimaryHover: "#DF9E3C",
               },
               Radio: {
-                // buttonStyle: "solid",
+                // buttonStyle: "solid",    
                 colorPrimary: "#E9B25F",
               },
               Input: {

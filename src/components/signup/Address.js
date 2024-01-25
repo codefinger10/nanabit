@@ -90,7 +90,7 @@ const Address = ({ onAddressChange }) => {
         <Input style={{ width: 1220, height: 50 }} value={address} />
       </Form.Item>
       <div>상세주소</div>
-      <Form.Item name="addressDetail">
+      <Form.Item name="detailedAddress">
         <MyInput value={detailedAddress} onChange={inputChangeHandler} />
       </Form.Item>
     </>

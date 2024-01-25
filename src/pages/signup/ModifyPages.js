@@ -1,5 +1,6 @@
 import { Button, Form, Input } from "antd";
 import React, { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 import {
   MyInput,
   addbt,
@@ -7,25 +8,30 @@ import {
   babyInfoPush,
 } from "../../styles/signup/signup";
 
-import { deleteModify, putModify } from "../../api/signupapi/SignupApi";
 import ChildComponent from "../../components/signup/ChildComponent ";
 import {
   ModifyBt,
   ModifyEventInfo,
   ModifyInfo,
+  modifyAdd,
   modifyCancel,
   modifyInfo,
   modifyInfoBt,
   modifyInputBt,
   modifyWithdrawal,
+  modifybabyInfo,
+  modifybabyInfoPush,
 } from "../../styles/signup/Modify";
 
 const initState = {
-  nm: "",
-  upw: "",
-  phoneNumber: "",
+  name: "",
+  password: "",
+  newpassword: "",
+  confirm: "",
+  phone: "",
   email: "",
-  children: [{ ichildAge: "", gender: "" }],
+  gender: "",
+  month: "",
 };
 
 const ModifyPages = () => {
@@ -34,15 +40,28 @@ const ModifyPages = () => {
   const onFinish = values => {
     setMemberInfo({ ...values });
     console.log("Success:", values);
-    putModify(values);
   };
   const onFinishFailed = errorInfo => {
     console.log("Failed:", errorInfo);
   };
 
+  const [components, setComponents] = useState([]);
 
-  const handleClickDelete = () => {
-    deleteModify();
+  console.log(components);
+
+  const addComponent = () => {
+    if (components.length < 3) {
+      const uniqueValue = uuidv4(); // 고유한 값 생성
+      setComponents([...components, { uniqueValue }]);
+    }
+  };
+
+  const deleteComponent = uniqueValue => {
+    console.log(uniqueValue);
+    const updatedComponents = components.filter(
+      comp => comp.uniqueValue !== uniqueValue,
+    );
+    setComponents(updatedComponents);
   };
 
   return (
@@ -58,11 +77,14 @@ const ModifyPages = () => {
         }}
         initialValues={{
           remember: true,
-          nm: memberInfo.nm,
-          upw: memberInfo.upw,
-          phoneNumber: memberInfo.phoneNumber,
+          name: memberInfo.name,
+          password: memberInfo.password,
+          newpassword: memberInfo.newpassword,
+          confirm: memberInfo.confirm,
+          phone: memberInfo.phone,
           email: memberInfo.email,
-          children: [{ ichildAge: "", gender: "" }],
+          gender: memberInfo.gender,
+          month: memberInfo.month,
         }}
         autoComplete="off"
         onFinish={onFinish}
@@ -70,7 +92,7 @@ const ModifyPages = () => {
       >
         <div style={{ marginTop: "20px" }}>이름*</div>
         <Form.Item
-          name="nm"
+          name="name"
           rules={[
             {
               type: "text",
@@ -80,22 +102,36 @@ const ModifyPages = () => {
           <Input style={modifyInputBt} />
         </Form.Item>
         <div>현재 비밀번호</div>
-        <Form.Item>
+        <Form.Item name="password">
           <Input.Password style={modifyInputBt} />
         </Form.Item>
 
         <div>새 비밀번호</div>
-        <Form.Item name="upw">
+        <Form.Item name="newpassword">
           <Input.Password style={modifyInputBt} />
         </Form.Item>
         <div>새 비밀번호 확인</div>
-        <Form.Item>
-          <Input.Password style={modifyInputBt} />
+        <Form.Item
+          name="confirm"
+          dependencies={["newpassword"]}
+          hasFeedback
+          rules={[
+            ({ getFieldValue }) => ({
+              validator(_, value) {
+                if (!value || getFieldValue("newpassword") === value) {
+                  return Promise.resolve();
+                }
+                return Promise.reject(new Error("비밀번호 다시 확인해주세요!"));
+              },
+            }),
+          ]}
+        >
+          <Input style={modifyInputBt} />
         </Form.Item>
 
         <div>휴대전화</div>
         <Form.Item
-          name="phoneNumber"
+          name="phone"
           rules={[
             {
               required: true,
@@ -116,7 +152,7 @@ const ModifyPages = () => {
         >
           <MyInput />
         </Form.Item>
-        <Form.List name="children">
+        <Form.List name="baby">
           {(fields, { add, remove }) => (
             <>
               <div style={babyInfo}>
@@ -154,11 +190,7 @@ const ModifyPages = () => {
         </ModifyEventInfo>
         <ModifyBt>
           <Form.Item>
-            <Button
-              type="primary"
-              style={modifyWithdrawal}
-              onClick={handleClickDelete}
-            >
+            <Button type="primary" style={modifyWithdrawal}>
               회원탈퇴
             </Button>
           </Form.Item>
