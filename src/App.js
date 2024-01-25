@@ -35,7 +35,7 @@ import ReviewAddPage from "./pages/reviewPage/ReviewAddPage";
 import AddressInfo from "./pages/address/AddressInfo";
 import AddressAdd from "./pages/address/AddressAdd";
 import AddressModify from "./pages/address/AddressModify";
-
+import ModifyPw from "./pages/signup/ModifyPw";
 
 const App = () => {
   return (
@@ -80,6 +80,7 @@ const App = () => {
           <Route path="/signup" element={<Signup />}></Route>
           <Route path="/Modify" element={<ModifyPages />}></Route>
           <Route path="/item" element={<ItemPage />}></Route>
+          <Route path="/modifypw" element={<ModifyPw />}></Route>
           <Route path="/cc" element={<SerchPage />}></Route>
 
           <Route path="/address" element={<AddressInfo />}></Route>
