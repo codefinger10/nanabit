@@ -28,6 +28,9 @@ import BasicLayout from "./layouts/BasicLayout";
 import ModifyPages from "./pages/signup/ModifyPages";
 import ProductPage from "./pages/product/ProductPage";
 import SerchPage from "./pages/serch/SerchPage";
+import AddressInfo from "./pages/address/AddressInfo";
+import AddressAdd from "./pages/address/AddressAdd";
+import AddressModify from "./pages/address/AddressModify";
 
 const App = () => {
   return (
@@ -72,6 +75,10 @@ const App = () => {
           <Route path="/Modify" element={<ModifyPages />}></Route>
           <Route path="/item" element={<ItemPage />}></Route>
           <Route path="/cc" element={<SerchPage />}></Route>
+
+          <Route path="/address" element={<AddressInfo />}></Route>
+          <Route path="/address/add" element={<AddressAdd />}></Route>
+          <Route path="/address/modify" element={<AddressModify />}></Route>
 
           <Route path="/error" element={<ErrorPage />}></Route>
         </Routes>
