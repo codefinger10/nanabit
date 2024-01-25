@@ -2,9 +2,20 @@ import React from "react";
 import CartProduct from "../../components/cart/CartProduct";
 import UserInfo from "../../components/userinfo/UserInfo";
 import BasicLayout from "../../layouts/BasicLayout";
-import { CartTxt, ProductBtWrap, ProductCartInfo, ProductCartSec, ProductInfo, ProductInfoWrap, ProductMainDiscount, ProductMainDiscountTxt, ProductMainDiscountWrap, ProductPayInfo, ProductSubDiscount } from "../../styles/cart/cartstyle";
-
-
+import {
+  CartTxt,
+  ProductBtWrap,
+  ProductCartInfo,
+  ProductCartSec,
+  ProductInfo,
+  ProductInfoWrap,
+  ProductMainDiscount,
+  ProductMainDiscountTxt,
+  ProductMainDiscountWrap,
+  ProductPayInfo,
+  ProductSubDiscount,
+} from "../../styles/cart/cartstyle";
+import AddressInfo from "../address/AddressInfo";
 
 const CartPage = () => {
   return (
@@ -35,7 +46,7 @@ const CartPage = () => {
           <ProductMainDiscount>
             <p>45900 원</p>
             <p>0 원</p>
-            <p style={{marginLeft:"2px"}}>= 45900원</p>
+            <p style={{ marginLeft: "2px" }}>= 45900원</p>
           </ProductMainDiscount>
         </ProductMainDiscountWrap>
         <ProductBtWrap>
@@ -95,6 +106,7 @@ const CartPage = () => {
               </p>
             </ProductPayInfo>
           </ProductInfo>
+          <AddressInfo />
         </ProductInfoWrap>
       </div>
     </BasicLayout>
