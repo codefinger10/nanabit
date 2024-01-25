@@ -201,7 +201,7 @@ const ReviewAddPageCom = () => {
                 }}
                 rows={4}
                 showCount={true}
-                maxLength={1000}
+                maxLength={250}
                 placeholder="직접 사용해 보시고 느끼신 점을 작성해 주세요!"
                 autoSize={{
                   minRows: 17,

@@ -31,6 +31,8 @@ import SerchPage from "./pages/serch/SerchPage";
 import AddressInfo from "./pages/address/AddressInfo";
 import AddressAdd from "./pages/address/AddressAdd";
 import AddressModify from "./pages/address/AddressModify";
+import MainPage from "./pages/mainPage/MainPage";
+import ReviewAddPage from "./pages/reviewPage/ReviewAddPage";
 
 const App = () => {
   return (
@@ -40,7 +42,7 @@ const App = () => {
           {/* <Route path="*" element={<h1>파일이없네요.</h1>}></Route> */}
           {/* <Route path="/intro" element={<Intro />}></Route> */}
           {/* <Route path="/" element={<BasicLayout />}></Route> */}
-          {/* <Route path="/" element={<MainPage />}></Route> */}
+          <Route path="/" element={<MainPage />}></Route>
 
           <Route path="/login" element={<LoginPage />}></Route>
 
@@ -71,6 +73,7 @@ const App = () => {
           <Route path="/ol" element={<OrderList />}></Route>
           <Route path="/payment" element={<PaymentPage />}></Route>
           <Route path="/review" element={<ReviewPage />}></Route>
+          <Route path="/reviewadd" element={<ReviewAddPage />}></Route>
           <Route path="/signup" element={<Signup />}></Route>
           <Route path="/Modify" element={<ModifyPages />}></Route>
           <Route path="/item" element={<ItemPage />}></Route>
