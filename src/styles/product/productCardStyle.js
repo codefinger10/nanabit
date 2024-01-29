@@ -47,9 +47,12 @@ export const CardFlex = styled.div`
   .review {
     display: flex;
     align-items: center;
+    margin-right: 10px;
   }
   p {
     font-size: 20px;
+    /* margin-left: 10px; */
+    padding-right: 5px;
   }
 `;
 
