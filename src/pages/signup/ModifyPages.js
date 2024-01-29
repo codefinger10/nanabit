@@ -1,6 +1,5 @@
 import { Button, Form, Input } from "antd";
-import React, { useState } from "react";
-import { v4 as uuidv4 } from "uuid";
+import React, { useEffect, useState } from "react";
 import {
   MyInput,
   addbt,
@@ -8,62 +7,67 @@ import {
   babyInfoPush,
 } from "../../styles/signup/signup";
 
+import {
+  deleteModify,
+  postModify,
+  putModify,
+} from "../../api/signupapi/SignupApi";
 import ChildComponent from "../../components/signup/ChildComponent ";
 import {
   ModifyBt,
   ModifyEventInfo,
   ModifyInfo,
-  modifyAdd,
   modifyCancel,
   modifyInfo,
   modifyInfoBt,
   modifyInputBt,
   modifyWithdrawal,
-  modifybabyInfo,
-  modifybabyInfoPush,
 } from "../../styles/signup/Modify";
+import { useLocation, useParams } from "react-router-dom";
 
 const initState = {
-  name: "",
-  password: "",
-  newpassword: "",
-  confirm: "",
-  phone: "",
+  nm: "",
+  upw: "",
+  phoneNumber: "",
   email: "",
-  gender: "",
-  month: "",
+  children: [{ ichildAge: "", gender: "" }],
 };
 
 const ModifyPages = () => {
+  const [modifyArray, setModifyArray] = useState([]);
+  const location = useLocation();
+
+  useEffect(() => {
+    setModifyArray(location.state);
+  }, [location]);
+
+  console.log("들어왔지요", modifyArray);
   const [memberInfo, setMemberInfo] = useState(initState);
+  // const [modifyId,setModifyId] = useState(location.state);
+  // console.log(modifyId)
 
   const onFinish = values => {
     setMemberInfo({ ...values });
     console.log("Success:", values);
+    putModify(values);
   };
   const onFinishFailed = errorInfo => {
     console.log("Failed:", errorInfo);
   };
 
-  const [components, setComponents] = useState([]);
-
-  console.log(components);
-
-  const addComponent = () => {
-    if (components.length < 3) {
-      const uniqueValue = uuidv4(); // 고유한 값 생성
-      setComponents([...components, { uniqueValue }]);
-    }
+  const handleClickDelete = () => {
+    deleteModify();
   };
 
-  const deleteComponent = uniqueValue => {
-    console.log(uniqueValue);
-    const updatedComponents = components.filter(
-      comp => comp.uniqueValue !== uniqueValue,
-    );
-    setComponents(updatedComponents);
+  // useEffect(()=>{
+  //   postModify(setModifyId);
+  // },[])
+  const handleChangeModify = e => {
+    // e.target.name
+    // e.taget.value
+    memberInfo[e.target.name] = e.target.value;
+    setMemberInfo({ ...memberInfo });
   };
-
   return (
     <div style={modifyInfo}>
       <ModifyInfo>회원정보</ModifyInfo>
@@ -77,14 +81,11 @@ const ModifyPages = () => {
         }}
         initialValues={{
           remember: true,
-          name: memberInfo.name,
-          password: memberInfo.password,
-          newpassword: memberInfo.newpassword,
-          confirm: memberInfo.confirm,
-          phone: memberInfo.phone,
+          nm: memberInfo.nm,
+          upw: memberInfo.upw,
+          phoneNumber: memberInfo.phoneNumber,
           email: memberInfo.email,
-          gender: memberInfo.gender,
-          month: memberInfo.month,
+          children: [{ ichildAge: "", gender: "" }],
         }}
         autoComplete="off"
         onFinish={onFinish}
@@ -92,46 +93,36 @@ const ModifyPages = () => {
       >
         <div style={{ marginTop: "20px" }}>이름*</div>
         <Form.Item
-          name="name"
+          valuePropName="nm"
           rules={[
             {
               type: "text",
             },
           ]}
         >
-          <Input style={modifyInputBt} />
+          <Input
+            style={modifyInputBt}
+            value={modifyArray.nm}
+            onChange={e => handleChangeModify(e)}
+          />
         </Form.Item>
         <div>현재 비밀번호</div>
-        <Form.Item name="password">
-          <Input.Password style={modifyInputBt} />
+        <Form.Item>
+          <Input.Password style={modifyInputBt} autocomplete="new-password" />
         </Form.Item>
 
         <div>새 비밀번호</div>
-        <Form.Item name="newpassword">
-          <Input.Password style={modifyInputBt} />
+        <Form.Item name="upw">
+          <Input.Password style={modifyInputBt} autocomplete="new-password" />
         </Form.Item>
         <div>새 비밀번호 확인</div>
-        <Form.Item
-          name="confirm"
-          dependencies={["newpassword"]}
-          hasFeedback
-          rules={[
-            ({ getFieldValue }) => ({
-              validator(_, value) {
-                if (!value || getFieldValue("newpassword") === value) {
-                  return Promise.resolve();
-                }
-                return Promise.reject(new Error("비밀번호 다시 확인해주세요!"));
-              },
-            }),
-          ]}
-        >
-          <Input style={modifyInputBt} />
+        <Form.Item>
+          <Input.Password style={modifyInputBt} autocomplete="new-password" />
         </Form.Item>
 
         <div>휴대전화</div>
         <Form.Item
-          name="phone"
+          valuePropName="phoneNumber"
           rules={[
             {
               required: true,
@@ -139,20 +130,27 @@ const ModifyPages = () => {
             },
           ]}
         >
-          <Input style={modifyInputBt} />
+          <Input
+            style={modifyInputBt}
+            value={modifyArray.phoneNumber}
+            onChange={e => handleChangeModify(e)}
+          />
         </Form.Item>
         <div>이메일*</div>
         <Form.Item
-          name="email"
+          valuePropName="email"
           rules={[
             {
               type: "email",
             },
           ]}
         >
-          <MyInput />
+          <MyInput
+            value={modifyArray.email}
+            onChange={e => handleChangeModify(e)}
+          />
         </Form.Item>
-        <Form.List name="baby">
+        <Form.List name="children">
           {(fields, { add, remove }) => (
             <>
               <div style={babyInfo}>
@@ -172,6 +170,7 @@ const ModifyPages = () => {
                 <ChildComponent
                   key={key}
                   name={name}
+                  valueArray={location.state.children}
                   onSelet={() => remove(name)}
                 />
               ))}
@@ -190,7 +189,11 @@ const ModifyPages = () => {
         </ModifyEventInfo>
         <ModifyBt>
           <Form.Item>
-            <Button type="primary" style={modifyWithdrawal}>
+            <Button
+              type="primary"
+              style={modifyWithdrawal}
+              onClick={handleClickDelete}
+            >
               회원탈퇴
             </Button>
           </Form.Item>

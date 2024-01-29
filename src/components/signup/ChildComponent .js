@@ -1,13 +1,18 @@
 // ChildComponent.js
-import React from "react";
+import React, { useState } from "react";
 import { Radio, Button, Form } from "antd";
 
-const ChildComponent = ({ onSelet, name }) => {
+const ChildComponent = ({ onSelet, name, valueArray }) => {
+  console.log;
+  console.log(valueArray);
+  // const [modifyArray,setModifyArray] =useState([]);
+  
   return (
     <div>
       <div style={{ paddingTop: 30 }}>월령/개월 수*</div>
-      <Form.Item name={[name, "ichildAge"]} style={{ height: 50 }}>
+      <Form.Item valuePropName={[name, "ichildAge"]} style={{ height: 50 }}>
         <Radio.Group
+          value={valueArray}
           style={{
             width: "1220px",
             display: "flex",
@@ -15,7 +20,7 @@ const ChildComponent = ({ onSelet, name }) => {
           }}
         >
           <Radio.Button
-            value="1"
+            value={1}
             style={{
               height: 50,
               width: "25%",
@@ -27,7 +32,7 @@ const ChildComponent = ({ onSelet, name }) => {
             임신/출산 (~0개월)
           </Radio.Button>
           <Radio.Button
-            value="2"
+            value={2}
             style={{
               height: 50,
               width: "25%",
@@ -39,7 +44,7 @@ const ChildComponent = ({ onSelet, name }) => {
             신생아 (1~3개월)
           </Radio.Button>
           <Radio.Button
-            value="3"
+            value={3}
             style={{
               height: 50,
               width: "25%",
@@ -51,7 +56,7 @@ const ChildComponent = ({ onSelet, name }) => {
             베이비 (4~23개월)
           </Radio.Button>
           <Radio.Button
-            value="4"
+            value={4}
             style={{
               height: 50,
               width: "25%",
@@ -73,8 +78,11 @@ const ChildComponent = ({ onSelet, name }) => {
           borderBottom: "3px solid #C5C5C5",
         }}
       >
-        <Form.Item name={[name, "gender"]} style={{ paddingBottom: 50 }}>
-          <Radio.Group style={{ display: "flex" }}>
+        <Form.Item
+          valuePropName={[name, "gender"]}
+          style={{ paddingBottom: 50 }}
+        >
+          <Radio.Group style={{ display: "flex" }} value={valueArray}>
             <Radio.Button value="M" style={{ height: 50, lineHeight: "50px" }}>
               남
             </Radio.Button>

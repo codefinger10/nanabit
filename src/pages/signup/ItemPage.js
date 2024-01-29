@@ -1,6 +1,6 @@
 import Icon from "@ant-design/icons/lib/components/Icon";
 import { Button, Form, Modal } from "antd";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PrettyCounter from "../../components/Count";
 import {
   ItemHeart,
@@ -14,6 +14,8 @@ import {
 } from "../../styles/signup/item";
 import ImgSwiper from "../../components/signup/ImgSwiper";
 import ResultModal from "../../components/signup/ResultModal";
+import { getProduct } from "../../api/signupapi/SignupApi";
+import { useNavigate } from "react-router";
 const ItemPage = () => {
   const [form] = Form.useForm();
 
@@ -81,6 +83,14 @@ const ItemPage = () => {
     // ... 다른 리뷰 데이터
   ]);
 
+  const [productItem, setProductItem] = useState([]);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    getProduct(setProductItem);
+  }, []);
+  console.log(productItem);
+
   const [selectedSection, setSelectedSection] = useState("productInfo");
   const showProductInfo = () => {
     setSelectedSection("productInfo");
@@ -132,10 +142,30 @@ const ItemPage = () => {
   };
   const handleOk = () => {
     setIsOpen(false);
+    navigate("/cart");
   };
   const handleCancel = () => {
     setIsOpen(false);
   };
+  const handleClickadd = () => {
+    navigate("/payment");
+  };
+  const [productData,setProductData] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const result = await getProduct();
+        setProductData(result);
+      } catch (error) {
+        alert("데이터 호출에 실패하였습니다.");
+      }
+    };
+
+    fetchData();
+  }, []);
+
+
   return (
     <ItemMain>
       <ItemWrap>
@@ -211,6 +241,7 @@ const ItemPage = () => {
               width: "48%",
               height: 50,
             }}
+            onClick={handleClickadd}
           >
             바로구매
           </Button>
@@ -309,25 +340,95 @@ const ItemPage = () => {
                 <ul>
                   {reviews.map(review => (
                     <li key={review.id}>
-                      <div
-                        style={{
-                          width: 1220,
-                          height: 60,
-                          display: "flex",
-                          justifyContent: "space-between",
-                          paddingTop: 30,
-                          fontSize: 20,
-                        }}
-                      >
-                        <div>
-                          <p>
+                      <div>
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            paddingTop:"40px"
+                          }}
+                        >
+                          <div
+                            style={{
+                              color: "#868686",
+                              fontFamily: "Noto Sans KR",
+                              fontSize: "30px",
+                              fontStyle: "normal",
+                              fontWeight: 400,
+                              lineHeight: "normal",
+                            }}
+                          >
                             {review.user}
-                            <span> {review.rating}</span>
-                          </p>
+                            <sapn
+                              style={{
+                                paddingLeft: "10px",
+                                color: "#E9B25F",
+                                fontFamily: "Noto Sans KR",
+                                fontSize: "30px",
+                                fontStyle: "normal",
+                                fontWeight: 700,
+                                lineHeight: "normal",
+                              }}
+                            >
+                              {review.rating}점
+                            </sapn>
+                          </div>
+
+                          <div
+                            style={{
+                              color: "#868686",
+                              textAlign: "right",
+                              fontFamily: "Noto Sans KR",
+                              fontSize: "30px",
+                              fontStyle: "normal",
+                              fontWeight: 400,
+                              lineHeight: "normal",
+                            }}
+                          >
+                            {review.date}
+                          </div>
                         </div>
-                        <p>날짜: {review.date}</p>
+
+                        <div
+                          style={{
+                            display: "flex",
+                            gap: "40px",
+                            paddingTop: "30px",
+                          }}
+                        >
+                          <div>
+                            <img
+                              src={
+                                process.env.PUBLIC_URL +
+                                "/assets/images/defaultitemimg.svg"
+                              }
+                            />
+                          </div>
+                          <div
+                            style={{
+                              color: "#595959",
+                              textAlign: "justify",
+                              fontFamily: "Noto Sans KR",
+                              fontSize: "25px",
+                              fontStyle: "normal",
+                              fontWeight: 400,
+                              lineHeight: "30px" /* 120% */,
+                            }}
+                          >
+                            <p>
+                              [뽀로로] 우리아이가 좋아하는 젓가락 뽀롱뽀롱
+                              뽀로로 아이 전용 미니 젓가락 3종 15묶음 세트
+                              (파랑, 빨강, 노랑, 구찌 명품 에디션) [뽀로로]
+                              우리아이가 좋아하는 젓가락 뽀롱뽀롱 뽀로로 아이
+                              전용 [뽀로로] 우리아이가 좋아하는 젓가락 뽀롱뽀롱
+                              뽀로로 아이 전용 미니 젓가락 3종 15묶음 세트
+                              (파랑, 빨강, 노랑, 구찌 명품 에디션) 미니 젓가락
+                              3종 15묶음 세트 (파랑, 빨강, 노랑, 구찌 명품
+                              에디션)
+                            </p>
+                          </div>
+                        </div>
                       </div>
-                      <p>{review.text}</p>
                     </li>
                   ))}
                 </ul>

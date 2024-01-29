@@ -1,6 +1,10 @@
 import { Button, Checkbox, Form, Input, Modal } from "antd";
 import React, { useEffect, useState } from "react";
-import { getList, postSign } from "../../api/signupapi/SignupApi";
+import {
+  getList,
+  postSign,
+  postSignCheck,
+} from "../../api/signupapi/SignupApi";
 import Address from "../../components/signup/Address";
 import ChildComponent from "../../components/signup/ChildComponent ";
 import {
@@ -28,7 +32,6 @@ const initState = {
   phoneNumber: "",
   email: "",
   children: [{ ichildAge: "", gender: "" }],
-  agreement: false,
 };
 
 const Signup = () => {
@@ -36,6 +39,7 @@ const Signup = () => {
   const [zonecode, setZonecode] = useState("");
   const [address, setAddress] = useState("");
   const [agreeBt, setAgreeBt] = useState([]);
+   const [idCheck,setIdCheck] = useState("");
 
   const updateAddressInfo = ({ zonecode, address }) => {
     // 주소 정보 업데이트
@@ -54,6 +58,7 @@ const Signup = () => {
     console.log("Failed:", errorInfo);
   };
 
+
   const tailFormItemLayout = {
     wrapperCol: {
       xs: {
@@ -67,7 +72,10 @@ const Signup = () => {
     },
   };
 
-  const successFn = () => {};
+  const successFn = (result) => {
+    setMemberInfo(result)
+    // userPk(result)
+  };
   const failFn = () => {};
   const errFn = () => {};
 
@@ -100,7 +108,14 @@ const Signup = () => {
     setIsModalVisible(false);
   };
   const [userId, setUserId] = useState("");
-  const handleClickCheck = () => {};
+  const handleClickCheck = () => {
+    const userObject = {
+      uid: userId,
+    };
+
+    postSignCheck(userObject);
+  };
+
 
   return (
     <>
@@ -132,7 +147,6 @@ const Signup = () => {
             phoneNumber: memberInfo.phoneNumber,
             email: memberInfo.email,
             children: [{ ichildAge: "", gender: "" }],
-            agreement: memberInfo.agreement,
           }}
           autoComplete="off"
           onFinish={onFinish}
@@ -161,13 +175,16 @@ const Signup = () => {
                 },
               ]}
             >
-              <Input style={{ width: "973px", height: "50px" }} />
+              <Input
+                style={{ width: "973px", height: "50px" }}
+                onChange={e => setUserId(e.target.value)}
+              />
             </Form.Item>
             <Form.Item>
               <Button
                 type="button"
                 style={buttonStyle}
-                onChange={e => setUserId(e.target.value)}
+                onClick={handleClickCheck}
               >
                 중복확인
               </Button>
@@ -252,7 +269,6 @@ const Signup = () => {
           </Form.List>
           <div className="agreesign">
             <Form.Item
-              name="agreement"
               valuePropName="checked"
               rules={[
                 {
@@ -287,6 +303,7 @@ const Signup = () => {
                     >
                       <p>{item.contents}</p>
                     </div>
+
                     <Checkbox>{item.required}</Checkbox>
                   </li>
                 ))}
