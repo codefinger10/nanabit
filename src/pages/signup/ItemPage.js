@@ -150,7 +150,7 @@ const ItemPage = () => {
   const handleClickadd = () => {
     navigate("/payment");
   };
-  const [productData,setProductData] = useState([]);
+  const [productData, setProductData] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -164,7 +164,6 @@ const ItemPage = () => {
 
     fetchData();
   }, []);
-
 
   return (
     <ItemMain>
@@ -345,7 +344,7 @@ const ItemPage = () => {
                           style={{
                             display: "flex",
                             justifyContent: "space-between",
-                            paddingTop:"40px"
+                            paddingTop: "40px",
                           }}
                         >
                           <div
