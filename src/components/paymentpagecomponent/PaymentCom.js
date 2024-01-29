@@ -1,5 +1,4 @@
 import { Button, ConfigProvider } from "antd";
-
 import React from "react";
 import {
   PaymentBody,
@@ -12,7 +11,6 @@ import PayTotal from "./PayTotal";
 import PaymentAdress from "./PaymentAdress";
 import OrderInfoCom from "./PaymentOrderInfo";
 import PaymentOrderList from "./PaymentOrderList";
-
 const Payment = () => {
   return (
     <PaymentWrap>
@@ -27,7 +25,7 @@ const Payment = () => {
                 colorPrimaryHover: "#DF9E3C",
               },
               Radio: {
-                // buttonStyle: "solid",    
+                // buttonStyle: "solid",
                 colorPrimary: "#E9B25F",
               },
               Input: {
@@ -46,27 +44,21 @@ const Payment = () => {
             {/* ===== 배송지 선택 ===== */}
             <PaymentAdress />
             <hr />
-
             {/* ===== 수령자 정보 ===== */}
             <OrderInfoCom />
             <hr />
             {/* ===== 주문상품 ===== */}
             <div className="paymentListTitle">주문상품</div>
             <PaymentOrderList />
-
             <hr />
-
             {/* ===== 총 주문 금액 ===== */}
             <PayTotal />
             <hr />
-
             {/* ===== 결제 수단 ===== */}
             <div className="paymentListTitle">결제 수단</div>
             <PayMethod />
           </div>
-
           <hr />
-
           <PaymentFooter>
             <Button style={{ width: "250px", height: "50px" }}>
               <p>주문취소</p>
@@ -80,5 +72,4 @@ const Payment = () => {
     </PaymentWrap>
   );
 };
-
 export default Payment;

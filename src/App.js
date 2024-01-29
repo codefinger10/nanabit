@@ -69,7 +69,7 @@ const App = () => {
           <Route path="/monthly" element={<MonthlyPage />}></Route>
           <Route path="/mypage" element={<MyPage />}></Route>
 
-          <Route path="/oc" element={<OrderCompletePage />}></Route>
+          <Route path="/order/:iorder" element={<OrderCompletePage />}></Route>
           <Route path="/ol" element={<OrderList />}></Route>
           <Route path="/payment" element={<PaymentPage />}></Route>
           <Route path="/review" element={<ReviewPage />}></Route>

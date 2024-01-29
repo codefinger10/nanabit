@@ -1,5 +1,4 @@
-import { CloseOutlined } from "@ant-design/icons";
-import { Button, Checkbox, ConfigProvider, Form, Input } from "antd";
+import { Checkbox, ConfigProvider, Input } from "antd";
 import React, { useState } from "react";
 import {
   AgreeCheckBox,
@@ -12,7 +11,7 @@ import {
   TotalAmount,
 } from "../../styles/payment/modalpaycreditstyle";
 
-const CreditCardMadal = () => {
+const CreditCardModal = () => {
   // CVC 3자리 숫자입력  =========
   const [password, setPassword] = useState("");
 
@@ -69,6 +68,7 @@ const CreditCardMadal = () => {
                     outline: "none",
                     boxShadow: "none",
                   }}
+                  spellCheck={false}
                 />
               </CardNum>
               <CvcNum className="cvcNum">
@@ -96,6 +96,7 @@ const CreditCardMadal = () => {
                     outline: "none",
                     boxShadow: "none",
                   }}
+                  spellCheck={false}
                 />
               </CvcNum>
               <AgreeCheckBox>
@@ -115,4 +116,4 @@ const CreditCardMadal = () => {
   );
 };
 
-export default CreditCardMadal;
+export default CreditCardModal;

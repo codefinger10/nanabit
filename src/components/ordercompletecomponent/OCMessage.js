@@ -1,48 +1,14 @@
-import styled from "@emotion/styled";
 import React from "react";
+import {
+  OCMDesc,
+  OCMDiv,
+  OCMText,
+  OCMWrap,
+  OCMtd,
+} from "../../styles/oc/ocstyle";
 
-const OCMWrap = styled.div`
-  width: 1150px;
-  height: 450px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-const OCMDiv = styled.div`
-  width: 820px;
-  height: 200px;
-  display: flex;
-  gap: 80px;
-  justify-content: center;
-  align-items: center;
-`;
-const OCMtd = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 150px;
-`;
-const OCMText = styled.div`
-  p {
-    font-size: 30px;
-    font-weight: 600;
-    color: #e9b25f;
-  }
-  span {
-    font-size: 20px;
-    color: #595959;
-    font-weight: 500;
-  }
-`;
-
-const OCMDesc = styled.div`
-  p {
-    font-size: 20px;
-    color: #595959;
-    font-weight: 500;
-  }
-`;
-const OCMessage = () => {
+const OCMessage = ({ data }) => {
+  const dataObject = typeof data === "object" ? data : {};
   return (
     <OCMWrap>
       <OCMDiv>
@@ -58,8 +24,8 @@ const OCMessage = () => {
           </OCMText>
 
           <OCMDesc>
-            <p>주문번호 : 20234105-0000139</p>
-            <p>주문일자 : 2024-01-05</p>
+            <p>주문번호 : {dataObject.iorder}</p>
+            <p>주문일자 : {dataObject.createdAt}</p>
           </OCMDesc>
         </OCMtd>
       </OCMDiv>

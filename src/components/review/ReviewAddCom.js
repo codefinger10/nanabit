@@ -39,15 +39,16 @@ const ReviewAddPageCom = () => {
       bottom: -40px;
     }
     .antdUploadDiv {
-      margin-top: 40px;
+      margin-top: 60px;
       display: "flex";
     }
     .buttonDiv {
-      width: 150px;
-      height: 60px;
+      width: 140px;
+      height: 140px;
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      justify-content: space-between;
+      font-size: 20px;
     }
   `;
 
@@ -207,6 +208,7 @@ const ReviewAddPageCom = () => {
                   minRows: 17,
                   maxRows: 17,
                 }}
+                spellCheck={false}
               />
             </Form.Item>
 
@@ -219,49 +221,80 @@ const ReviewAddPageCom = () => {
                 valuePropName="fileList"
                 getValueFromEvent={normFile}
               >
-                <div>
-                  <Upload
+                <div
+                  style={{
+                    width: "1150px",
+                    display: "flex",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <div
                     style={{
-                      width: "1150px",
-                      height: "200px",
                       display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
                     }}
-                    // beforeUpload={beforeUpload}
-                    maxCount={5}
-                    // action="/review.do" 업로드 되는 사진 뒤에 붙는 url
-                    listType="picture-card"
-                    multiple
-                    accept=".jpg, .png"
-                    overlay="true"
                   >
-                    <button
+                    <Upload
                       style={{
-                        border: 0,
-                        background: "none",
+                        width: "1150px",
+                        height: "200px",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
                       }}
-                      type="button"
+                      // beforeUpload={beforeUpload}
+                      maxCount={5}
+                      // action="/review.do" 업로드 되는 사진 뒤에 붙는 url
+                      listType="picture-card"
+                      multiple
+                      accept=".jpg, .png"
+                      overlay="true"
                     >
-                      <PlusOutlined />
-                      <div
+                      <button
                         style={{
-                          marginTop: 8,
+                          border: 0,
+                          background: "none",
                         }}
+                        type="button"
                       >
-                        Upload
-                      </div>
-                    </button>
-                  </Upload>
-                  <div>
-                    <i>최대 5장까지 업로드 가능합니다.</i>
+                        <PlusOutlined />
+                        <div
+                          style={{
+                            marginTop: 8,
+                          }}
+                        >
+                          Upload
+                        </div>
+                      </button>
+                    </Upload>
+                    <div>
+                      <i>최대 5장까지 업로드 가능합니다.</i>
+                    </div>
                   </div>
-                </div>
-                <div className="buttonDiv">
-                  <Button type="primary" style={{ borderRadius: 0 }}>
-                    작성완료
-                  </Button>
-                  <Button type="default" style={{ borderRadius: 0 }}>
-                    뒤로가기
-                  </Button>
+
+                  <div className="buttonDiv">
+                    <Button
+                      type="primary"
+                      style={{
+                        borderRadius: 0,
+                        width: "140px",
+                        height: "60px",
+                      }}
+                    >
+                      작성완료
+                    </Button>
+                    <Button
+                      type="default"
+                      style={{
+                        borderRadius: 0,
+                        width: "140px",
+                        height: "60px",
+                      }}
+                    >
+                      뒤로가기
+                    </Button>
+                  </div>
                 </div>
               </Form.Item>
             </div>

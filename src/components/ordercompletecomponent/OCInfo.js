@@ -1,62 +1,9 @@
 import React from "react";
 import styled from "styled-components";
+import { BorderLinemanager, BorderWrap } from "../../styles/oc/ocstyle";
 
-const BorderWrap = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  .orderInfoTitle {
-    height: 60px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    p {
-      font-size: 20px;
-      color: #e9b25f;
-      text-align: left;
-      margin-left: 35px;
-      font-weight: 600;
-    }
-  }
-`;
-const BorderLinemanager = styled.table`
-  border-collapse: collapse;
-  border-bottom: 3px solid #e9b25f;
-  border-top: 3px solid #e9b25f;
-
-  td {
-    border-left: 1px solid #d9d9d9;
-    border-bottom: 1px solid #d9d9d9;
-
-    &:first-child {
-      border-left: none;
-    }
-  }
-
-  .tableName {
-    font-size: 16px;
-    height: 50px;
-    width: 190px;
-    text-align: left;
-
-    p {
-      margin-left: 35px;
-    }
-  }
-
-  .tableDesc {
-    font-size: 16px;
-    height: 50px;
-    width: 960px;
-    text-align: left;
-
-    p {
-      margin-left: 35px;
-    }
-  }
-`;
-const OCInfo = () => {
+const OCInfo = ({ data }) => {
+  const dataObject = typeof data === "object" ? data : {};
   return (
     <BorderWrap>
       <div>
@@ -72,7 +19,7 @@ const OCInfo = () => {
                 <p>주문자</p>
               </td>
               <td className="tableDesc">
-                <p>내용</p>
+                <p>{dataObject.addresseeNm}</p>
               </td>
             </tr>
           </thead>
@@ -82,7 +29,7 @@ const OCInfo = () => {
                 <p>주문자 연락처</p>
               </td>
               <td className="tableDesc">
-                <p>내용</p>
+                <p>{dataObject.phoneNumber}</p>
               </td>
             </tr>
             <tr>
@@ -90,7 +37,10 @@ const OCInfo = () => {
                 <p>배송지</p>
               </td>
               <td className="tableDesc">
-                <p>내용</p>
+                <p>
+                  [{dataObject.zipCode}] {dataObject.address}{" "}
+                  {dataObject.addressDetail}{" "}
+                </p>
               </td>
             </tr>
             <tr>
@@ -98,7 +48,7 @@ const OCInfo = () => {
                 <p>이메일</p>
               </td>
               <td className="tableDesc">
-                <p>내용</p>
+                <p>{dataObject.email}</p>
               </td>
             </tr>
             <tr className="noBorder">
@@ -106,7 +56,7 @@ const OCInfo = () => {
                 <p>결제수단</p>
               </td>
               <td className="tableDesc">
-                <p>내용</p>
+                <p>{dataObject.paymentOption}</p>
               </td>
             </tr>
           </tbody>
