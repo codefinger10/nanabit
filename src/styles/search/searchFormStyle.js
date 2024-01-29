@@ -78,8 +78,19 @@ export const SearchWrap = styled.div`
   .input-price input {
     height: 30px;
   }
+  .input-price input::placeholder {
+    padding-left: 10px;
+  }
   .input-price p {
     font-size: 25px;
+  }
+  .input-price button {
+    width: 50px;
+    height: 30px;
+    background-color: transparent;
+    border: 1px solid #868686;
+    cursor: pointer;
+    /* margin-left: 20px; */
   }
 
   .input-search {
@@ -97,4 +108,29 @@ export const SearchWrapf = styled.div`
     width: 1280px;
     margin: 0 auto;
   }
+`;
+
+// product
+export const SearchGridContainer = styled.div`
+  /* width: 1280px; */
+  display: grid;
+  grid-template-columns: repeat(4, 305px);
+  // itemsPerPage에 따라 동적으로 행의 수 계산
+  gap: 20px;
+  /* margin: 20px; */
+  padding-right: 20px;
+  > * {
+    grid-column: span 1;
+    grid-row: span 1; /* 각 카드가 1행을 차지하도록 수정 */
+  }
+  /* margin: 0 auto; */
+`;
+
+export const SearchPagiWarp = styled.div`
+  width: 100%;
+  width: 1280px;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 50px;
+  margin: 0 auto;
 `;

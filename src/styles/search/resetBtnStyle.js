@@ -7,7 +7,19 @@ export const SearchBox = styled.form`
   input {
     padding-right: 30px; /* 입력란 오른쪽 여백 추가 */
     height: 30px;
-    width: 400px;
+    width: 324px;
+  }
+  input::placeholder {
+    padding-left: 10px;
+  }
+
+  button {
+    width: 50px;
+    height: 30px;
+    background-color: transparent;
+    border: 1px solid #868686;
+    cursor: pointer;
+    margin-left: 20px;
   }
 
   .btn-reset {
