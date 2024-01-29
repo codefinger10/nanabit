@@ -35,6 +35,12 @@ export const MyInput = styled(Input)`
   width: 1220px;
   height: 50px;
 `;
+
+export const MyInputDetail = styled(Input)`
+  width: 1155px;
+  height: 50px;
+`;
+
 export const MyPw = styled(Input.Password)`
   width: 1220px;
   height: 50px;

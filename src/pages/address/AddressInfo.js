@@ -1,35 +1,50 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import useCustomLogin from "../../hooks/useCustomLogin";
 import {
+  AddressBtWrap,
+  AddressInfoList,
   AddressInfoWrap,
   AddressTitleWrap,
 } from "../../styles/address/addressinfostyle";
-import styled from "styled-components";
+import { getAddress } from "../../api/address/AddressApi";
+import { Button, Form } from "antd";
 
-const AddressInfoList = styled.div`
-  width: 1155px;
-  height: 153px;
-  margin: 0 auto;
-  margin-bottom: 50px;
-  border-bottom: 1px solid #d9d9d9;
-`;
-
-const AddressBtWrap = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0 auto;
-  button {
-    width: 203px;
-    height: 70px;
-    margin-bottom: 74px;
-    background: #e9b25f;
-    border: none;
-    color: #fff;
-    font-size: 20px;
-  }
-`;
+const initState = {
+  iaddress: [],
+  zipcode: "",
+  address: "",
+  addressDetail: "",
+};
 
 export const AddressInfo = () => {
+  const { moveToPath, moveToObj } = useCustomLogin();
+
+  const handleClickAdd = e => {
+    moveToPath("/address/add");
+  };
+
+  const handleClickModify = item => {
+    moveToObj(`/address/modify`, item);
+    console.log(item.address, "address");
+  };
+
+  const [serverData, setServerData] = useState([]);
+
+  useEffect(() => {
+    getAddress({ successFn, failFn, errorFn });
+  }, []);
+
+  const successFn = result => {
+    setServerData(result);
+    console.log(result);
+  };
+  const failFn = result => {
+    console.log(result);
+  };
+  const errorFn = result => {
+    console.log(result);
+  };
+
   return (
     <>
       <AddressTitleWrap>
@@ -42,15 +57,42 @@ export const AddressInfo = () => {
           </p>
         </div>
       </AddressTitleWrap>
-      <AddressInfoList>
-        <AddressInfoWrap>
-          <h2> (41937) 대구광역시 중구 중앙대로 394 제일빌딩 5F 나나빛 </h2>
 
-          <button>주소 수정/삭제</button>
-        </AddressInfoWrap>
-      </AddressInfoList>
+      {serverData.map(item => (
+        <div key={item.iaddress}>
+          <AddressInfoList>
+            <AddressInfoWrap>
+              <h2>
+                ({item.zipCode}) {item.address} {item.addressDetail}
+              </h2>
+
+              <button onClick={() => handleClickModify(item)}>
+                주소 수정/삭제
+              </button>
+            </AddressInfoWrap>
+          </AddressInfoList>
+        </div>
+      ))}
+
       <AddressBtWrap>
-        <button>주소 추가하기</button>
+        <Form.Item>
+          <Button
+            type="primary"
+            htmlType="button"
+            onClick={handleClickAdd}
+            style={{
+              width: "203px",
+              height: "70px",
+              background: "#e9b25f",
+              color: "#fff",
+              fontSize: "20px",
+              fontWeight: 500,
+              border: "none",
+            }}
+          >
+            주소 추가하기
+          </Button>
+        </Form.Item>
       </AddressBtWrap>
     </>
   );

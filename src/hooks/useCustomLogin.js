@@ -38,12 +38,27 @@ const useCustomLogin = () => {
     navigate({ pathname: path }, { replace: true });
   };
 
+  // 패스이동 기능
+  const moveToObj = (path, item) => {
+    // 패스로 이동 후에 replace:ture 를 적용시 뒤로 가기 화면
+    // 이전 페이지 기록을 남기지 않는다.
+    navigate(path, { state: { ...item } });
+  };
+
   // 로그인 페이동 기능
   const moveToLogin = () => {
     return <Navigate replace to="/main" />;
   };
 
-  return { loginState, isLogin, doLogin, doLogout, moveToPath, moveToLogin };
+  return {
+    loginState,
+    isLogin,
+    doLogin,
+    doLogout,
+    moveToPath,
+    moveToLogin,
+    moveToObj,
+  };
 };
 
 export default useCustomLogin;
