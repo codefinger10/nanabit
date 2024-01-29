@@ -1,8 +1,6 @@
 import styled from "@emotion/styled";
-
 export const PaymentWrap = styled.div`
   margin: 0 auto;
-
   hr {
     border: none;
     background-color: #e9b25f;
@@ -31,7 +29,6 @@ export const PaymentHeader = styled.div`
     font-weight: 500;
   }
 `;
-
 export const PaymentFooter = styled.div`
   display: flex;
   align-items: center;
@@ -40,11 +37,29 @@ export const PaymentFooter = styled.div`
   margin-bottom: 60px;
   font-size: 15px;
 `;
-
-export const PaymentMethod = styled.div`
+export const PayMethodWrap = styled.div`
   display: flex;
   justify-content: space-between;
+`;
+
+export const PaymentMethod = styled.button`
   margin-bottom: 30px;
+  opacity: 0.5;
+  border-radius: 10px;
+  border: none;
+  transition: 0.5s;
+  cursor: pointer;
+  &:disabled {
+    opacity: 0.5;
+  }
+  &:hover {
+    opacity: 1;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  }
+  &.active-button {
+    opacity: 1;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  }
   .bankTransfer {
     border: 1px solid #d9d9d9;
     background-color: #f6f6f6;
@@ -82,12 +97,10 @@ export const PaymentMethod = styled.div`
     }
   }
 `;
-
 export const PostNum = styled.div`
   display: flex;
   line-height: 40px;
   margin-bottom: 7px;
-
   p {
     font-size: 18px;
     color: #575757;
@@ -122,7 +135,6 @@ export const Detailadress = styled.div`
     margin-left: 10px;
   }
 `;
-
 export const Selectadress = styled.div`
   margin-top: 30px;
   margin-bottom: 30px;
@@ -133,7 +145,6 @@ export const Selectadress = styled.div`
     width: 1500px;
     display: table-cell;
     vertical-align: middle;
-
     p {
       font-size: 15px;
       margin-left: 10px;

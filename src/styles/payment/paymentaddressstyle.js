@@ -1,10 +1,8 @@
 import styled from "@emotion/styled";
-
 export const PostNum = styled.div`
   display: flex;
   line-height: 40px;
   margin-bottom: 7px;
-
   p {
     font-size: 18px;
     color: #575757;
@@ -42,7 +40,6 @@ export const Detailadress = styled.div`
     margin-left: 10px;
   }
 `;
-
 export const Selectadress = styled.div`
   margin-top: 30px;
   margin-bottom: 30px;
@@ -53,7 +50,6 @@ export const Selectadress = styled.div`
     width: 1500px;
     display: table-cell;
     vertical-align: middle;
-
     p {
       font-size: 15px;
       margin-left: 10px;

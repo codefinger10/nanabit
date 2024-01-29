@@ -7,6 +7,7 @@ import "swiper/css/navigation";
 
 // import required modules
 import { Navigation } from "swiper/modules";
+import { getDemoList } from "../../api/mainpageapi/mainPageApi";
 import {
   ItemDecArea,
   ItemImg,
@@ -16,11 +17,9 @@ import {
   RcSwiperWrap,
   ReviewWish,
   StyledLabel,
-  SwiperOneGroup,
   TextArea,
 } from "../../styles/mainstyle";
 import MainItemBoxTag from "./MainItemBoxTag";
-import { getDemoList } from "../../api/mainpageapi/mainPageApi";
 
 const MainRcItem = () => {
   const [heartCheckedMap, setHeartCheckedMap] = useState({});
@@ -35,8 +34,6 @@ const MainRcItem = () => {
   // 데모데이터 자료연동
   const [demoData, setDemoData] = useState(null);
   const swiperRef = useRef(null);
-  const nextElRef = useRef(null);
-  const prevElRef = useRef(null);
 
   useEffect(() => {
     const fetchDataAndCenterSwiper = async () => {
@@ -46,7 +43,7 @@ const MainRcItem = () => {
         // 찜 여부 값이 true와 false로 되어 있을 경우
         const initialHeartCheckedMap = {};
         res.forEach(item => {
-          initialHeartCheckedMap[item.id] = item.찜여부 === true;
+          initialHeartCheckedMap[item.id] = item.찜여부 === 1;
         });
         setHeartCheckedMap(initialHeartCheckedMap);
 
@@ -75,24 +72,35 @@ const MainRcItem = () => {
           </span>
           <i>👶🏻 내 자녀를 위한 추천상품 👶🏻</i>
         </TextArea>
+
         <RcSwiperWrap>
-          <Swiper
-            navigation={{
-              nextEl: nextElRef.current,
-              prevEl: prevElRef.current,
+          <div
+            style={{
+              width: "1150px",
+              position: "relative",
+              display: "flex",
+              justifyContent: "space-between",
             }}
-            modules={[Navigation]}
-            className="mainSlideSett"
-            slidesPerView={4}
-            spaceBetween={40}
-            slidesPerGroup={4}
-            slideActiveClass="rcswiper-one-group"
+            className="swiperDiv"
           >
-            <SwiperOneGroup>
+            <Swiper
+              onSwiper={swiper => {
+                swiperRef.current = swiper;
+              }}
+              navigation={{
+                nextEl: ".swiperDiv .slide-next-bt",
+                prevEl: ".swiperDiv .slide-prev-bt",
+              }}
+              modules={[Navigation]}
+              className="mainSlideSett"
+              slidesPerView={4}
+              slidesPerGroup={4}
+            >
               {demoData.map(Item => (
                 <SwiperSlide
                   key={Item.id}
                   style={{ width: "230px", height: "330px" }}
+                  className="slotWidthSett"
                 >
                   <ItemPacket>
                     <ItemImg>
@@ -140,14 +148,20 @@ const MainRcItem = () => {
                   </ItemPacket>
                 </SwiperSlide>
               ))}
-            </SwiperOneGroup>
-          </Swiper>
-          <button className="slide-prev-bt" ref={prevElRef}>
-            {/* 이전 버튼 이미지 */}
-          </button>
-          <button className="slide-next-bt" ref={nextElRef}>
-            {/* 다음 버튼 이미지 */}
-          </button>
+            </Swiper>
+            <button className="slide-prev-bt">
+              <img
+                src={process.env.PUBLIC_URL + "/assets/images/slidebt.svg"}
+                alt=""
+              />
+            </button>
+            <button className="slide-next-bt">
+              <img
+                src={process.env.PUBLIC_URL + "/assets/images/slidebt.svg"}
+                alt=""
+              />
+            </button>
+          </div>
         </RcSwiperWrap>
       </div>
       <div style={{ height: "300px" }} />

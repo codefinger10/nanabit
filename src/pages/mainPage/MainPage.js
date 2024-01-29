@@ -1,12 +1,12 @@
 import React from "react";
-import MainRcSwiper from "../../components/mainpagecomponent/MainRcSwiper";
-import MainSwiper from "../../components/mainpagecomponent/MainSwiper";
+import MainSwiper from "../../components/mainpage/MainSwiper";
+import MainRcItem from "../../components/mainpage/MainRcItem";
 
 const MainPage = () => {
   return (
     <div>
       <MainSwiper />
-      <MainRcSwiper />
+      <MainRcItem />
     </div>
   );
 };

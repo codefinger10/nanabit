@@ -65,7 +65,7 @@ export const HeaderNav = styled.div`
     height: 45px;
     border: none;
     background-color: transparent;
-    background-image: url("assets/images/btn_search.svg");
+    background-image: url("../assets/images/btn_search.svg");
     background-repeat: no-repeat;
     background-position: center;
     font-size: 0;

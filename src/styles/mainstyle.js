@@ -3,10 +3,10 @@ import styled from "@emotion/styled";
 
 export const TextArea = styled.div`
   text-align: center;
-  height: 150px;
+  height: 80px;
   width: 100%;
-  padding-top: 60px;
-  padding-bottom: 40px;
+  margin-top: 60px;
+  margin-bottom: 50px;
   span {
     font-size: 20px;
     color: #595959;
@@ -18,26 +18,10 @@ export const TextArea = styled.div`
     font-style: normal;
   }
 `;
-export const RcSwiperWrap = styled.div`
-  align-items: center;
-  display: flex;
-  width: 1190px;
-  margin: 0 auto;
-  .rcswiper-one-group {
-    width: 230px !important;
-  }
-  .slide-next-bt {
-    background-image: url("/assets/images/slidenextbt.svg");
-  }
-  .slide-prev-bt {
-    background-image: url("/assets/images/slideprevbt.svg");
-  }
-`;
-export const SwiperOneGroup = styled.div`
-  width: 230px;
-`;
 
 export const ItemPacket = styled.div`
+  position: relative;
+  display: block;
   width: 230px;
   height: 330px;
 `;
@@ -99,5 +83,107 @@ export const ItemTitlePrice = styled.div`
     font-size: 30px;
     line-height: 30px;
     margin-top: 5px;
+  }
+`;
+
+export const RcSwiperWrap = styled.div`
+  position: relative;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  margin: 0 auto;
+  width: 1440px;
+  height: 330px;
+
+  .slotWidthSett {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .slide-prev-bt.swiper-button-disabled {
+    display: none !important;
+  }
+  .slide-next-bt.swiper-button-disabled {
+    display: none !important;
+  }
+  .slide-prev-bt {
+    position: absolute;
+    left: -3%;
+    top: 40%;
+    z-index: 2;
+    /* 내용물만 옮겨준다. */
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+
+    width: 48px;
+    height: 48px;
+    background-color: transparent;
+
+    border: none;
+    cursor: pointer;
+  }
+  .slide-prev-bt img {
+    transform: rotate(180deg);
+  }
+  .slide-next-bt {
+    position: absolute;
+    right: -3%;
+    top: 40%;
+    z-index: 2;
+    transform: translate(50%, -50%);
+    border-radius: 50%;
+
+    width: 48px;
+    height: 48px;
+    background-color: transparent;
+
+    border: none;
+
+    cursor: pointer;
+  }
+`;
+export const SwiperDiv = styled.div`
+  position: relative;
+  display: block;
+  height: 600px;
+  .slide-prev-bt.swiper-button-disabled {
+    display: none !important;
+  }
+  .slide-next-bt.swiper-button-disabled {
+    display: none !important;
+  }
+  .slide-prev-bt {
+    position: absolute;
+    left: 4%;
+    top: 50%;
+    z-index: 2;
+    /* 내용물만 옮겨준다. */
+    transform: translate(-50%, -50%);
+
+    width: 48px;
+    height: 48px;
+    background-color: rgba(255, 255, 255, 1);
+    border: 1px solid #e3e2e3;
+    border-radius: 50%;
+    box-shadow: 0 0 0.8rem rgba(0, 0, 0, 0.13);
+    cursor: pointer;
+  }
+  .slide-prev-bt img {
+    transform: rotate(180deg);
+  }
+  .slide-next-bt {
+    position: absolute;
+    right: 4%;
+    top: 50%;
+    z-index: 2;
+    transform: translate(50%, -50%);
+
+    width: 48px;
+    height: 48px;
+    background-color: rgba(255, 255, 255, 1);
+    border: 1px solid #e3e2e3;
+    border-radius: 50%;
+    box-shadow: 0 0 0.8rem rgba(0, 0, 0, 0.13);
+    cursor: pointer;
   }
 `;

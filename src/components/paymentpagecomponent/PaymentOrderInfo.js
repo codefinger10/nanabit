@@ -49,6 +49,7 @@ const OrderInfoCom = () => {
               boxShadow: "none",
               height: "40px",
             }}
+            spellCheck={false}
           />
         </div>
         <div className="InfoDetail">
@@ -64,6 +65,7 @@ const OrderInfoCom = () => {
               boxShadow: "none",
               height: "40px",
             }}
+            spellCheck={false}
           />
         </div>
         <div className="InfoDetail">
@@ -80,6 +82,7 @@ const OrderInfoCom = () => {
               boxShadow: "none",
               height: "40px",
             }}
+            spellCheck={false}
           />
         </div>
       </OrderInfo>

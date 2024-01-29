@@ -1,212 +1,145 @@
-import { ConfigProvider, Form, Input, Rate, Upload } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
-import TextArea from "antd/es/input/TextArea";
-import React from "react";
+import { Button, ConfigProvider, Image, Pagination } from "antd";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import "swiper/css";
+import "swiper/css/pagination";
+import { Scrollbar } from "swiper/modules";
+import {
+  ReviewBody,
+  ReviewFooter,
+  ReviewHeader,
+  ReviewImgSection,
+  ReviewList,
+  ReviewTitle,
+  ReviewWrap,
+} from "../../styles/review/reviewstyle";
+import { Swiper, SwiperSlide } from "swiper/react";
+import useCustomMove from "../../hooks/useCustomMove";
+import { getReviewList } from "../../api/reviewapi/reviewApi";
 
 const ReviewPageCom = () => {
-  const ReviewWrap = styled.div`
-    width: 1440px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    .productInfo {
-      display: flex;
-      justify-content: space-between;
-      gap: 40px;
-      img {
-        width: 170px;
-        height: 170px;
-      }
-    }
-    .productInfoText {
-      width: 930px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-evenly;
-      p {
-        width: 930px;
-        font-size: 20px;
-        line-height: 30px;
-      }
-    }
-  `;
+  const { page, size, moveToRead } = useCustomMove();
+  const [reviewData, setReviewData] = useState(null);
 
-  const ReviewTitle = styled.div`
-    width: 1150px;
-    padding-top: 50px;
-    padding-bottom: 30px;
-    span {
-      color: #e9b25f;
-      font-size: 70px;
-      font-weight: 500;
-      margin-bottom: 10px;
-    }
-    p {
-      color: #c5c5c5;
-      font-size: 30px;
-    }
-  `;
+  useEffect(() => {
+    const param = { page, size: 5 };
+    // 데이터 연동 처리 결과
+    const successFn = result => {
+      setReviewData(result);
+      console.log(result);
+    };
+    const failFn = result => {
+      console.log(result);
+    };
+    const errorFn = result => {
+      console.log("에러에옹", result);
+    };
 
-  const RateBox = styled.div`
-    margin-top: 30px;
-    margin-bottom: 30px;
-    width: 1150px;
-    height: 100px;
-    border: 1px solid #e9b25f;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 35px 40px;
-    /* padding-right: 0; */
-    p {
-      font-size: 30px;
-      font-weight: 600;
-      color: #e9b25f;
-    }
-  `;
+    getReviewList({ param, successFn, failFn, errorFn });
+  }, [page, size]);
 
-  const normFile = e => {
-    if (Array.isArray(e)) {
-      return e;
-    }
-    return e?.fileList;
+  // 페이지네이션
+  const Pagi = styled.div`
+    background-color: red;
+    margin: 0;
+  `;
+  const [current, setCurrent] = useState(3);
+  const onChange = page => {
+    console.log(page);
+    setCurrent(page);
   };
+
+  console.log("reviewData", reviewData);
 
   return (
     <ReviewWrap>
-      <div className="reviewBody">
-        <ReviewTitle>
-          <span>Review : 작성하기</span>
-          <p>구매한 제품에 대해 리뷰해 주세요.</p>
-        </ReviewTitle>
-
-        <ConfigProvider
-          theme={{
-            components: {
-              Input: {
-                colorPrimary: "#E9B25F",
-                activeBorderColor: "#E9B25F",
-                hoverBorderColor: "#E9B25F",
-              },
-              TextArea: {
-                colorPrimary: "#E9B25F",
-                activeBorderColor: "#E9B25F",
-                hoverBorderColor: "#E9B25F",
-              },
-              Upload: {
-                colorPrimary: "#E9B25F",
-                activeBorderColor: "#E9B25F",
-                hoverBorderColor: "#E9B25F",
-              },
-              Rate: {
-                colorPrimary: "#E9B25F",
-                activeBorderColor: "#E9B25F",
-                hoverBorderColor: "#E9B25F",
-              },
+      <ConfigProvider
+        theme={{
+          components: {
+            Button: {
+              colorPrimary: "#E9B25F",
+              colorPrimaryActive: "#CB8C2E",
+              colorPrimaryBorder: "#E9B25F",
+              colorPrimaryHover: "#DF9E3C",
             },
-          }}
-        >
-          <Form
-            labelCol={{
-              span: 4,
-            }}
-            wrapperCol={{
-              span: 14,
-            }}
-            layout="horizontal"
-            style={{
-              maxWidth: 600,
-            }}
-          >
-            <div className="productInfo">
-              <div>
-                <img
-                  src={
-                    process.env.PUBLIC_URL + "/assets/images/defaultitemimg.svg"
-                  }
-                />
-              </div>
-              <div className="productInfoText">
-                <p>
-                  [뽀로로] 우리아이가 좋아하는 젓가락 뽀롱뽀롱 뽀로로 아이 전용
-                  미니 젓가락 3종 15묶음 세트 (파랑, 빨강, 노랑, 구찌 명품
-                  에디션) [뽀로로] 우리아이가 좋아하는 젓가락 뽀롱뽀롱 뽀로로
-                  아이 전용 [뽀로로] 우리아이가 좋아하는 젓가락 뽀롱뽀롱 뽀로로
-                  아이 전용 미니 젓가락 3종 15묶음 세트 (파랑, 빨강, 노랑, 구찌
-                  명품 에디션) 미니 젓가락 3종 15묶음 세트 (파랑, 빨강, 노랑,
-                  구찌 명품 에디션)
-                </p>
-              </div>
-            </div>
-
-            <RateBox>
-              <div>
-                <p>상품은 어떠셨나요 ?</p>
-              </div>
-              <Form.Item
-                name="rate"
+          },
+        }}
+      >
+        <ReviewBody>
+          <ReviewHeader>
+            <ReviewTitle>
+              <span>MY-Review</span>
+            </ReviewTitle>
+            <div className="orderListBt">
+              <span>작성 가능한 리뷰 확인하기 </span>
+              <Button
+                type="primary"
                 style={{
-                  width: "350px",
-                  margin: "0px",
-                  display: "flex",
-                  justifyContent: "flex-end",
-                  alignItems: "center",
-                }}
-              >
-                <Rate
-                  style={{
-                    width: "200px",
-                    fontSize: "40px",
-                    display: "flex",
-                    justifyContent: "flex-end",
-                    alignItems: "center",
-                  }}
-                />
-              </Form.Item>
-            </RateBox>
-
-            <Form.Item style={{ width: "1150px" }}>
-              <TextArea
-                style={{
-                  width: "1150px",
-                  height: "600px",
-                  padding: "40px",
+                  borderRadius: 0,
+                  width: "170px",
+                  height: "70px",
                   fontSize: "20px",
                 }}
-                rows={4}
-                showCount={true}
-                maxLength={1000}
-              />
-            </Form.Item>
-
-            <div>
-              <Form.Item valuePropName="fileList" getValueFromEvent={normFile}>
-                <Upload action="/upload.do" listType="picture-card">
-                  <button
-                    style={{
-                      border: 0,
-                      background: "none",
-                    }}
-                    type="button"
-                  >
-                    <PlusOutlined />
-                    <div
-                      style={{
-                        marginTop: 8,
-                      }}
-                    >
-                      Upload
-                    </div>
-                  </button>
-                </Upload>
-              </Form.Item>
+              >
+                <p>주문 조회</p>
+              </Button>
             </div>
-          </Form>
-        </ConfigProvider>
-      </div>
+          </ReviewHeader>
+
+          {/* {reviewData.map(index => (
+            <ReviewList key={index.ireview}>
+              <div className="listHeader">
+                <div className="nameScore">
+                  <span>{index.nm}</span>
+                  <b>{index.productScore}</b>
+                </div>
+                <div className="productName">
+                  <p>
+                    [뽀로로] 우리아이가 좋아하는 젓가락 뽀롱뽀롱 뽀로로 아이
+                    전용 미니 젓가락 3종 15묶음 세트 (파랑, 빨강, 노랑, 구찌
+                    명품 에디션) [뽀로로] 우리아이가 좋아하는 젓가락 뽀롱뽀롱
+                    뽀로로 아이 전용 [뽀로로] 우리아이가 좋아하는 젓가락
+                    뽀롱뽀롱 뽀로로 아이 전용 미니 젓가락 3종 15묶음 세트 (파랑,
+                    빨강, 노랑, 구찌 명품 에디션) 미니 젓가락 3종 15묶음 세트
+                    (파랑, 빨강, 노랑, 구찌 명품 에디션)
+                  </p>
+                  <i>{index.createdAt}</i>
+                </div>
+              </div>
+              <div className="productReview">
+                <ReviewImgSection>
+                  <>
+                    <Swiper
+                      scrollbar={{
+                        hide: true,
+                      }}
+                      modules={[Scrollbar]}
+                      className="mySwiper"
+                    >
+                      <SwiperSlide>Slide 1</SwiperSlide>
+                    </Swiper>
+                  </>
+                </ReviewImgSection>
+
+                <div className="reviewRight">
+                  <div>
+                    <p>{index.contents}</p>
+                  </div>
+                  <div className="buttonDiv">
+                    <Button danger style={{ borderRadius: 0 }}>
+                      리뷰삭제
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </ReviewList>
+          ))} */}
+        </ReviewBody>
+        <ReviewFooter>
+          <Pagination current={current} onChange={onChange} total={50} />
+        </ReviewFooter>
+      </ConfigProvider>
     </ReviewWrap>
   );
 };
-
 export default ReviewPageCom;
