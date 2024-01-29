@@ -73,7 +73,7 @@ const ProductCard = ({ product }) => {
         </div>
       </CardFlex>
       <p className="productNm">{product.productNm}</p>
-      <h2 className="price">{product.price}원</h2>
+      <h2 className="price">{product.price.toLocaleString()}원</h2>
     </CardContainer>
   );
 };

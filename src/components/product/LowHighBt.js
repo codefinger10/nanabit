@@ -1,14 +1,14 @@
 import styled from "@emotion/styled";
 import React, { useState } from "react";
 
-const LowHighFilterContainer = styled.div`
+export const LowHighFilterContainer = styled.div`
   display: flex;
   justify-content: flex-end;
   margin: 0 auto;
   max-width: 1280px;
 `;
 
-const LowHighFilter = styled.button`
+export const LowHighFilter = styled.button`
   border: none;
   background: #fff;
   color: ${props => (props.active ? "#e9b25f" : "#bababa")};
@@ -33,21 +33,21 @@ const LowHighBt = () => {
   return (
     <LowHighFilterContainer>
       <LowHighFilter
-        onClick={() => handleClickLowHigh("최신순")}
-        active={activeLHFilter === "최신순"}
+        onClick={() => handleClickLowHigh(0)}
+        active={activeLHFilter === 0}
       >
         최신순
       </LowHighFilter>
 
       <LowHighFilter
-        onClick={() => handleClickLowHigh("낮은가격순")}
-        active={activeLHFilter === "낮은가격순"}
+        onClick={() => handleClickLowHigh(1)}
+        active={activeLHFilter === 1}
       >
         낮은가격순
       </LowHighFilter>
       <LowHighFilter
-        onClick={() => handleClickLowHigh("높은가격순")}
-        active={activeLHFilter === "높은가격순"}
+        onClick={() => handleClickLowHigh(2)}
+        active={activeLHFilter === 2}
       >
         높은가격순
       </LowHighFilter>

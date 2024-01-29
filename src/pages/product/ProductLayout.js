@@ -33,13 +33,22 @@ const ProductLayout = () => {
   const [itemsPerPage] = useState(16);
   const [serverData, setServerData] = useState(initState);
 
-  useEffect(() => {
-    fetchData(activeSubcategory);
-  }, [activeSubcategory]);
+  useEffect(
+    () => {
+      fetchData(activeSubcategory);
+    },
+    [activeSubcategory],
+    [currentPage],
+  );
 
   const fetchData = subcategory => {
     getProductPage({
-      productParam: { sortBy: 0, imain: 0, imiddle: subcategory, page: 0 },
+      productParam: {
+        imiddle: subcategory,
+        imain: 0,
+        sortBy: 2,
+        page: 1,
+      },
       successFn,
       failFn,
       errorFn,
@@ -48,7 +57,7 @@ const ProductLayout = () => {
 
   const successFn = data => {
     console.log("successFn : ", data);
-    // setProductData(data.products);
+    setProductData(data);
     // setServerData(Array(data.products.length).fill(false));
   };
   const failFn = data => {
@@ -59,8 +68,8 @@ const ProductLayout = () => {
   const errorFn = data => {
     console.log("errorFn : ", data);
     alert("서버상태 불안정 그래서, 데모테스트했음.");
-    setProductData(data.products);
-    setServerData(Array(data.products.length).fill(false));
+    setProductData(data);
+    // setServerData(Array(data.products.length).fill(false));
   };
 
   const handleCheckboxChange = index => {
@@ -80,9 +89,9 @@ const ProductLayout = () => {
     setCurrentPage(page);
   };
 
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const displayedProducts = productData.slice(startIndex, endIndex);
+  // const startIndex = (currentPage - 1) * itemsPerPage;
+  // const endIndex = startIndex + itemsPerPage;
+  // const displayedProducts = productData.slice(startIndex, endIndex);
 
   return (
     <ProductWrap>
@@ -125,11 +134,10 @@ const ProductLayout = () => {
         <LowHighBt />
 
         <GridContainer itemsPerPage={itemsPerPage}>
-          {displayedProducts.map((product, index) => (
+          {productData.map(product => (
             <ProductCard
-              key={index}
+              key={product.iproduct}
               product={product}
-              index={index + startIndex}
               onCheckboxChange={handleCheckboxChange}
             />
           ))}

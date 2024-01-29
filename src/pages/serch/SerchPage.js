@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 
 import {
   SearchBt,
+  SearchGridContainer,
+  SearchPagiWarp,
   SearchWrap,
   SearchWrapf,
 } from "../../styles/search/searchFormStyle";
@@ -10,15 +12,96 @@ import { GridContainer, PagiWarp } from "../../styles/product/ProductGridStyle";
 import ProductCard from "../product/ProductCard";
 import { SearchBox } from "../../styles/search/resetBtnStyle";
 import LowHighBt from "../../components/product/LowHighBt";
+import { Pagination } from "antd";
+import { getProductPage } from "../../api/product/productApi";
+import { getSearchPage, postSearchPage } from "../../api/product/searchApi";
+import { useLocation } from "react-router";
+
+const initState = {
+  iproduct: 0,
+  productNm: "",
+  price: 0,
+  rcFl: 0,
+  popFl: 0,
+  newFl: 0,
+  reviewCnt: 0,
+  likeProduct: 0,
+  repPic: "",
+};
 
 const SearchPage = () => {
-  const [isProperty, setIsProperty] = useState([]);
+  const locationInfo = useLocation();
+  // console.log("useNavigate 의 sate 활용해보자", locationInfo);
+  const { searchTextInput } = locationInfo.state;
+  // console.log(searchTextInput);
 
-  // 검색어를 상태에 저장
-  const [searchedText, setSearchedText] = useState("");
-  const handleSearch = text => {
-    setSearchedText(text);
+  const [productData, setProductData] = useState([]);
+  const [serverData, setServerData] = useState(initState);
+  //버튼
+  const [selectedButtons, setSelectedButtons] = useState([]);
+
+  const [activeSubcategory, setActiveSubcategory] = useState();
+  const [itemsPerPage] = useState(16);
+
+  const fetchData = subcategory => {
+    postSearchPage({
+      searchParam: {
+        keyword: "string",
+        minPrice: 0,
+        maxPrice: 0,
+        sortBy: 0,
+        cat: [
+          {
+            imiddle: 1,
+            imain: 2,
+          },
+        ],
+        page: 0,
+      },
+      successFn,
+      failFn,
+      errorFn,
+    });
   };
+
+  const successFn = data => {
+    console.log("successFn : ", data);
+    // setProductData(data.products);
+    // setServerData(Array(data.products.length).fill(false));
+  };
+  const failFn = data => {
+    console.log("failFn : ", data);
+    alert("failFn : 데이터 호출에 실패하였습니다.");
+  };
+
+  const errorFn = data => {
+    console.log("errorFn : ", data);
+    alert("서버상태 불안정 그래서, 데모테스트했음.");
+    // setProductData(data.products);
+    // setServerData(Array(data.products.length).fill(false));
+  };
+
+  // 버튼 3개만
+  const handleClickSearch = value => {
+    if (value === "" || activeSubcategory.length === 3) {
+      setActiveSubcategory([""]); // 선택된 카테고리 초기화
+    } else if (activeSubcategory.includes(value)) {
+      setActiveSubcategory(activeSubcategory.filter(e => e !== value)); // 해당 카테고리 제거
+    } else {
+      setActiveSubcategory([...activeSubcategory.filter(e => e !== ""), value]); // 기존 카테고리 제거 후 새로운 카테고리 추가
+    }
+  };
+
+  // 페이지
+
+  const [currentPage, setCurrentPage] = useState(0);
+  const handlePageChange = page => {
+    setCurrentPage(page);
+  };
+  useEffect(() => {
+    fetchData(activeSubcategory);
+  }, [currentPage]);
+
   // start x버튼 (검색을 해야만 x버튼이 보이게)
   const [searchText, setSearchText] = useState("");
 
@@ -31,148 +114,13 @@ const SearchPage = () => {
   };
   // end  x버튼
 
-  const products = [
-    {
-      id: 1,
-      iproduct: 0,
-      imiddle: 0,
-      productNm: `상품인데에dkdkdk에에에에에에에 `,
-      popFl: 1,
-      newFl: 1,
-      sortBy: 0,
-      reviewCnt: 3,
-
-      price: 5000,
-      pics: ["https://via.placeholder.com/150"],
-    },
-    {
-      id: 1,
-      iproduct: 0,
-      imiddle: 0,
-      productNm: `상품인데에dkdkdk에에에에에에에 `,
-      popFl: 1,
-      newFl: 1,
-      sortBy: 0,
-      reviewCnt: 3,
-
-      price: 5000,
-      pics: ["https://via.placeholder.com/150"],
-    },
-    {
-      id: 1,
-      iproduct: 0,
-      imiddle: 0,
-      productNm: `상품인데에dkdkdk에에에에에에에 `,
-      popFl: 1,
-      newFl: 1,
-      sortBy: 0,
-      reviewCnt: 3,
-
-      price: 5000,
-      pics: ["https://via.placeholder.com/150"],
-    },
-    {
-      id: 1,
-      iproduct: 0,
-      imiddle: 0,
-      productNm: `상품인데에dkdkdk에에에에에에에 `,
-      popFl: 1,
-      newFl: 1,
-      sortBy: 0,
-      reviewCnt: 3,
-
-      price: 5000,
-      pics: ["https://via.placeholder.com/150"],
-    },
-    {
-      id: 1,
-      iproduct: 0,
-      imiddle: 0,
-      productNm: `상품인데에dkdkdk에에에에에에에 `,
-      popFl: 1,
-      newFl: 1,
-      sortBy: 0,
-      reviewCnt: 3,
-
-      price: 5000,
-      pics: ["https://via.placeholder.com/150"],
-    },
-    {
-      id: 1,
-      iproduct: 0,
-      imiddle: 0,
-      productNm: `상품인데에dkdkdk에에에에에에에 `,
-      popFl: 1,
-      newFl: 1,
-      sortBy: 0,
-      reviewCnt: 3,
-
-      price: 5000,
-      pics: ["https://via.placeholder.com/150"],
-    },
-    {
-      id: 1,
-      iproduct: 0,
-      imiddle: 0,
-      productNm: `상품인데에dkdkdk에에에에에에에 `,
-      popFl: 1,
-      newFl: 1,
-      sortBy: 0,
-      reviewCnt: 3,
-
-      price: 5000,
-      pics: ["https://via.placeholder.com/150"],
-    },
-    // ... 다른 상품들
-  ];
-
-  // start 카테고리 태그 중복선택하게 하는..
-  const handleClickSearch = value => {
-    if (value === "") {
-      setIsProperty([""]);
-    } else if (isProperty.length === 0) {
-      setIsProperty([""]);
-    } else if (isProperty.includes(value)) {
-      setIsProperty(isProperty.filter(e => e !== value));
-    } else if (isProperty.length > 0) {
-      setIsProperty([...isProperty.filter(e => e !== ""), value]);
-    } else {
-      setIsProperty([""]);
-    }
-  };
-  // end 카테고리 태그 중복선택하게 하는..
-
-  // product
-  const SearchGridContainer = styled.div`
-    /* width: 1280px; */
-    display: grid;
-    grid-template-columns: repeat(4, 305px);
-    // itemsPerPage에 따라 동적으로 행의 수 계산
-    gap: 20px;
-    /* margin: 20px; */
-    padding-right: 20px;
-    > * {
-      grid-column: span 1;
-      grid-row: span 1; /* 각 카드가 1행을 차지하도록 수정 */
-    }
-    /* margin: 0 auto; */
-  `;
-
-  const SearchPagiWarp = styled.div`
-    width: 100%;
-    width: 1280px;
-    display: flex;
-    justify-content: center;
-    margin-bottom: 50px;
-    margin: 0 auto;
-  `;
   return (
     <div>
       <SearchWrap>
         <div className="srech-init">
           <div className="border-word">
             <div className="searchWord">
-              <h1>검색어</h1>
+              <h1>검색어: {searchTextInput}</h1>
             </div>
 
             <div className="cateBt">
@@ -182,29 +130,29 @@ const SearchPage = () => {
                   <h2>이유식</h2>
                   <SearchBt
                     type="button"
-                    onClick={() => handleClickSearch("장난감")}
-                    active={isProperty.includes("장난감")}
+                    onClick={() => handleClickSearch(1)}
+                    active={activeSubcategory === 1}
                   >
                     초기(4~6개월)
                   </SearchBt>
                   <SearchBt
                     type="button"
-                    onClick={() => handleClickSearch("이유식초기")}
-                    active={isProperty.includes("이유식초기")}
+                    onClick={() => handleClickSearch(2)}
+                    active={activeSubcategory === 2}
                   >
                     중기(7~9개월)
                   </SearchBt>
                   <SearchBt
                     type="button"
-                    onClick={() => handleClickSearch("이유식중기")}
-                    active={isProperty.includes("이유식중기")}
+                    onClick={() => handleClickSearch(3)}
+                    active={activeSubcategory === 3}
                   >
                     후기(10~12개월)
                   </SearchBt>
                   <SearchBt
                     type="button"
-                    onClick={() => handleClickSearch("이유식후기")}
-                    active={isProperty.includes("이유식후기")}
+                    onClick={() => handleClickSearch(4)}
+                    active={activeSubcategory === 4}
                   >
                     완료기(12~24개월)
                   </SearchBt>
@@ -213,15 +161,15 @@ const SearchPage = () => {
                   <h2>유아가전</h2>
                   <SearchBt
                     type="button"
-                    onClick={() => handleClickSearch("살균기")}
-                    active={isProperty.includes("살균기")}
+                    onClick={() => handleClickSearch(5)}
+                    active={activeSubcategory === 5}
                   >
                     살균기
                   </SearchBt>
                   <SearchBt
                     type="button"
-                    onClick={() => handleClickSearch("기타제품")}
-                    active={isProperty.includes("기타제품")}
+                    onClick={() => handleClickSearch(6)}
+                    active={activeSubcategory === 6}
                   >
                     기타제품
                   </SearchBt>
@@ -230,15 +178,15 @@ const SearchPage = () => {
                   <h2>놀이용품</h2>
                   <SearchBt
                     type="button"
-                    onClick={() => handleClickSearch("유아교구")}
-                    active={isProperty.includes("유아교구")}
+                    onClick={() => handleClickSearch(7)}
+                    active={activeSubcategory === 7}
                   >
                     유아교구
                   </SearchBt>
                   <SearchBt
                     type="button"
-                    onClick={() => handleClickSearch("애착인형")}
-                    active={isProperty.includes("애착인형")}
+                    onClick={() => handleClickSearch(8)}
+                    active={activeSubcategory === 8}
                   >
                     애착인형
                   </SearchBt>
@@ -247,22 +195,22 @@ const SearchPage = () => {
                   <h2>위생용품</h2>
                   <SearchBt
                     type="button"
-                    onClick={() => handleClickSearch("기저귀")}
-                    active={isProperty.includes("기저귀")}
+                    onClick={() => handleClickSearch(9)}
+                    active={activeSubcategory === 9}
                   >
                     기저귀
                   </SearchBt>
                   <SearchBt
                     type="button"
-                    onClick={() => handleClickSearch("목욕용품")}
-                    active={isProperty.includes("목욕용품")}
+                    onClick={() => handleClickSearch(10)}
+                    active={activeSubcategory === 10}
                   >
                     목욕용품
                   </SearchBt>
                   <SearchBt
                     type="button"
                     onClick={() => handleClickSearch("기타 위생용품")}
-                    active={isProperty.includes("기타 위생용품")}
+                    active={activeSubcategory === 11}
                   >
                     기타 위생용품
                   </SearchBt>
@@ -271,15 +219,15 @@ const SearchPage = () => {
                   <h2>모유/수유용품</h2>
                   <SearchBt
                     type="button"
-                    onClick={() => handleClickSearch("수유용품")}
-                    active={isProperty.includes("수유용품")}
+                    onClick={() => handleClickSearch(12)}
+                    active={activeSubcategory === 12}
                   >
                     수유용품
                   </SearchBt>
                   <SearchBt
                     type="button"
-                    onClick={() => handleClickSearch("모유용품")}
-                    active={isProperty.includes("모유용품")}
+                    onClick={() => handleClickSearch(13)}
+                    active={activeSubcategory === 13}
                   >
                     모유용품
                   </SearchBt>
@@ -288,10 +236,12 @@ const SearchPage = () => {
             </div>
             <div className="input-price">
               <h1>가격대</h1>
-              <input type="text" placeholder="최소 가격" />
-              <p>~</p>
-              <input type="text" placeholder="최대 가격" />
+              <input type="number" placeholder="최소 가격" />
 
+              <p>~</p>
+              <input type="number" placeholder="최대 가격" />
+
+              {/* <input type="submit" /> */}
               <button>검색</button>
             </div>
             <div className="input-search">
@@ -313,6 +263,7 @@ const SearchPage = () => {
                 >
                   X
                 </button>
+                <button>검색</button>
               </SearchBox>
             </div>
           </div>
@@ -324,12 +275,22 @@ const SearchPage = () => {
       <SearchPagiWarp>
         <div className="srech-initf">
           <SearchGridContainer>
-            {products.map(product => (
+            {productData.map(product => (
               <ProductCard key={product.id} product={product} />
             ))}
           </SearchGridContainer>
         </div>
       </SearchPagiWarp>
+
+      <PagiWarp>
+        <Pagination
+          current={currentPage}
+          onChange={handlePageChange}
+          total={productData.length}
+          pageSize={itemsPerPage}
+          className="pagination"
+        />
+      </PagiWarp>
     </div>
   );
 };

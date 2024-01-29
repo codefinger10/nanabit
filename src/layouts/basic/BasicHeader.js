@@ -1,21 +1,28 @@
 import { Dropdown, Space } from "antd";
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { HeaderNav } from "../../styles/basicLay/basicHeaderStyle";
 import BasicMenu from "../../components/basic/BasicMenu";
 import { useSelector } from "react-redux";
 
-const BasicHeader = ({ onSearch }) => {
-  // 검색어를 검색페이지에서 표시되도록
-  const [searchTextInput, setSearchTextInput] = useState("");
-  const handleSearchText = e => {
-    setSearchTextInput(e.target.value);
-  };
-  const handleSearchClick = () => {
-    onSearch(searchTextInput);
-  };
+const BasicHeader = () => {
   const loginState = useSelector(state => state.loginSlice);
   // console.log(loginState);
+
+  // 검색어를 검색페이지에서 표시되도록
+  const [searchTextInput, setSearchTextInput] = useState("");
+  useEffect(() => {
+    // console.log("검색어:", searchTextInput);
+  }, [searchTextInput]);
+
+  const navigate = useNavigate();
+  const handleSearch = () => {
+    console.log("검색버튼:", "검색 버튼 클릭", searchTextInput);
+    // state :  { 이름 : 값 }
+    navigate("/cc", { state: { searchTextInput: searchTextInput } });
+
+    setSearchTextInput("");
+  };
   return (
     <HeaderNav>
       <div className="heder-top">
@@ -35,26 +42,27 @@ const BasicHeader = ({ onSearch }) => {
                   type="text"
                   placeholder="세상에 밝고 빛나는 아이가 태어나다"
                   className="search-word"
-                  onChange={handleSearchText}
+                  value={searchTextInput}
+                  onChange={e => setSearchTextInput(e.target.value)}
                 />
-                <Link to="/cc">
+                {/* <Link to="/cc">
                   <input
                     type="button"
                     className="search-bt"
-                    onClick={handleSearchClick}
+                    onClick={handleSearch}
                   />
-                </Link>
+                </Link> */}
+                <input
+                  type="button"
+                  className="search-bt"
+                  onClick={handleSearch}
+                />
               </form>
             </div>
           </div>
 
           <div className="header-top-right">
             <ul className="member-menu">
-              {/* <li> */}
-              {/* <a to="/login">로그인</a> */}
-              {/* </li> */}
-              {/* -------------로그인----- */}
-
               <div>
                 {loginState.username ? (
                   <a href="/logout">로그아웃</a>
