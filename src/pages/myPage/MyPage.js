@@ -8,16 +8,22 @@ import {
   InfoWrap,
   MyPageHeader,
   MyPageWrap,
-  ProductWrap
+  ProductWrap,
 } from "../../styles/mypage/mypagestyle";
+import useCustomLogin from "../../hooks/useCustomLogin";
 
 const MyPage = () => {
+  const { moveToPath } = useCustomLogin();
+
+  const handleClickAddress = e => {
+    moveToPath("/address");
+  };
   return (
     <MyPageWrap>
       <MyPageHeader>
         <h2>My-Page</h2>
       </MyPageHeader>
-      <UserInfoBt></UserInfoBt>
+      <UserInfoBt handleClickAddress={handleClickAddress}></UserInfoBt>
       <InfoHead>
         <InfoWrap>
           <InfoMain>
@@ -48,9 +54,7 @@ const MyPage = () => {
         <h2>Wish-List</h2>
         <h3>*찜은 최대 12개까지만 가능합니다</h3>
       </ProductWrap>
-      <div>
-        
-      </div>
+      <div></div>
     </MyPageWrap>
   );
 };

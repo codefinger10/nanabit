@@ -6,8 +6,8 @@ import useCustomLogin from "../../hooks/useCustomLogin";
 const LoginForm = () => {
   // 초기값
   const initState = {
-    uid: "winter123",
-    upw: "xptmxm123!@#",
+    uid: "",
+    upw: "",
   };
 
   const [loginParam, setLoginParam] = useState(initState);

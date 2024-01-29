@@ -1,7 +1,7 @@
 import React from "react";
 import { UserInformBt } from "../../styles/userinfo/userinfobtstyle";
 
-export const UserInfoBt = () => {
+export const UserInfoBt = ({ handleClickAddress }) => {
   return (
     <UserInformBt>
       <img
@@ -16,7 +16,10 @@ export const UserInfoBt = () => {
         <h2>0원이상 구매시 1.5%을 추가적립 받으실 수 있습니다.</h2>
       </div>
       <div>
-        <button style={{ backgroundColor: "#c5c5c5", marginRight: "20px" }}>
+        <button
+          style={{ backgroundColor: "#c5c5c5", marginRight: "20px" }}
+          onClick={handleClickAddress}
+        >
           주소정보 관리하기
         </button>
         <button style={{ marginRight: "30px" }}>회원정보 수정하기</button>

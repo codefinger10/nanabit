@@ -1,20 +1,25 @@
+import { Button, Form, Input, Modal } from "antd";
 import React, { useState } from "react";
-import { Form, Input, Button, Modal } from "antd";
 import DaumPostcode from "react-daum-postcode";
-import { MyInput, postCodeStyle, themeObj } from "../../styles/signup/signup";
+import {
+  MyInputDetail,
+  postCodeStyle,
+  themeObj,
+} from "../../styles/signup/signup";
 
-const Address = ({ onAddressChange }) => {
+const AddressDetail = ({ onAddressChange, item }) => {
   const [zonecode, setZonecode] = useState("");
   const [address, setAddress] = useState("");
+  const [addressDetail, setAddressDetail] = useState("");
   const [isOpen, setIsOpen] = useState(false);
-  const [detailedAddress, setDetailedAddress] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const completeHandler = data => {
-    const { address, zonecode } = data;
+    const { address, zonecode, addressDetail } = data;
     setZonecode(zonecode);
     setAddress(address);
-    onAddressChange({ zonecode, address }); // 부모 컴포넌트에 주소 정보 전달
+    setAddressDetail(addressDetail);
+    onAddressChange({ zonecode, address, addressDetail }); // 부모 컴포넌트에 주소 정보 전달
     setIsOpen(false);
   };
 
@@ -32,7 +37,7 @@ const Address = ({ onAddressChange }) => {
   };
 
   const inputChangeHandler = event => {
-    setDetailedAddress(event.target.value);
+    setAddressDetail(event.target.value);
   };
 
   const handleOk = () => {
@@ -44,10 +49,28 @@ const Address = ({ onAddressChange }) => {
   };
 
   return (
-    <>
-      <div>주소*</div>
-      <div style={{ display: "flex", width: 193 }} onClick={toggleHandler}>
-        <Form.Item valuePropName="zipCode">
+    <div style={{ width: "1155px", margin: "0 auto" }}>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          width: 193,
+          margin: "19px 0",
+        }}
+        onClick={toggleHandler}
+      >
+        <h2
+          style={{
+            marginBottom: "24px",
+            lineHeight: "50px",
+            fontSize: "20px",
+            color: "#868686",
+            marginRight: "10px",
+          }}
+        >
+          우편번호
+        </h2>
+        <Form.Item valuePropName="zipCode" name="zipCode">
           <Input style={{ width: 193, height: 50 }} value={zonecode} />
         </Form.Item>
 
@@ -63,7 +86,7 @@ const Address = ({ onAddressChange }) => {
               color: "white",
             }}
           >
-            우편검색
+            <h2>우편검색</h2>
           </Button>
         </Form.Item>
       </div>
@@ -85,16 +108,18 @@ const Address = ({ onAddressChange }) => {
         </Modal>
       )}
 
-      <div style={{ marginTop: "2rem" }}>기본주소</div>
+      <div style={{ marginTop: "2rem" }}>
+        <h2 style={{ fontSize: "15px", color: "#868686" }}>기본주소</h2>
+      </div>
       <Form.Item valuePropName="address">
-        <Input style={{ width: 1220, height: 50 }} value={address} />
+        <Input style={{ width: 1155, height: 50 }} value={address} />
       </Form.Item>
-      <div>상세주소</div>
-      <Form.Item name="detailedAddress">
-        <MyInput value={detailedAddress} onChange={inputChangeHandler} />
+      <h2 style={{ fontSize: 15, color: "#868686" }}>상세주소</h2>
+      <Form.Item name="addressDetail">
+        <MyInputDetail onChange={inputChangeHandler} />
       </Form.Item>
-    </>
+    </div>
   );
 };
 
-export default Address;
+export default AddressDetail;
