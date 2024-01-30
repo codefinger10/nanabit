@@ -33,20 +33,41 @@ const ProductLayout = () => {
   const [itemsPerPage] = useState(16);
   const [serverData, setServerData] = useState(initState);
 
-  useEffect(
-    () => {
-      fetchData(activeSubcategory);
-    },
-    [activeSubcategory],
-    [currentPage],
-  );
+  // soltby====================================
+  const [sortBy, setSortBy] = useState(0); // 기본값으로 최신순(0)을 설정
+  const [activeLHFilter, setActiveLHFilter] = useState(0);
 
-  const fetchData = subcategory => {
+  const handleChangeSortBy = newSortBy => {
+    console.log("newSortBy", newSortBy);
+    setSortBy(newSortBy);
+    // 여기서 다른 작업을 수행할 수도 있습니다.
+  };
+
+  const handleClickLowHigh = filter => {
+    setActiveLHFilter(filter);
+  };
+  useEffect(() => {
+    fetchData();
+  }, [sortBy]);
+  // soltby end====================================
+
+  useEffect(() => {
+    fetchData();
+  }, [activeSubcategory]);
+
+  const fetchData = () => {
+    // const tempObj = {
+    //   imiddle: activeSubcategory,
+    //   imain: 0,
+    //   sortBy: sortBy,
+    //   page: 1,
+    // };
+    // console.log(tempObj);
     getProductPage({
       productParam: {
-        imiddle: subcategory,
+        imiddle: activeSubcategory,
         imain: 0,
-        sortBy: 2,
+        sortBy: sortBy,
         page: 1,
       },
       successFn,
@@ -81,6 +102,8 @@ const ProductLayout = () => {
   };
 
   const handleSubcategoryClick = subcategory => {
+    setSortBy(0);
+    setActiveLHFilter(0);
     setActiveSubcategory(subcategory);
     setCurrentPage(1);
   };
@@ -88,10 +111,6 @@ const ProductLayout = () => {
   const handlePageChange = page => {
     setCurrentPage(page);
   };
-
-  // const startIndex = (currentPage - 1) * itemsPerPage;
-  // const endIndex = startIndex + itemsPerPage;
-  // const displayedProducts = productData.slice(startIndex, endIndex);
 
   return (
     <ProductWrap>
@@ -131,7 +150,11 @@ const ProductLayout = () => {
           </MealButton>
         </div>
 
-        <LowHighBt />
+        <LowHighBt
+          onChangeSortBy={handleChangeSortBy}
+          activeLHFilter={activeLHFilter}
+          setActiveLHFilter={setActiveLHFilter}
+        />
 
         <GridContainer itemsPerPage={itemsPerPage}>
           {productData.map(product => (

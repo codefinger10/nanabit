@@ -23,11 +23,21 @@ export const LowHighFilter = styled.button`
   cursor: pointer;
 `;
 
-const LowHighBt = () => {
-  const [activeLHFilter, setActiveLHFilter] = useState("최신순");
-
+// LowHighBt 컴포넌트
+const LowHighBt = ({
+  onChangeSortBy,
+  setUserSearchActive,
+  activeLHFilter,
+  setActiveLHFilter,
+}) => {
   const handleClickLowHigh = filter => {
+    // 검색 가능하도록 true 변경
+    if (setUserSearchActive != null) {
+      setUserSearchActive(true);
+    }
+
     setActiveLHFilter(filter);
+    onChangeSortBy(filter);
   };
 
   return (
