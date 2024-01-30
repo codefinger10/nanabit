@@ -21,6 +21,7 @@ import {
   formStyle,
   inputBt,
 } from "../../styles/signup/signup";
+import { useNavigate } from "react-router";
 const initState = {
   nm: "",
   uid: "",
@@ -35,29 +36,18 @@ const initState = {
 };
 
 const Signup = () => {
+  const navigate = useNavigate();
   const [memberInfo, setMemberInfo] = useState(initState);
   const [zonecode, setZonecode] = useState("");
   const [address, setAddress] = useState("");
   const [agreeBt, setAgreeBt] = useState([]);
-   const [idCheck,setIdCheck] = useState("");
+  const [idCheck, setIdCheck] = useState("");
 
   const updateAddressInfo = ({ zonecode, address }) => {
     // 주소 정보 업데이트
     setZonecode(zonecode);
     setAddress(address);
   };
-
-  const onFinish = values => {
-    setMemberInfo({ ...values });
-    values.address = address;
-    values.zipCode = zonecode;
-    console.log("Success:", values);
-    postSign({ values, successFn, failFn, errFn });
-  };
-  const onFinishFailed = errorInfo => {
-    console.log("Failed:", errorInfo);
-  };
-
 
   const tailFormItemLayout = {
     wrapperCol: {
@@ -72,9 +62,10 @@ const Signup = () => {
     },
   };
 
-  const successFn = (result) => {
-    setMemberInfo(result)
+  const successFn = result => {
+    setMemberInfo(result);
     // userPk(result)
+    navigate("/login")
   };
   const failFn = () => {};
   const errFn = () => {};
@@ -92,20 +83,25 @@ const Signup = () => {
     fetchData();
   }, []);
 
-  const [isModalVisible, setIsModalVisible] = useState(false);
-
-  const handleCheckboxChange = (_, checked) => {
-    if (!checked) {
-      setIsModalVisible(true);
-    }
+  
+  const [required, setRequired] = useState(false);
+  const [isCheckedaa, setIsCheckedaa] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const showModal = () => {
+    setIsModalOpen(true);
   };
-
   const handleModalOk = () => {
-    setIsModalVisible(false);
+    console.log(required);
+    if (required === true) {
+      setIsCheckedaa(true);
+    } else if (required === false) {
+      setIsCheckedaa(false);
+    }
+    setIsModalOpen(false);
   };
 
   const handleModalCancel = () => {
-    setIsModalVisible(false);
+    setIsModalOpen(false);
   };
   const [userId, setUserId] = useState("");
   const handleClickCheck = () => {
@@ -116,6 +112,27 @@ const Signup = () => {
     postSignCheck(userObject);
   };
 
+  const onFinish = values => {
+    // 회원가입 버튼 클릭 시 체크박스가 체크되어 있는지 확인
+    if (!required) {
+      // 체크박스가 체크되지 않은 경우 회원가입 처리를 하지 않고 반환
+      alert("약관에 동의해주세요.");
+      return;
+    }+
+
+    // 회원가입 처리 코드
+    setMemberInfo({ ...values });
+    values.address = address;
+    values.zipCode = zonecode;
+    console.log("Success:", values);
+    postSign({ values, successFn, failFn, errFn });
+  };
+  const onFinishFailed = errorInfo => {
+    console.log("Failed:", errorInfo);
+  };
+  const handleClickBack = () => {
+    navigate(-1)
+  }
 
   return (
     <>
@@ -139,6 +156,7 @@ const Signup = () => {
             remember: true,
             nm: memberInfo.nm,
             uid: memberInfo.uid,
+
             upw: memberInfo.upw,
             confirm: memberInfo.confirm,
             zipCode: memberInfo.zipCode,
@@ -269,7 +287,7 @@ const Signup = () => {
           </Form.List>
           <div className="agreesign">
             <Form.Item
-              valuePropName="checked"
+              value="checked"
               rules={[
                 {
                   validator: (_, value) =>
@@ -282,12 +300,13 @@ const Signup = () => {
             >
               <Checkbox
                 style={{ marginTop: "20px", marginRight: "400px" }}
-                onClick={handleCheckboxChange}
+                onClick={showModal}
+                checked={isCheckedaa}
               >
                 동의하시겠습니까?
               </Checkbox>
               <Modal
-                open={isModalVisible}
+                open={isModalOpen}
                 onOk={handleModalOk}
                 onCancel={handleModalCancel}
               >
@@ -304,7 +323,11 @@ const Signup = () => {
                       <p>{item.contents}</p>
                     </div>
 
-                    <Checkbox>{item.required}</Checkbox>
+                    <input
+                      type="checkbox"
+                      name="bothcheck"
+                      onChange={e => setRequired(e.target.checked)}
+                    />
                   </li>
                 ))}
               </Modal>
@@ -312,7 +335,7 @@ const Signup = () => {
           </div>
           <div className="signupbt">
             <Form.Item>
-              <Button type="primary" style={buttonPrimaryBack}>
+              <Button type="primary" style={buttonPrimaryBack} onClick={handleClickBack}>
                 <span style={{ color: "#868686" }}>뒤로가기</span>
               </Button>
             </Form.Item>

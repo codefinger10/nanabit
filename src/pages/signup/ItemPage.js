@@ -1,7 +1,10 @@
 import Icon from "@ant-design/icons/lib/components/Icon";
 import { Button, Form, Modal } from "antd";
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
+import { getProduct } from "../../api/signupapi/SignupApi";
 import PrettyCounter from "../../components/Count";
+import ImgSwiper from "../../components/signup/ImgSwiper";
 import {
   ItemHeart,
   ItemHover,
@@ -12,33 +15,8 @@ import {
   StyledButton,
   StyledDiv,
 } from "../../styles/signup/item";
-import ImgSwiper from "../../components/signup/ImgSwiper";
-import ResultModal from "../../components/signup/ResultModal";
-import { getProduct } from "../../api/signupapi/SignupApi";
-import { useNavigate } from "react-router";
+import { useSearchParams } from "react-router-dom";
 const ItemPage = () => {
-  const [form] = Form.useForm();
-
-  const onGenderChange = value => {
-    switch (value) {
-      case "male":
-        form.setFieldsValue({
-          note: "Hi, man!",
-        });
-        break;
-      case "female":
-        form.setFieldsValue({
-          note: "Hi, lady!",
-        });
-        break;
-      case "other":
-        form.setFieldsValue({
-          note: "Hi there!",
-        });
-        break;
-      default:
-    }
-  };
   const [reviews, setReviews] = useState([
     {
       id: 1,
@@ -80,16 +58,9 @@ const ItemPage = () => {
       rating: 3,
       date: "2024-01-02",
     },
-    // ... 다른 리뷰 데이터
   ]);
 
-  const [productItem, setProductItem] = useState([]);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    getProduct(setProductItem);
-  }, []);
-  console.log(productItem);
 
   const [selectedSection, setSelectedSection] = useState("productInfo");
   const showProductInfo = () => {
@@ -156,7 +127,7 @@ const ItemPage = () => {
     const fetchData = async () => {
       try {
         const result = await getProduct();
-        setProductData(result);
+        setProductData(...result);
       } catch (error) {
         alert("데이터 호출에 실패하였습니다.");
       }
@@ -165,6 +136,23 @@ const ItemPage = () => {
     fetchData();
   }, []);
 
+  console.log(productData);
+  const [count, setCount] = useState(1);
+
+  const [urlSearchParams, setUrlSearchParams] = useSearchParams();
+
+  const page = urlSearchParams.get("page")
+    ? parseInt(urlSearchParams.get("page"))
+    : 1;
+
+  // 페이지당 보여줄 개수
+  const size = urlSearchParams.get("size")
+    ? parseInt(urlSearchParams.get("size"))
+    : 10;
+
+
+
+    
   return (
     <ItemMain>
       <ItemWrap>
@@ -174,10 +162,7 @@ const ItemPage = () => {
         <div style={{ width: "800px" }}>
           <div style={{ paddingBottom: 220 }}>
             <ItemHover>
-              <div className="itemtext">
-                [뽀로로] 우리아이가 좋아하는 젓가락 뽀롱뽀롱 뽀로로 아이 전용
-                미니 젓가락
-              </div>
+              <div className="itemtext">{productData.productNm}</div>
               <ItemHeart onClick={() => aaa(1)}>
                 <HeartIcon
                   style={bbb ? { color: "red" } : { color: "#D9D9D9" }}
@@ -185,17 +170,18 @@ const ItemPage = () => {
               </ItemHeart>
             </ItemHover>
             <span className="itemspan">
-              평점 <span>{4.8}</span> 리뷰 <sapn>{52}</sapn>
+              평점 <span>{productData.scoreAvg}</span> 리뷰{" "}
+              <sapn>{productData.reviewCnt}</sapn>
             </span>
           </div>
           <ItemPrice>
             <div>
-              <PrettyCounter />
+              <PrettyCounter setCount={setCount} count={count} />
             </div>
             <div>
               <div className="itemFree">무료배송</div>
               <div className="itemOnePrice">
-                1개 <b>8,500</b> <sapn>원</sapn>
+                {count}개 <b>{count * productData.price}</b> <sapn>원</sapn>
               </div>
             </div>
           </ItemPrice>
@@ -273,6 +259,7 @@ const ItemPage = () => {
         {selectedSection === "productInfo" && (
           <div style={{ textAlign: "center", margin: "100px 0" }}>
             {/* 상품 정보 표시 */}
+            {productData.productDetails}
             <img
               style={{}}
               src={process.env.PUBLIC_URL + "/assets/images/mama.jpg"}
@@ -300,7 +287,7 @@ const ItemPage = () => {
                     [뽀로로] 우리아기가 좋아하는 젓가락 뽀롱뽀롱 뽀로로 아이
                     전용 미니 젓가락
                     <div className="reviewtotal">
-                      리뷰 총 <span>{52}</span> 개
+                      리뷰 총 <span>{productData.reviewCnt}</span> 개
                     </div>
                   </div>
                 </div>
@@ -319,7 +306,7 @@ const ItemPage = () => {
                     fontWeight: 900,
                   }}
                 >
-                  <span>평점 {4.8}</span>
+                  <span>평점 {productData.scoreAvg}</span>
                 </div>
               </StyledDiv>
               <div
@@ -337,8 +324,8 @@ const ItemPage = () => {
                   </StyledButton>
                 </div>
                 <ul>
-                  {reviews.map(review => (
-                    <li key={review.id}>
+                  {productData.reviewSelVo.map((review, ireview) => (
+                    <li key={ireview}>
                       <div>
                         <div
                           style={{
@@ -357,7 +344,7 @@ const ItemPage = () => {
                               lineHeight: "normal",
                             }}
                           >
-                            {review.user}
+                            {review.nm}
                             <sapn
                               style={{
                                 paddingLeft: "10px",
@@ -369,7 +356,7 @@ const ItemPage = () => {
                                 lineHeight: "normal",
                               }}
                             >
-                              {review.rating}점
+                              {review.productScore}점
                             </sapn>
                           </div>
 
@@ -384,7 +371,7 @@ const ItemPage = () => {
                               lineHeight: "normal",
                             }}
                           >
-                            {review.date}
+                            {review.createdAt}
                           </div>
                         </div>
 
@@ -414,17 +401,7 @@ const ItemPage = () => {
                               lineHeight: "30px" /* 120% */,
                             }}
                           >
-                            <p>
-                              [뽀로로] 우리아이가 좋아하는 젓가락 뽀롱뽀롱
-                              뽀로로 아이 전용 미니 젓가락 3종 15묶음 세트
-                              (파랑, 빨강, 노랑, 구찌 명품 에디션) [뽀로로]
-                              우리아이가 좋아하는 젓가락 뽀롱뽀롱 뽀로로 아이
-                              전용 [뽀로로] 우리아이가 좋아하는 젓가락 뽀롱뽀롱
-                              뽀로로 아이 전용 미니 젓가락 3종 15묶음 세트
-                              (파랑, 빨강, 노랑, 구찌 명품 에디션) 미니 젓가락
-                              3종 15묶음 세트 (파랑, 빨강, 노랑, 구찌 명품
-                              에디션)
-                            </p>
+                            <p>{review.contents}</p>
                           </div>
                         </div>
                       </div>
