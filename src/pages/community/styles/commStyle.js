@@ -38,6 +38,7 @@ export const CommuMain = styled.div`
   }
   .td-docs {
     text-align: start;
+    cursor: pointer;
   }
 
   th:nth-of-type(1),
@@ -63,7 +64,7 @@ export const CommuMain = styled.div`
     margin-bottom: 33px;
   }
 
-  form {
+  .serch-info {
     display: flex;
     align-items: center;
     input {
@@ -210,14 +211,17 @@ export const Axx = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 1050px;
+  height: 1000px;
   border-radius: 20px;
   background: #fff;
   box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.15);
   margin-bottom: 30px;
+  width: 100%;
+  margin: 0 auto;
   input {
     border: none;
     width: 90%;
+    padding: 12px;
     height: 100px;
     color: #000;
     font-family: Noto Sans KR;
@@ -240,6 +244,7 @@ export const Azxc = styled.div`
   display: flex;
   justify-content: space-between;
   margin-bottom: 30px;
+  margin-top: 30px;
   .ps {
     display: flex;
     gap: 20px;
@@ -259,5 +264,24 @@ export const Azxc = styled.div`
     button {
       cursor: pointer;
     }
+  }
+`;
+
+export const Pagenation = styled.div`
+  margin-bottom: 20px;
+  .bt-num {
+    font-size: 2rem;
+    width: 60px;
+    height: 60px;
+    background: transparent;
+    border: none;
+  }
+  .bt-move {
+    font-size: 2rem;
+    width: 60px;
+    height: 60px;
+    background: transparent;
+    border: 1px solid yellow;
+    border-radius: 30px;
   }
 `;

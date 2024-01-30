@@ -55,8 +55,18 @@ export const useCustomMove = () => {
     ? parseInt(urlSearchParams.get("size"))
     : 10;
 
+  // 게시판 분류
+  const board_code = urlSearchParams.get("board_code")
+    ? parseInt(urlSearchParams.get("board_code"))
+    : 1;
+
   // 쿼리스트링 만들기
-  const queryStrDeafult = createSearchParams({ page, size }).toString();
+  const queryStrDeafult = createSearchParams({
+    page,
+    size,
+  }).toString();
+
+  const queryStrpage = createSearchParams({ board_code, page }).toString();
 
   //목록으로가기 기능 만들기
   //pageParam이 있으면 pageParam으로 이동
@@ -77,6 +87,21 @@ export const useCustomMove = () => {
     }
     navigate({ pathname: "../list", search: queryStr });
   };
+  const moveToListPahe = pageParam => {
+    let queryStr = "";
+    if (pageParam) {
+      const board_codeNum = getNum(pageParam.board_code, board_code);
+      const pageNum = getNum(pageParam.page, page);
+      //쿼리 만들기
+      queryStr = createSearchParams({
+        board_code: board_codeNum,
+        page: pageNum,
+      }).toString();
+    } else {
+      queryStr = queryStrpage;
+    }
+    navigate({ pathname: "../list", search: queryStr });
+  };
 
   // 수정창 이동하기
   const moveToModify = tno => {
@@ -92,6 +117,22 @@ export const useCustomMove = () => {
       search: queryStrDeafult,
     });
   };
+
+  // 상세 내용 보기
+  const moveToReadPage = tno => {
+    navigate({
+      pathname: `../read/${tno}`,
+      search: queryStrpage,
+    });
+  };
+
+  const moveToAdd = () => {
+    navigate({
+      pathname: `../add`,
+      search: queryStrpage,
+    });
+  };
+
   const sortBy = () => {};
 
   return {
@@ -100,6 +141,8 @@ export const useCustomMove = () => {
     moveToModify,
     page,
     size,
+    board_code,
+    moveToListPahe,
     moveToRead,
     moveToPrev,
     moveToMain,
@@ -107,6 +150,8 @@ export const useCustomMove = () => {
     moveToSignUp,
     moveToCommu,
     moveToMypage,
+    moveToReadPage,
+    moveToAdd,
   };
 };
 export default useCustomMove;

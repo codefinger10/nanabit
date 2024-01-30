@@ -1,15 +1,22 @@
-import React, { useMemo, useRef, useState } from "react";
+import { motion } from "framer-motion";
+import React, { useMemo, useRef } from "react";
+import { useForm } from "react-hook-form";
 import "react-quill/dist/quill.snow.css";
+import { useNavigate, useOutletContext } from "react-router";
 import DefaultButton from "../../components/basic/DefaultButton";
-import { useNavigate } from "react-router";
 import { Axx, Azxc, StyledReactQuill } from "./styles/commStyle";
-import DOMPurify from "dompurify";
+import { useSearchParams } from "react-router-dom";
 
 const Reactquills = () => {
-  const [content, setContent] = useState("");
-  const [title, setTitle] = useState("");
-  const [asd, setAsd] = useState({ title: "", content: "" });
-
+  const [urlSearchParams] = useSearchParams();
+  const board = urlSearchParams.get("board_code");
+  const { setMaintxt, setSubtxt } = useOutletContext();
+  console.log(board);
+  const initState = {
+    boardCode: parseInt(board),
+    title: "",
+    content: "",
+  };
   const quillRef = useRef(null);
 
   const imageHandler = () => {
@@ -39,6 +46,17 @@ const Reactquills = () => {
     });
   };
 
+  if (board === "1") {
+    setMaintxt("공지사항");
+    setSubtxt("배송 및 상품관련 공지사항을 확인해 주세요.");
+  } else if (board === "2") {
+    setMaintxt("소통해요");
+    setSubtxt("소통과 관련된 내용을 확인해 주세요.");
+  } else if (board === "3") {
+    setMaintxt("1:1 문의");
+    setSubtxt("문의사항이 있으면 언제든지 문의해 주세요.");
+  }
+
   const modules = useMemo(
     () => ({
       toolbar: {
@@ -63,14 +81,7 @@ const Reactquills = () => {
     [],
   );
 
-  const handleTitleChange = event => {
-    setTitle(event.target.value);
-  };
-
-  const handleButtonClick = () => {
-    console.log({ title, content });
-    setAsd({ title, content });
-  };
+  console.log("리랜더링");
 
   const navigate = useNavigate();
 
@@ -84,14 +95,27 @@ const Reactquills = () => {
   const year = todays.getFullYear();
   const today = `${year}.${month}.${day}`;
 
+  const { register, handleSubmit, setValue } = useForm({
+    defaultValues: initState,
+  });
+
+  // 확인 버튼 선택시 실행
+  const handleSubmitMy = data => {
+    console.log("asdas", data);
+  };
+
   return (
-    <>
+    <motion.form
+      initial={{ opacity: 0, y: 50 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 1 }}
+      onSubmit={handleSubmit(handleSubmitMy)}
+    >
       <Axx>
         <input
           type="text"
           placeholder="제목을 입력해 주세요."
-          value={title}
-          onChange={e => handleTitleChange(e)}
+          {...register("title")}
         />
         <hr />
         <StyledReactQuill
@@ -100,8 +124,7 @@ const Reactquills = () => {
           modules={modules}
           placeholder="여러분의 경험을 자유롭게 적어주세요."
           preserveWhitespace
-          value={content}
-          onChange={e => setContent(e)}
+          onChange={value => setValue("content", value)}
         />
       </Axx>
       <Azxc>
@@ -118,7 +141,6 @@ const Reactquills = () => {
             borderColor="#868686"
           />
           <DefaultButton
-            aa={handleButtonClick}
             type="Submit"
             txt="등록하기"
             txtColor="#42B0FF"
@@ -126,11 +148,11 @@ const Reactquills = () => {
           />
         </div>
       </Azxc>
-      <h1> {asd.title}</h1>
+      {/* <h1> {asd.title}</h1>
       <div
         dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(asd.content) }}
-      ></div>
-    </>
+      ></div> */}
+    </motion.form>
   );
 };
 

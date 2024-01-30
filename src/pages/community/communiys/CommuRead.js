@@ -1,23 +1,46 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate, useOutletContext, useParams } from "react-router";
+import { getOne } from "../../../api/community/communityApi";
 import DefaultButton from "../../../components/basic/DefaultButton";
-import { useNavigate, useParams } from "react-router";
-import CommunityTitle from "../../../components/basic/CommunityTitle";
 import { NoticeBoard } from "../styles/commStyle";
 import Asd from "./Asd";
+import { useSearchParams } from "react-router-dom";
+
+const initState = {
+  iboard: 0,
+  iuser: 0,
+  title: "string",
+  nm: "string",
+  contents: "string",
+  createdAt: "string",
+};
 
 const CommuRead = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [post, setPost] = useState({ title: "", author: "", content: "" });
+  const [post, setPost] = useState(initState);
+  const [urlSearchParams] = useSearchParams();
+  const board = urlSearchParams.get("board_code");
+  const { setMaintxt, setSubtxt } = useOutletContext();
 
   useEffect(() => {
-    const fakeData = {
-      title: "나나빛!@!@!@@@!@",
-      author: "주영",
-      content: "언제 배송되나요?",
-    };
-
-    setPost(fakeData);
+    getOne(id)
+      .then(result => {
+        setPost(result);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+    if (board === "1") {
+      setMaintxt("공지사항");
+      setSubtxt("배송 및 상품관련 공지사항을 확인해 주세요.");
+    } else if (board === "2") {
+      setMaintxt("소통해요");
+      setSubtxt("소통과 관련된 내용을 확인해 주세요.");
+    } else if (board === "3") {
+      setMaintxt("1:1 문의");
+      setSubtxt("문의사항이 있으면 언제든지 문의해 주세요.");
+    }
   }, []);
 
   const handleGoBack = () => {
@@ -31,10 +54,6 @@ const CommuRead = () => {
 
   return (
     <>
-      <CommunityTitle
-        maintxt="1:1문의"
-        subtxt="배송 및 상품관련 공지사항을 확인해 주세요."
-      />
       <NoticeBoard>
         <div className="wrap">
           <div className="aaa">
@@ -43,12 +62,12 @@ const CommuRead = () => {
           </div>
           <div className="bbb">
             <span>작성자</span>
-            <input type="text" value={post.author} readOnly />
+            <input type="text" value={post.nm} readOnly />
           </div>
         </div>
-        <textarea value={post.content} readOnly />
+        <textarea value={post.contents} readOnly />
         <div className="wrap-footer">
-          <p>작성일:</p>
+          <p>{post.createdAt}</p>
           <div className="bts">
             <DefaultButton
               aa={handleGoBack}
