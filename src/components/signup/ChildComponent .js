@@ -3,16 +3,16 @@ import React, { useState } from "react";
 import { Radio, Button, Form } from "antd";
 
 const ChildComponent = ({ onSelet, name, valueArray }) => {
-  console.log;
-  console.log(valueArray);
   // const [modifyArray,setModifyArray] =useState([]);
-  
+  console.log(valueArray);
+  console.log(name);
+  console.log([name, "ichildAge"]);
+
   return (
     <div>
       <div style={{ paddingTop: 30 }}>월령/개월 수*</div>
-      <Form.Item valuePropName={[name, "ichildAge"]} style={{ height: 50 }}>
+      <Form.Item name={[name, "ichildAge"]} style={{ height: 50 }}>
         <Radio.Group
-          value={valueArray}
           style={{
             width: "1220px",
             display: "flex",
@@ -78,11 +78,8 @@ const ChildComponent = ({ onSelet, name, valueArray }) => {
           borderBottom: "3px solid #C5C5C5",
         }}
       >
-        <Form.Item
-          valuePropName={[name, "gender"]}
-          style={{ paddingBottom: 50 }}
-        >
-          <Radio.Group style={{ display: "flex" }} value={valueArray}>
+        <Form.Item name={[name, "gender"]} style={{ paddingBottom: 50 }}>
+          <Radio.Group style={{ display: "flex" }}>
             <Radio.Button value="M" style={{ height: 50, lineHeight: "50px" }}>
               남
             </Radio.Button>
