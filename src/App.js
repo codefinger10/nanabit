@@ -79,10 +79,9 @@ const App = () => {
           <Route path="/item" element={<ItemPage />}></Route>
           <Route path="/cc" element={<SerchPage />}></Route>
 
-          <Route path="/address" element={<AddressInfo />}>
-            <Route path="add" element={<AddressAdd />}></Route>
-            <Route path="modify" element={<AddressModify />}></Route>
-          </Route>
+          <Route path="/address/" element={<AddressInfo />}></Route>
+          <Route path="/address/add" element={<AddressAdd />}></Route>
+          <Route path="/address/modify" element={<AddressModify />}></Route>
 
           <Route path="/error" element={<ErrorPage />}></Route>
         </Routes>

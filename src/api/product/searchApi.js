@@ -2,6 +2,23 @@ import axios, { Axios } from "axios";
 import { API_SERVER_HOST } from "../../util/util";
 
 const prefix = `${API_SERVER_HOST}/api/product/search`;
+
+/*
+  {
+    "keyword": "string",
+    "minPrice": 0,
+    "maxPrice": 0,
+    "sortBy": 0,
+    "cat": [
+      {
+        "imiddle": 0,
+        "imain": 0
+      }
+    ],
+    "page": 0
+  }
+*/
+
 export const postSearchPage = async ({
   searchParam,
   successFn,
@@ -9,7 +26,7 @@ export const postSearchPage = async ({
   errorFn,
 }) => {
   // console.log("getTodoIuser");
-  console.log("getSearchPage");
+  console.log("postSearchPage");
 
   try {
     console.log(searchParam);
@@ -19,7 +36,7 @@ export const postSearchPage = async ({
     const url = `${prefix}`;
     // console.log("제품 호출 : ", url);
     // const res = jwtAxios.get(url, { params: productParam });
-    const res = await axios.get(url, { params: searchParam });
+    const res = await axios.post(url, { ...searchParam });
 
     console.log("목록 서버 데이터 :", res.data);
 

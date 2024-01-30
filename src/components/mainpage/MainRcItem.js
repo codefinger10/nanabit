@@ -7,7 +7,9 @@ import "swiper/css/navigation";
 
 // import required modules
 import { Navigation } from "swiper/modules";
+
 import { getDemoList } from "../../api/mainpageapi/MainPageApi";
+
 import {
   ItemDecArea,
   ItemImg,
@@ -16,154 +18,171 @@ import {
   ItemTitlePrice,
   RcSwiperWrap,
   ReviewWish,
-  StyledLabel,
   TextArea,
 } from "../../styles/mainstyle";
+import MainHeartBt from "./MainHeartBt";
 import MainItemBoxTag from "./MainItemBoxTag";
+import useCustomLogin from "../../hooks/useCustomLogin";
+
+const initState = [
+  {
+    iproduct: 0,
+    productNm: "",
+    price: 0,
+    rcFl: 0,
+    popFl: 0,
+    newFl: 0,
+    reviewCnt: 0,
+    likeProduct: 0,
+    repPic: "",
+  },
+];
 
 const MainRcItem = () => {
-  const [heartCheckedMap, setHeartCheckedMap] = useState({});
-
-  const handleHeartButtonClick = itemId => {
-    setHeartCheckedMap(prev => ({
-      ...prev,
-      [itemId]: !prev[itemId],
-    }));
-  };
-
-  // 데모데이터 자료연동
-  const [demoData, setDemoData] = useState(null);
+  // 데이터 자료연동
+  const [data, setData] = useState(initState);
   const swiperRef = useRef(null);
 
   useEffect(() => {
-    const fetchDataAndCenterSwiper = async () => {
-      try {
-        const res = await getDemoList({ setDemoData });
+    // 데이터 연동 처리 결과
 
-        // 찜 여부 값이 true와 false로 되어 있을 경우
-        const initialHeartCheckedMap = {};
-        res.forEach(item => {
-          initialHeartCheckedMap[item.id] = item.찜여부 === 1;
-        });
-        setHeartCheckedMap(initialHeartCheckedMap);
-
-        // 데이터를 가져온 후 Swiper 인스턴스가 생성되어 있으면 가운데 정렬
-        if (swiperRef.current) {
-          swiperRef.current.center();
-        }
-      } catch (error) {
-        console.error(error);
-      }
+    const successFn = result => {
+      setData(result);
+      // console.log(result);
     };
-    fetchDataAndCenterSwiper(); // 비동기 함수 호출
-  }, []); // 빈 배열을 전달하여 컴포넌트가 마운트될 때만 useEffect가 실행
+    const failFn = result => {
+      console.log(result);
+    };
+    const errorFn = result => {
+      console.log("에러에옹", result);
+    };
+    getMainList({ successFn, failFn, errorFn });
+  }, []);
 
-  if (!demoData) {
+  if (!setData) {
     return <p>Loading...</p>;
   }
+
+  const chunkSize = 8;
+  const divideDataIntoChunks = data => {
+    // Array.from({ length: 배열 내 요소의 수 }
+    // (_, index) => index) 순서대로 ?
+    return Array.from(
+      // 새로운 배열의 길이 설정
+      { length: Math.ceil(data.length / chunkSize) },
+      //  "_"는 현재 요소의 값, "index"는 해당 요소의 인덱스
+      // 새로 생성된 배열의 각 요소에 대해 실행
+      (_, index) => data.slice(index * chunkSize, (index + 1) * chunkSize),
+    );
+  };
+
+  const dividedData = divideDataIntoChunks(data);
+
+  const [textArray, setTextArray] = useState([
+    {
+      title: "우리 아이를 위한 나나빛의 Pick",
+      subtitle: "👶🏻 내 자녀를 위한 추천상품 👶🏻",
+    },
+    {
+      title: "품절되기 전에 확인하세요!",
+      subtitle: "🔥 Hot한 인기상품 🔥",
+    },
+    {
+      title: "모두가 기다렸던 그 상품 지금 바로 OPEN",
+      subtitle: "💡 드디어 출시, 신상품 💡",
+    },
+  ]);
+
+  const { isLogin } = useCustomLogin;
+
   return (
     <div>
-      {/* 사용자기준 추천상품 추후 사용자 토큰에 따라 ... */}
-      <div>
-        <TextArea>
-          <span>
-            우리 아이를 위한 나나빛의 Pick
-            <br />
-          </span>
-          <i>👶🏻 내 자녀를 위한 추천상품 👶🏻</i>
-        </TextArea>
+      {dividedData.map((chunk, chunkIndex) => (
+        <div key={`chunk_${chunkIndex}`}>
+          <TextArea>
+            <span>
+              {textArray[chunkIndex].title}
+              <br />
+            </span>
+            <i>{textArray[chunkIndex].subtitle}</i>
+          </TextArea>
 
-        <RcSwiperWrap>
-          <div
-            style={{
-              width: "1150px",
-              position: "relative",
-              display: "flex",
-              justifyContent: "space-between",
-            }}
-            className="swiperDiv"
-          >
-            <Swiper
-              onSwiper={swiper => {
-                swiperRef.current = swiper;
+          <RcSwiperWrap>
+            <div
+              style={{
+                width: "1150px",
+                position: "relative",
+                display: "flex",
+                justifyContent: "space-between",
               }}
-              navigation={{
-                nextEl: ".swiperDiv .slide-next-bt",
-                prevEl: ".swiperDiv .slide-prev-bt",
-              }}
-              modules={[Navigation]}
-              className="mainSlideSett"
-              slidesPerView={4}
-              slidesPerGroup={4}
+              className={`chunk swiperDiv swiperDiv-${chunkIndex}`}
             >
-              {demoData.map(Item => (
-                <SwiperSlide
-                  key={Item.id}
-                  style={{ width: "230px", height: "330px" }}
-                  className="slotWidthSett"
-                >
-                  <ItemPacket>
-                    <ItemImg>
-                      <img src={Item.이미지} />
-                    </ItemImg>
-                    <ItemDecArea>
-                      <ItemTagBoxDiv>
-                        {Item.인기상품 ? (
-                          <MainItemBoxTag txt={"인기상품"} type={1} />
-                        ) : null}
-                        {Item.신상품 ? (
-                          <MainItemBoxTag txt={"신상품"} type={2} />
-                        ) : null}
-                      </ItemTagBoxDiv>
-                      <ReviewWish>
-                        <div>
-                          <span>리뷰</span>
-                          <b>{Item.리뷰수 > 99 ? 99 + "+" : Item.리뷰수}</b>
-                        </div>
-                        <StyledLabel htmlFor={`heartInput-${Item.id}`}>
-                          <img
-                            src={
-                              heartCheckedMap[Item.id]
-                                ? process.env.PUBLIC_URL +
-                                  "/assets/images/heart.svg"
-                                : process.env.PUBLIC_URL +
-                                  "/assets/images/heartoff.svg"
-                            }
-                            alt="wishlist"
-                          />
-                          <input
-                            type="checkbox"
-                            id={`heartInput-${Item.id}`}
-                            style={{ display: "none" }}
-                            checked={heartCheckedMap[Item.id]}
-                            onChange={() => handleHeartButtonClick(Item.id)}
-                          />
-                        </StyledLabel>
-                      </ReviewWish>
-                    </ItemDecArea>
-                    <ItemTitlePrice>
-                      <p>{Item.제품명}</p>
-                      <b>{Item.가격.toLocaleString()}원</b>
-                    </ItemTitlePrice>
-                  </ItemPacket>
-                </SwiperSlide>
-              ))}
-            </Swiper>
-            <button className="slide-prev-bt">
-              <img
-                src={process.env.PUBLIC_URL + "/assets/images/slidebt.svg"}
-                alt=""
-              />
-            </button>
-            <button className="slide-next-bt">
-              <img
-                src={process.env.PUBLIC_URL + "/assets/images/slidebt.svg"}
-                alt=""
-              />
-            </button>
-          </div>
-        </RcSwiperWrap>
-      </div>
+              <Swiper
+                onSwiper={swiper => {
+                  swiperRef.current = swiper;
+                }}
+                navigation={{
+                  nextEl: `.swiperDiv-${chunkIndex} .slide-next-bt`,
+                  prevEl: `.swiperDiv-${chunkIndex} .slide-prev-bt`,
+                }}
+                modules={[Navigation]}
+                className="mainSlideSett"
+                slidesPerView={4}
+                slidesPerGroup={4}
+              >
+                {chunk.map((item, itemIndex) => (
+                  <SwiperSlide
+                    key={`item_${itemIndex}`}
+                    style={{ width: "230px", height: "330px" }}
+                    className="slotWidthSett"
+                  >
+                    <ItemPacket>
+                      <ItemImg>
+                        <img src={item.repPic} alt={item.productNm} />
+                      </ItemImg>
+                      <ItemDecArea>
+                        <ItemTagBoxDiv>
+                          {item.popFl ? (
+                            <MainItemBoxTag txt={"인기상품"} type={1} />
+                          ) : null}
+                          {item.rcFl ? (
+                            <MainItemBoxTag txt={"신상품"} type={2} />
+                          ) : null}
+                        </ItemTagBoxDiv>
+                        <ReviewWish>
+                          <div>
+                            <span>리뷰</span>
+                            <b>
+                              {item.reviewCnt > 99 ? 99 + "+" : item.reviewCnt}
+                            </b>
+                          </div>
+                          <MainHeartBt likeProduct={item.likeProduct} />
+                        </ReviewWish>
+                      </ItemDecArea>
+                      <ItemTitlePrice>
+                        <p>{item.productNm}</p>
+                        <b>{item.price.toLocaleString()}원</b>
+                      </ItemTitlePrice>
+                    </ItemPacket>
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+              <button className={`slide-prev-bt slide-prev-bt-${chunkIndex}`}>
+                <img
+                  src={process.env.PUBLIC_URL + "/assets/images/slidebt.svg"}
+                  alt=""
+                />
+              </button>
+              <button className={`slide-next-bt slide-next-bt-${chunkIndex}`}>
+                <img
+                  src={process.env.PUBLIC_URL + "/assets/images/slidebt.svg"}
+                  alt=""
+                />
+              </button>
+            </div>
+          </RcSwiperWrap>
+        </div>
+      ))}
       <div style={{ height: "300px" }} />
     </div>
   );

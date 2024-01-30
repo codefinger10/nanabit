@@ -1,13 +1,15 @@
-import { Dropdown, Space } from "antd";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { HeaderNav } from "../../styles/basicLay/basicHeaderStyle";
 import BasicMenu from "../../components/basic/BasicMenu";
-import { useSelector } from "react-redux";
+import useCustomLogin from "../../hooks/useCustomLogin";
+import { logout } from "../../slices/loginSlice";
+import { HeaderNav } from "../../styles/basicLay/basicHeaderStyle";
 
 const BasicHeader = () => {
-  const loginState = useSelector(state => state.loginSlice);
-  // console.log(loginState);
+  // const loginState = useSelector(state => state.loginSlice);
+
+  const { isLogin, loginState, doLogout, moveToPath } = useCustomLogin();
+  // const { logout } = loginSlice();
 
   // 검색어를 검색페이지에서 표시되도록
   const [searchTextInput, setSearchTextInput] = useState("");
@@ -17,12 +19,36 @@ const BasicHeader = () => {
 
   const navigate = useNavigate();
   const handleSearch = () => {
-    console.log("검색버튼:", "검색 버튼 클릭", searchTextInput);
+    // console.log("검색버튼:", "검색 버튼 클릭", searchTextInput);
     // state :  { 이름 : 값 }
     navigate("/cc", { state: { searchTextInput: searchTextInput } });
-
     setSearchTextInput("");
   };
+
+
+  const handleClick = () => {
+    doLogout();
+    moveToPath("/");
+  };
+
+  useEffect(() => {}, [isLogin.nm]);
+
+
+  // form 태그는 필수사항
+  const handleSubmit = e => {
+    e.preventDefault();
+  };
+  const handleKeyUp = e => {
+    if (e.key === "Enter") {
+      if (searchTextInput === "") {
+        alert("검색어를 입력하세요.");
+      } else {
+        navigate("/cc", { state: { searchTextInput: searchTextInput } });
+        setSearchTextInput("");
+      }
+    }
+  };
+
   return (
     <HeaderNav>
       <div className="heder-top">
@@ -37,13 +63,14 @@ const BasicHeader = () => {
               </a>
             </ul>
             <div className="header-search">
-              <form className="search-form">
+              <form className="search-form" onSubmit={e => handleSubmit(e)}>
                 <input
                   type="text"
                   placeholder="세상에 밝고 빛나는 아이가 태어나다"
                   className="search-word"
                   value={searchTextInput}
                   onChange={e => setSearchTextInput(e.target.value)}
+                  onKeyUp={e => handleKeyUp(e)}
                 />
                 {/* <Link to="/cc">
                   <input
@@ -64,16 +91,21 @@ const BasicHeader = () => {
           <div className="header-top-right">
             <ul className="member-menu">
               <div>
-                {loginState.username ? (
-                  <a href="/logout">로그아웃</a>
+                {loginState.nm ? (
+                  <button onClick={() => handleClick()}>로그아웃</button>
                 ) : (
                   <a href="/login">로그인</a>
                 )}
               </div>
               {/* ------------------ */}
-              <li>
-                <a href="/signUp">회원가입</a>
-              </li>
+
+              <div>
+                {loginState.nm ? (
+                  <a href="/mypage">마이페이지</a>
+                ) : (
+                  <a href="/signUp">회원가입</a>
+                )}
+              </div>
               <li>
                 <a href="/commu">
                   <img src={process.env.PUBLIC_URL + "/assets/images/cs.svg"} />

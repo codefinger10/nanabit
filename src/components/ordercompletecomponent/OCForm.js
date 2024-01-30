@@ -33,22 +33,33 @@ const OCForm = () => {
   const { iorder } = useParams();
 
   useEffect(() => {
-    getOCPage(setData, iorder);
+    const successFn = result => {
+      setData(result);
+      // console.log(result);
+    };
+    const failFn = result => {
+      console.log(result);
+    };
+    const errorFn = result => {
+      console.log("에러에옹", result);
+    };
+
+    getOCPage(iorder, successFn, failFn, errorFn);
   }, [iorder]);
 
   return (
     <>
-      {isLogin ? (
-        <OcPadding>
-          <OcWrap>
-            <OCMessage data={data} />
-            <OcDetail data={data} />
-            <OCInfo data={data} />
-          </OcWrap>
-        </OcPadding>
-      ) : (
-        "로그인을 해주세요."
-      )}
+      {/* {isLogin ? ( */}
+      <OcPadding>
+        <OcWrap>
+          <OCMessage data={data} />
+          <OcDetail data={data} />
+          <OCInfo data={data} />
+        </OcWrap>
+      </OcPadding>
+      {/* ) : (
+       "로그인을 해주세요."
+       )} */}
     </>
   );
 };

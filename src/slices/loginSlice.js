@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 // API 서버 연동
 // reducer (store 상태 변경) 를 호출할때 지금은 API 호출
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { removeCookie, setCookie } from "../util/cookieUtil";
+import { getCookie, removeCookie, setCookie } from "../util/cookieUtil";
 import { loginPost } from "../api/login/LoginApi";
 
 // export const 외부함수 = createAsyncThunk("이름", 리듀서함수);
@@ -24,14 +24,21 @@ export const loginPostAsync = createAsyncThunk(
 const initState = {
   nm: "",
 };
+
+// 쿠키 정보 읽어와서 initState 변경하기
+const loadMemberCookie = () => {
+  const memberInfo = getCookie("nm");
+  return memberInfo;
+};
 const loginSlice = createSlice({
   name: "loginSlice",
-  initialState: initState,
+  initialState: loadMemberCookie() || initState,
 
   // store 의 state 를 업데이트 하는 함수 모음
   reducers: {
     login: (state, action) => {
       console.log("login.....");
+      setCookie("nm", JSON.stringify(action.payload));
       return { nm: action.payload.nm };
     },
     // 로그아웃
@@ -42,8 +49,8 @@ const loginSlice = createSlice({
     },
   },
   // 외부 API 연동을 통해 store 의 state 를 업데이트 함수 모음
-  extraReducers: bulder => {
-    bulder
+  extraReducers: builder => {
+    builder
       .addCase(loginPostAsync.fulfilled, (state, action) => {
         // 외부 연동 성공
         // state : 기존 값(store 의 loginSate)
