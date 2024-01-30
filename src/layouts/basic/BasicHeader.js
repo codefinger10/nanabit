@@ -19,12 +19,12 @@ const BasicHeader = () => {
 
   const navigate = useNavigate();
   const handleSearch = () => {
-    console.log("검색버튼:", "검색 버튼 클릭", searchTextInput);
+    // console.log("검색버튼:", "검색 버튼 클릭", searchTextInput);
     // state :  { 이름 : 값 }
     navigate("/cc", { state: { searchTextInput: searchTextInput } });
-
     setSearchTextInput("");
   };
+
 
   const handleClick = () => {
     doLogout();
@@ -32,6 +32,22 @@ const BasicHeader = () => {
   };
 
   useEffect(() => {}, [isLogin.nm]);
+
+
+  // form 태그는 필수사항
+  const handleSubmit = e => {
+    e.preventDefault();
+  };
+  const handleKeyUp = e => {
+    if (e.key === "Enter") {
+      if (searchTextInput === "") {
+        alert("검색어를 입력하세요.");
+      } else {
+        navigate("/cc", { state: { searchTextInput: searchTextInput } });
+        setSearchTextInput("");
+      }
+    }
+  };
 
   return (
     <HeaderNav>
@@ -47,13 +63,14 @@ const BasicHeader = () => {
               </a>
             </ul>
             <div className="header-search">
-              <form className="search-form">
+              <form className="search-form" onSubmit={e => handleSubmit(e)}>
                 <input
                   type="text"
                   placeholder="세상에 밝고 빛나는 아이가 태어나다"
                   className="search-word"
                   value={searchTextInput}
                   onChange={e => setSearchTextInput(e.target.value)}
+                  onKeyUp={e => handleKeyUp(e)}
                 />
                 {/* <Link to="/cc">
                   <input
