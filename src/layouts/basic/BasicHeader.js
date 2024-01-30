@@ -1,13 +1,15 @@
-import { Dropdown, Space } from "antd";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { HeaderNav } from "../../styles/basicLay/basicHeaderStyle";
 import BasicMenu from "../../components/basic/BasicMenu";
-import { useSelector } from "react-redux";
+import useCustomLogin from "../../hooks/useCustomLogin";
+import { logout } from "../../slices/loginSlice";
+import { HeaderNav } from "../../styles/basicLay/basicHeaderStyle";
 
 const BasicHeader = () => {
-  const loginState = useSelector(state => state.loginSlice);
-  // console.log(loginState);
+  // const loginState = useSelector(state => state.loginSlice);
+
+  const { isLogin, loginState, doLogout, moveToPath } = useCustomLogin();
+  // const { logout } = loginSlice();
 
   // 검색어를 검색페이지에서 표시되도록
   const [searchTextInput, setSearchTextInput] = useState("");
@@ -23,6 +25,15 @@ const BasicHeader = () => {
     setSearchTextInput("");
   };
 
+
+  const handleClick = () => {
+    doLogout();
+    moveToPath("/");
+  };
+
+  useEffect(() => {}, [isLogin.nm]);
+
+
   // form 태그는 필수사항
   const handleSubmit = e => {
     e.preventDefault();
@@ -37,6 +48,7 @@ const BasicHeader = () => {
       }
     }
   };
+
   return (
     <HeaderNav>
       <div className="heder-top">
@@ -79,16 +91,21 @@ const BasicHeader = () => {
           <div className="header-top-right">
             <ul className="member-menu">
               <div>
-                {loginState.username ? (
-                  <a href="/logout">로그아웃</a>
+                {loginState.nm ? (
+                  <button onClick={() => handleClick()}>로그아웃</button>
                 ) : (
                   <a href="/login">로그인</a>
                 )}
               </div>
               {/* ------------------ */}
-              <li>
-                <a href="/signUp">회원가입</a>
-              </li>
+
+              <div>
+                {loginState.nm ? (
+                  <a href="/mypage">마이페이지</a>
+                ) : (
+                  <a href="/signUp">회원가입</a>
+                )}
+              </div>
               <li>
                 <a href="/commu">
                   <img src={process.env.PUBLIC_URL + "/assets/images/cs.svg"} />

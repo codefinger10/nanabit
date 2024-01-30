@@ -4,7 +4,7 @@ export const MyPageWrap = styled.div`
   display: block;
   width: 1440px;
   height: auto;
-  margin: 0 auto;
+  margin: 30px auto;
 `;
 
 export const MyPageHeader = styled.header`
@@ -107,4 +107,10 @@ export const ProductWrap = styled.div`
     line-height: 50px;
     color: #949494;
   }
+`;
+
+export const MyWishWrap = styled.div`
+  width: 1156px;
+  height: 1182px;
+  margin: 0 auto;
 `;

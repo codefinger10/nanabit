@@ -119,7 +119,7 @@ export const ProductInfoWrap = styled.div`
 
 export const ProductInfo = styled.div`
   width: 1157px;
-  height: 420px;
+  height: 320px;
   border: 1px solid #d9d9d9;
   padding: 23px;
 `;

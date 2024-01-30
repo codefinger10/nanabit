@@ -5,10 +5,13 @@ import { postAddress } from "../../api/address/AddressApi";
 import AddressDetailed from "../../components/address/AddressDeatail";
 import useCustomLogin from "../../hooks/useCustomLogin";
 import { AddressTitleWrap } from "../../styles/address/addressinfostyle";
+import { Outlet } from "react-router";
+import BasicLayout from "../../layouts/BasicLayout";
+import useCustomMove from "../../hooks/useCustomMove";
 
 const AddressBtWrap = styled.div`
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   width: 1157px;
   margin: 0 auto;
   border-top: 1px solid #868686;
@@ -43,7 +46,7 @@ const AddressAdd = () => {
   };
 
   const { moveToPath } = useCustomLogin();
-
+  const { moveToPrev } = useCustomMove();
   const onFinish = values => {
     setServerData({ ...values });
     values.address = address;
@@ -62,6 +65,10 @@ const AddressAdd = () => {
   };
   const errorFn = result => {
     console.log(result);
+  };
+
+  const PrevBt = () => {
+    moveToPrev();
   };
   return (
     <div>
@@ -89,6 +96,22 @@ const AddressAdd = () => {
       >
         <AddressDetailed onAddressChange={updateAddressInfo} />
         <AddressBtWrap>
+          <Button
+            type="primary"
+            htmlType="button"
+            onClick={() => PrevBt()}
+            style={{
+              width: "203px",
+              height: "70px",
+              background: "#d9d9d9",
+              color: "#868686",
+              fontSize: "20px",
+              fontWeight: 500,
+              border: "none",
+            }}
+          >
+            뒤로가기
+          </Button>
           <Form.Item>
             <Button
               type="primary"
@@ -108,6 +131,7 @@ const AddressAdd = () => {
           </Form.Item>
         </AddressBtWrap>
       </Form>
+      <Outlet />
     </div>
   );
 };
