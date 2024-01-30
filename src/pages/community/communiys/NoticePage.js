@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Pagination } from "antd";
-import { CommuMain } from "../styles/commStyle";
-import { Link } from "react-router-dom";
-import CommunityTitle from "../../../components/basic/CommunityTitle";
-import { CommuBt } from "../styles/commStyle";
+import { useOutletContext, useSearchParams } from "react-router-dom";
+import { getList } from "../../../api/community/communityApi";
+import useCustomMove from "../../../hooks/useCustomMove";
+import PageList from "../PageList";
+import { CommuBt, CommuMain } from "../styles/commStyle";
 
 const initState = {
   iboard: 0,
@@ -14,31 +14,74 @@ const initState = {
 
 const NoticePage = () => {
   const [tableData, setTableData] = useState([initState]);
+  const [urlSearchParams] = useSearchParams();
+  const board = urlSearchParams.get("board_code");
+  const [search, setSerch] = useState("");
+  const { setMaintxt, setSubtxt } = useOutletContext();
 
-  useEffect(() => {}, []);
+  const [active, setActive] = useState("1");
+  const { board_code, page, moveToListPahe, moveToReadPage, moveToAdd } =
+    useCustomMove();
+  useEffect(() => {
+    getList({ board_code, page })
+      .then(res => {
+        setTableData(res);
+      })
+      .catch(error => {
+        console.log("에러", error);
+        alert("데이터 호출에 실패하였습니다.");
+      });
+    if (board === "1") {
+      setMaintxt("공지사항");
+      setActive("1");
+      setSubtxt("배송 및 상품관련 공지사항을 확인해 주세요.");
+    } else if (board === "2") {
+      setMaintxt("소통해요");
+      setActive("2");
+      setSubtxt("소통과 관련된 내용을 확인해 주세요.");
+    } else if (board === "3") {
+      setMaintxt("1:1 문의");
+      setActive("3");
+      setSubtxt("문의사항이 있으면 언제든지 문의해 주세요.");
+    }
+  }, [board_code, page]);
 
-  let asdasd = "";
+  const handleClikList = num => {
+    moveToListPahe({ board_code: num, page: 1 });
+  };
 
-  let maintxt = "공지사항";
-  let subtxt = "배송 및 상품관련 공지사항을 확인해 주세요.";
-  // asdasd = "작성자";
-  // if (id === "2") {
-  //   maintxt = "소통해요";
-  //   subtxt = "소통과 관련된 내용을 확인해 주세요.";
-  //   asdasd = "분류";
-  // } else if (id === "3") {
-  //   maintxt = "1:1 문의";
-  //   subtxt = "문의사항이 있으면 언제든지 문의해 주세요.";
-  //   asdasd = "답변상태";
-  // }
+  const remove = item => {
+    return item.split(" ", 2).shift();
+  };
+
+  const handleSearch = e => {
+    setSerch(e.target.value);
+  };
+
+  const handleClikSearch = () => {
+    console.log(search);
+    getList({ board_code, page }, search)
+      .then(res => {
+        setTableData(res);
+      })
+      .catch(error => {
+        console.log("에러", error);
+        alert("데이터 호출에 실패하였습니다.");
+      });
+  };
 
   return (
     <>
       <CommuMain>
-        <CommunityTitle maintxt={maintxt} subtxt={subtxt} />
-        <CommuBt>공지사항</CommuBt>
-        <CommuBt>소통해요</CommuBt>
-        <CommuBt>1:1 문의</CommuBt>
+        <CommuBt onClick={() => handleClikList(1)} active={active === "1"}>
+          공지사항
+        </CommuBt>
+        <CommuBt onClick={() => handleClikList(2)} active={active === "2"}>
+          소통해요
+        </CommuBt>
+        <CommuBt onClick={() => handleClikList(3)} active={active === "3"}>
+          1:1 문의
+        </CommuBt>
         <div>
           <table>
             <thead>
@@ -53,30 +96,46 @@ const NoticePage = () => {
               <tbody key={item.iboard}>
                 <tr>
                   <td>{item.iboard}</td>
-                  <td className="td-docs">
-                    <Link to={`/commu/read/`} style={{ color: "#868686" }}>
-                      {item.title}
-                    </Link>
+                  <td
+                    className="td-docs"
+                    onClick={() => {
+                      moveToReadPage(item.iboard);
+                    }}
+                  >
+                    {item.title}
                   </td>
                   <td>{item.iboard}</td>
-                  <td>{item.createdAt}</td>
+                  <td>{remove(item.createdAt)}</td>
                 </tr>
               </tbody>
             ))}
           </table>
           <div className="serch">
-            <form>
-              <input type="text" placeholder="검색할 제목을 입력하세요." />
-              <button type="button" className="search-button">
+            <div className="serch-info">
+              <input
+                type="text"
+                placeholder="검색할 제목을 입력하세요."
+                onChange={e => handleSearch(e)}
+              />
+              <button
+                onClick={handleClikSearch}
+                type="button"
+                className="search-button"
+              >
                 SEARCH
               </button>
-            </form>
-            <Link to="/commu/add">
-              <button className="write-bt">작성하기</button>
-            </Link>
+            </div>
+            <button
+              className="write-bt"
+              onClick={() => {
+                moveToAdd();
+              }}
+            >
+              작성하기
+            </button>
           </div>
         </div>
-        <Pagination defaultCurrent={1} pageSize={15} className="pagination" />
+        <PageList />
       </CommuMain>
     </>
   );

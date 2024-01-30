@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import React from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import DefaultButton from "../../../components/basic/DefaultButton";
 import { NoticeBoard } from "../styles/commStyle";
-import CommunityTitle from "../../../components/basic/CommunityTitle";
 
 const CommuEdit = () => {
   const { id } = useParams();
@@ -18,10 +17,6 @@ const CommuEdit = () => {
 
   return (
     <>
-      <CommunityTitle
-        maintxt="1:1문의"
-        subtxt="배송 및 상품관련 공지사항을 확인해 주세요."
-      />
       <NoticeBoard>
         <div className="wrap">
           <div className="aaa">

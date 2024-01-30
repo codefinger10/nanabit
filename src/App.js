@@ -49,14 +49,14 @@ const App = () => {
           <Route path="/cart" element={<CartPage />}></Route>
           {/*게시판 */}
           <Route path="/commu/" element={<CommunityPage />}>
-            <Route index element={<Navigate to="notice/1" />}></Route>
+            <Route index element={<Navigate to="list" />}></Route>
             {/* 커뮤니티 */}
-            <Route path="notice/:id" element={<NoticePage />} />
+            <Route path="list" element={<NoticePage />} />
             {/* 등록 */}
 
             <Route path="add" element={<CommuAdd />} />
             {/* 수정 */}
-            <Route path="edit/:id" element={<CommuEdit />} />
+            <Route path="modify/:id" element={<CommuEdit />} />
             {/* 읽기 */}
             <Route path="read/:id" element={<CommuRead />} />
           </Route>
