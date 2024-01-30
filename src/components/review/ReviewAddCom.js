@@ -1,90 +1,36 @@
-import { Button, ConfigProvider, Form, Input, Rate, Upload } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
+import { Button, ConfigProvider, Form, Rate, Upload, message } from "antd";
 import TextArea from "antd/es/input/TextArea";
-import React from "react";
-import styled from "styled-components";
+import React, { useState } from "react";
+import { postReviewList } from "../../api/reviewapi/reviewAddApi";
+import useCustomMove from "../../hooks/useCustomMove";
+import {
+  RateAddBox,
+  ReviewAddTitle,
+  ReviewAddWrap,
+} from "../../styles/review/reviewstyle";
+
+const initState = [
+  {
+    reviewPics: [""], // 리뷰 사진
+    dto: {
+      idetails: 0, //	주문상세 KEY
+      iorder: 0, //	주문 PK
+      contents: "", //	리뷰 내용
+      productScore: 0, //	리뷰 별점
+    },
+  },
+];
 
 const ReviewAddPageCom = () => {
-  const ReviewWrap = styled.div`
-    width: 1440px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    i {
-      font-size: 12px;
-      font-style: normal;
-      color: #42b0ff;
-    }
-    .productInfo {
-      display: flex;
-      justify-content: space-between;
-      gap: 40px;
-      img {
-        width: 170px;
-        height: 170px;
-      }
-    }
-    .productInfoText {
-      width: 930px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-evenly;
-      p {
-        width: 930px;
-        font-size: 20px;
-        line-height: 30px;
-      }
-    }
-    .ant-input-data-count {
-      bottom: -40px;
-    }
-    .antdUploadDiv {
-      margin-top: 60px;
-      display: "flex";
-    }
-    .buttonDiv {
-      width: 140px;
-      height: 140px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      font-size: 20px;
-    }
-  `;
+  const [serverData, setServerData] = useState(initState);
+  const [constents, setContents] = useState("");
+  const [productScore, setProductScore] = useState("");
+  const [reviewPics, setReviewPics] = useState("");
 
-  const ReviewTitle = styled.div`
-    width: 1150px;
-    padding-top: 50px;
-    padding-bottom: 50px;
-    span {
-      color: #e9b25f;
-      font-size: 70px;
-      font-weight: 500;
-      margin-bottom: 10px;
-    }
-    p {
-      color: #c5c5c5;
-      font-size: 30px;
-    }
-  `;
+  const { moveToPath } = useCustomMove();
 
-  const RateBox = styled.div`
-    margin-top: 30px;
-    margin-bottom: 30px;
-    width: 1150px;
-    height: 100px;
-    border: 1px solid #e9b25f;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 35px 40px;
-    p {
-      font-size: 30px;
-      font-weight: 600;
-      color: #e9b25f;
-    }
-  `;
-
+  // Antd 이미지 업로드
   const normFile = e => {
     if (Array.isArray(e)) {
       return e;
@@ -92,13 +38,66 @@ const ReviewAddPageCom = () => {
     return e?.fileList;
   };
 
+  const onFinish = values => {
+    setServerData({ constents, productScore, reviewPics });
+
+    console.loc("텍스트", constents);
+    console.loc("점수", productScore);
+    console.loc("사진", reviewPics);
+    console.log("Success:", values);
+    postReviewList({ values, successFn, failFn, errorFn });
+  };
+  const onFinishFailed = errorInfo => {
+    console.log("Failed:", errorInfo);
+  };
+  const successFn = result => {
+    moveToPath("/address"), console.log(result);
+  };
+  const failFn = result => {
+    console.log(result);
+  };
+  const errorFn = result => {
+    console.log(result);
+  };
+
+  // Antd Upload
+  // const [loading, setLoading] = useState(false);
+
+  // const beforeUpload = file => {
+  //   // TODO: 여기서 인증 토큰을 가져오거나 설정
+  //   const token = "your_auth_token";
+
+  //   const headers = new Headers();
+  //   headers.append("Authorization", `Bearer ${token}`);
+
+  //   const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
+  //   if (!isJpgOrPng) {
+  //     message.error("JPG/PNG 파일만 업로드 가능해요!");
+  //   }
+  //   return isJpgOrPng ? true : Upload.LIST_IGNORE;
+  // };
+
+  // const handleChange = info => {
+  //   if (info.file.status === "uploading") {
+  //     setLoading(true);
+  //     return;
+  //   }
+  //   if (info.file.status === "done") {
+  //     setLoading(false);
+  //     message.success(`${info.file.name} file uploaded successfully`);
+  //   } else if (info.file.status === "error") {
+  //     setLoading(false);
+  //     message.error(`${info.file.name} file upload failed.`);
+  //   }
+  // };
+
   return (
-    <ReviewWrap>
+    <ReviewAddWrap>
       <div className="reviewBody">
-        <ReviewTitle>
+        <ReviewAddTitle>
           <span>Review : 작성하기</span>
           <p>구매한 제품에 대해 리뷰해 주세요.</p>
-        </ReviewTitle>
+        </ReviewAddTitle>
 
         <ConfigProvider
           theme={{
@@ -143,6 +142,13 @@ const ReviewAddPageCom = () => {
             style={{
               maxWidth: 600,
             }}
+            onFinish={onFinish}
+            onFinishFailed={onFinishFailed}
+            initialValues={{
+              constents: serverData.constents,
+              productScore: serverData.productScore,
+              reviewPics: serverData.reviewPics,
+            }}
           >
             <div className="productInfo">
               <div>
@@ -165,12 +171,12 @@ const ReviewAddPageCom = () => {
               </div>
             </div>
 
-            <RateBox>
+            <RateAddBox>
               <div>
                 <p>상품은 어떠셨나요 ?</p>
               </div>
               <Form.Item
-                name="rate"
+                name={productScore}
                 style={{
                   width: "350px",
                   margin: "0px",
@@ -179,19 +185,21 @@ const ReviewAddPageCom = () => {
                   alignItems: "center",
                 }}
               >
-                <Rate
-                  style={{
-                    width: "200px",
-                    fontSize: "40px",
-                    display: "flex",
-                    justifyContent: "flex-end",
-                    alignItems: "center",
-                  }}
-                />
+                <span>
+                  <Rate
+                    style={{
+                      width: "200px",
+                      fontSize: "40px",
+                      display: "flex",
+                      justifyContent: "flex-end",
+                      alignItems: "center",
+                    }}
+                  />
+                </span>
               </Form.Item>
-            </RateBox>
+            </RateAddBox>
 
-            <Form.Item style={{ width: "1150px" }}>
+            <Form.Item style={{ width: "1150px" }} name={constents}>
               <TextArea
                 style={{
                   width: "1150px",
@@ -250,6 +258,8 @@ const ReviewAddPageCom = () => {
                       multiple
                       accept=".jpg, .png"
                       overlay="true"
+                      type={reviewPics}
+                      // onChange={handleChange}
                     >
                       <button
                         style={{
@@ -274,16 +284,19 @@ const ReviewAddPageCom = () => {
                   </div>
 
                   <div className="buttonDiv">
-                    <Button
-                      type="primary"
-                      style={{
-                        borderRadius: 0,
-                        width: "140px",
-                        height: "60px",
-                      }}
-                    >
-                      작성완료
-                    </Button>
+                    <Form.Item>
+                      <Button
+                        type="primary"
+                        style={{
+                          borderRadius: 0,
+                          width: "140px",
+                          height: "60px",
+                        }}
+                        htmlType="submit"
+                      >
+                        작성완료
+                      </Button>
+                    </Form.Item>
                     <Button
                       type="default"
                       style={{
@@ -301,7 +314,7 @@ const ReviewAddPageCom = () => {
           </Form>
         </ConfigProvider>
       </div>
-    </ReviewWrap>
+    </ReviewAddWrap>
   );
 };
 

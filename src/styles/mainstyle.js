@@ -59,16 +59,27 @@ export const ReviewWish = styled.div`
   align-items: center;
   justify-content: center;
 `;
-export const StyledLabel = styled.label`
+export const StyledButton = styled.button`
   width: 14px;
   height: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+    filter: ${({ checked }) => (checked ? "none" : "grayscale(100%)")};
+  }
 `;
 export const ItemTitlePrice = styled.div`
   width: 230px;
-  margin-top: 5px;
+  margin-top: 3px;
   text-align: start;
   p {
     width: 230px;
@@ -81,8 +92,7 @@ export const ItemTitlePrice = styled.div`
   }
   b {
     font-size: 30px;
-    line-height: 30px;
-    margin-top: 5px;
+    line-height: 33 px;
   }
 `;
 
@@ -145,7 +155,7 @@ export const RcSwiperWrap = styled.div`
 export const SwiperDiv = styled.div`
   position: relative;
   display: block;
-  height: 600px;
+  height: 500px;
   .slide-prev-bt.swiper-button-disabled {
     display: none !important;
   }
