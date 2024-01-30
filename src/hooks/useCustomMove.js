@@ -12,6 +12,7 @@ export const useCustomMove = () => {
   // 뒤로가기
   const moveToPrev = () => {
     navigate(-1);
+    console.log("눌리니");
   };
 
   // 메인으로 이동
@@ -57,12 +58,25 @@ export const useCustomMove = () => {
 
   // 쿼리스트링 만들기
   const queryStrDeafult = createSearchParams({ page, size }).toString();
+  const queryStrpage = createSearchParams({ page}).toString();
+
+  const moveToListPage = pageParam => {
+    let queryStr = "";
+    if (pageParam) {
+      const pageNum = getNum(pageParam.page, page);
+      //쿼리 만들기
+      queryStr = createSearchParams({
+        page: pageNum,
+      }).toString();
+    } else {
+      queryStr = queryStrDeafult;
+    }
+    navigate({ pathname: "../list", search: queryStr });
+  };
 
   //목록으로가기 기능 만들기
-  //pageParam이 있으면 pageParam으로 이동
-  //pageParam이 없으면 1페이지로 이동
 
-  const moveToList = pageParam => {
+  const moveToListNum = pageParam => {
     let queryStr = "";
     if (pageParam) {
       const pageNum = getNum(pageParam.page, page);
@@ -92,11 +106,20 @@ export const useCustomMove = () => {
       search: queryStrDeafult,
     });
   };
+
+    // 상세 내용 보기
+    const moveToReadPage = tno => {
+      navigate({
+        pathname: `../read/${tno}`,
+        search: queryStrpage,
+      });
+    };
   const sortBy = () => {};
 
   return {
     sortBy,
-    moveToList,
+    moveToListPage,
+    moveToListNum,
     moveToModify,
     page,
     size,

@@ -1,21 +1,21 @@
 import { Button, Form } from "antd";
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { Link, Outlet, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { deleteOne, putAdress } from "../../api/address/AddressApi";
 import AddressDetailed from "../../components/address/AddressDeatail";
 import useCustomLogin from "../../hooks/useCustomLogin";
 import { AddressTitleWrap } from "../../styles/address/addressinfostyle";
+import useCustomMove from "../../hooks/useCustomMove";
 
 const AddressBtWrap = styled.div`
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   width: 1157px;
   margin: 0 auto;
   border-top: 1px solid #868686;
   padding-top: 28px;
   margin-bottom: 282px;
-  gap: 30px;
   button {
     width: 203px;
     height: 70px;
@@ -48,7 +48,7 @@ const AddressModify = () => {
   const [address, setAddress] = useState(initState);
 
   const { loginState, moveToPath } = useCustomLogin();
-
+  const { moveToPrev } = useCustomMove();
   useEffect(() => {
     setServerData({ ...loginState });
   }, [loginState]);
@@ -83,6 +83,10 @@ const AddressModify = () => {
   const handleClickRemove = () => {
     deleteOne({ iaddress: item.iaddress, successFn, failFn, errorFn });
   };
+
+  const PrevBt = () => {
+    moveToPrev();
+  };
   return (
     <div>
       <AddressHeadWrap />
@@ -110,43 +114,66 @@ const AddressModify = () => {
       >
         <AddressDetailed onAddressChange={updateAddressInfo} item={item} />
         <AddressBtWrap>
-          <Form.Item>
-            <Button
-              type="primary"
-              htmlType="button"
-              onClick={handleClickRemove}
-              style={{
-                width: "203px",
-                height: "70px",
-                fontSize: "20px",
-                fontWeight: 500,
-                border: "1px solid #FF4E4E",
-                background: "#FFF",
-                color: "#FF4E4E",
-              }}
-            >
-              주소 삭제하기
-            </Button>
-          </Form.Item>
-          <Form.Item>
-            <Button
-              type="primary"
-              htmlType="submit"
-              style={{
-                width: "203px",
-                height: "70px",
-                background: "#e9b25f",
-                color: "#fff",
-                fontSize: "20px",
-                fontWeight: 500,
-                border: "none",
-              }}
-            >
-              주소 수정하기
-            </Button>
-          </Form.Item>
+          <div>
+            <Form.Item>
+              <Button
+                type="primary"
+                htmlType="button"
+                onClick={() => PrevBt()}
+                style={{
+                  width: "203px",
+                  height: "70px",
+                  background: "#d9d9d9",
+                  color: "#868686",
+                  fontSize: "20px",
+                  fontWeight: 500,
+                  border: "none",
+                }}
+              >
+                뒤로가기
+              </Button>
+            </Form.Item>
+          </div>
+          <div style={{ display: "flex", gap: "30px" }}>
+            <Form.Item>
+              <Button
+                type="primary"
+                htmlType="button"
+                onClick={handleClickRemove}
+                style={{
+                  width: "203px",
+                  height: "70px",
+                  fontSize: "20px",
+                  fontWeight: 500,
+                  border: "1px solid #FF4E4E",
+                  background: "#FFF",
+                  color: "#FF4E4E",
+                }}
+              >
+                주소 삭제하기
+              </Button>
+            </Form.Item>
+            <Form.Item>
+              <Button
+                type="primary"
+                htmlType="submit"
+                style={{
+                  width: "203px",
+                  height: "70px",
+                  background: "#e9b25f",
+                  color: "#fff",
+                  fontSize: "20px",
+                  fontWeight: 500,
+                  border: "none",
+                }}
+              >
+                주소 수정하기
+              </Button>
+            </Form.Item>
+          </div>
         </AddressBtWrap>
       </Form>
+      <Outlet />
     </div>
   );
 };

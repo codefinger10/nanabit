@@ -1,7 +1,7 @@
 import React from "react";
 import { UserInformBt } from "../../styles/userinfo/userinfobtstyle";
 
-export const UserInfoBt = ({ handleClickAddress }) => {
+export const UserInfoBt = ({ handleClickAddress, productData }) => {
   return (
     <UserInformBt>
       <img
@@ -10,7 +10,8 @@ export const UserInfoBt = ({ handleClickAddress }) => {
       />
       <div>
         <h2 style={{ marginRight: "80px" }}>
-          저희 쇼핑몰을 이용해 주셔서 감사합니다 ??? 님은 [신입맘] 회원이십니다.
+          저희 쇼핑몰을 이용해 주셔서 감사합니다 {productData.nm} 님은 [신입맘]
+          회원이십니다.
         </h2>
 
         <h2>0원이상 구매시 1.5%을 추가적립 받으실 수 있습니다.</h2>

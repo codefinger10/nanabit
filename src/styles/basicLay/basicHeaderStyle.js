@@ -74,7 +74,9 @@ export const HeaderNav = styled.div`
 
   .header-top-right {
     position: relative;
+    width: 330px;
     display: flex;
+    justify-content: space-evenly;
     height: 50px;
     align-items: center;
   }
@@ -85,10 +87,21 @@ export const HeaderNav = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
+    button {
+      border: none;
+      background: transparent;
+      font-size: 1.5rem;
+      font-weight: 500;
+      color: #868686;
+      cursor: pointer;
+    }
   }
-  .member-menu li {
+  .member-menu a {
     position: relative;
-    padding-left: 30px;
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: #868686;
+    cursor: pointer;
   }
   .member-menu li a {
     position: relative;

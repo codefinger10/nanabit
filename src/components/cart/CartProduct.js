@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const CartProduct = () => {
+const CartProduct = ({ serverData }) => {
   const [selectAll, setSelectAll] = useState(false); // 전체 선택 상태
   const [selectedItems, setSelectedItems] = useState([]); // 선택된 아이템 상태
 
@@ -15,13 +15,13 @@ const CartProduct = () => {
   const handleSelectAll = () => {
     setSelectAll(!selectAll);
     // 전체 선택 체크박스를 토글할 때 선택된 아이템 목록을 업데이트합니다.
-    setSelectedItems(selectAll ? [] : data.map(item => item.id));
+    setSelectedItems(selectAll ? [] : serverData.map(item => item.iproduct));
   };
 
-  const handleSelectRow = id => {
-    const updatedSelectedItems = selectedItems.includes(id)
-      ? selectedItems.filter(itemId => itemId !== id)
-      : [...selectedItems, id];
+  const handleSelectRow = item => {
+    const updatedSelectedItems = selectedItems.includes(item.iproduct)
+      ? selectedItems.filter(itemId => itemId !== item.iproduct)
+      : [...selectedItems, item];
     setSelectedItems(updatedSelectedItems);
   };
 
@@ -70,13 +70,13 @@ const CartProduct = () => {
               style={{ height: "1px", borderTop: "solid 1px #D9D9D9 " }}
             ></td>
           </tr>
-          {data.map(item => (
-            <tr key={item.id} style={{ textAlign: "center" }}>
+          {serverData.map(item => (
+            <tr key={item.iproduct} style={{ textAlign: "center" }}>
               <td style={{ padding: "26px 0" }}>
                 <input
                   type="checkbox"
-                  checked={selectedItems.includes(item.id)}
-                  onChange={() => handleSelectRow(item.id)}
+                  checked={selectedItems.includes(item.iproduct)}
+                  onChange={() => handleSelectRow(item.iproduct)}
                 />
               </td>
               <td style={{ padding: "26px 0" }}>
@@ -88,16 +88,18 @@ const CartProduct = () => {
                 />
               </td>
               <td style={{ padding: "26px 0", textAlign: "start" }}>
-                {item.id}
+                {item.productNm}
               </td>
-              <td style={{ padding: "26px 0" }}>{item.name}</td>
+              <td style={{ padding: "26px 0" }}>
+                {item.price.toLocaleString()}
+              </td>
               <td style={{ width: "45px", height: "48px", padding: "26px 0" }}>
                 <input
                   type="number"
                   min={1}
                   max={9}
                   step={1}
-                  defaultValue={item.age}
+                  defaultValue={item.productCnt}
                   style={{
                     border: "1px solid #d9d9d9",
                     width: "45px",
@@ -123,9 +125,12 @@ const CartProduct = () => {
                   변경
                 </button>
               </td>
-              <td style={{ padding: "26px 0" }}>{item.occupation}</td>
-              <td style={{ padding: "26px 0" }}>{item.occupation}</td>
-              <td style={{ padding: "26px 0" }}> {item.occupation}</td>
+              <td style={{ padding: "26px 0" }}>기본배송</td>
+              <td style={{ padding: "26px 0" }}>무료</td>
+              <td style={{ padding: "26px 0" }}>
+                {" "}
+                {item.totalPrice.toLocaleString()}
+              </td>
               <td style={{ padding: "26px 0" }}>
                 <button
                   style={{
