@@ -2,6 +2,7 @@ import { Button, Checkbox, Form, Input, Modal } from "antd";
 import React, { useEffect, useState } from "react";
 import {
   getList,
+  getPayItemList,
   postSign,
   postSignCheck,
 } from "../../api/signupapi/SignupApi";
@@ -22,6 +23,7 @@ import {
   inputBt,
 } from "../../styles/signup/signup";
 import { useNavigate } from "react-router";
+import ResultModal from "../../components/signup/ResultModal";
 const initState = {
   nm: "",
   uid: "",
@@ -42,6 +44,9 @@ const Signup = () => {
   const [address, setAddress] = useState("");
   const [agreeBt, setAgreeBt] = useState([]);
   const [idCheck, setIdCheck] = useState("");
+  const [resultTitle, setResultTitle] = useState("");
+  const [resultContent, setResultContent] = useState("");
+  const [reDirect, setReDirect] = useState(0);
 
   const updateAddressInfo = ({ zonecode, address }) => {
     // 주소 정보 업데이트
@@ -63,12 +68,32 @@ const Signup = () => {
   };
 
   const successFn = result => {
+    setModalStyle({});
+    setModalStyleBk({});
     setMemberInfo(result);
+    setResultTitle("회원 가입");
+    setResultContent("회원 가입이 되었습니다. 로그인 해주세요.");
+    setReDirect(0);
     // userPk(result)
-    navigate("/login")
   };
-  const failFn = () => {};
-  const errFn = () => {};
+
+  const failFn = () => {
+    setResultTitle("항목 확인");
+    setResultContent("모든 항목을 입력해주세요.");
+    setReDirect(1);
+  };
+  const errFn = () => {
+    setModalStyle({ color: "red" });
+    setModalStyleBk({ background: "red" });
+    setResultTitle("서버 오류");
+    setResultContent(
+      <div>
+        오류가 발생하였습니다. <br />
+        관리자에게 문의해 주세요.
+      </div>,
+    );
+    setReDirect(1);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -83,20 +108,46 @@ const Signup = () => {
     fetchData();
   }, []);
 
-  
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const result = await getPayItemList();
+        console.log(result);
+      } catch (error) {
+        alert("데이터 호출에 실패하였습니다.");
+      }
+    };
+
+    fetchData();
+  }, []);
+
   const [required, setRequired] = useState(false);
+  const [modalStyle, setModalStyle] = useState({});
+  const [modalStyleBk, setModalStyleBk] = useState({});
   const [isCheckedaa, setIsCheckedaa] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [requiredList, setRequiredList] = useState(
+    Array(agreeBt.length).fill(false),
+  );
+
+  const updateRequiredList = (index, isChecked) => {
+    const newRequiredList = [...requiredList];
+    newRequiredList[index] = isChecked;
+    setRequiredList(newRequiredList);
+  };
   const showModal = () => {
     setIsModalOpen(true);
   };
   const handleModalOk = () => {
-    console.log(required);
-    if (required === true) {
+    console.log(requiredList);
+
+    // 모든 동의 항목이 체크되었을 때만 setIsCheckedaa(true) 호출
+    if (requiredList.every(item => item)) {
       setIsCheckedaa(true);
-    } else if (required === false) {
+    } else {
       setIsCheckedaa(false);
     }
+
     setIsModalOpen(false);
   };
 
@@ -104,24 +155,61 @@ const Signup = () => {
     setIsModalOpen(false);
   };
   const [userId, setUserId] = useState("");
+
   const handleClickCheck = () => {
     const userObject = {
       uid: userId,
     };
 
-    postSignCheck(userObject);
+    postSignCheck({ userObject, successFnid, failFnid, errorFnid });
+  };
+
+  const successFnid = result => {
+    setModalStyle({});
+    setModalStyleBk({});
+    setResultTitle("아이디 중복 확인");
+    setResultContent("사용할 수 있는 아이디입니다.");
+    setReDirect(0);
+    console.log(result);
+  };
+
+  const failFnid = result => {
+    setResultTitle("아이디 중복 확인");
+    setResultContent("이미 사용중인 아이디입니다.");
+    setReDirect(1);
+    console.log(result);
+  };
+
+  const errorFnid = result => {
+    setModalStyle({ color: "red" });
+    setModalStyleBk({ background: "red" });
+    setResultTitle("서버 오류");
+    setResultContent(
+      <div>
+        오류가 발생하였습니다. <br />
+        관리자에게 문의해 주세요.
+      </div>,
+    );
+    setReDirect(1);
+    console.log(result);
+  };
+
+  const closeModal = () => {
+    setResultTitle("");
+    setResultContent("");
   };
 
   const onFinish = values => {
     // 회원가입 버튼 클릭 시 체크박스가 체크되어 있는지 확인
-    if (!required) {
+    if (required) {
       // 체크박스가 체크되지 않은 경우 회원가입 처리를 하지 않고 반환
       alert("약관에 동의해주세요.");
       return;
-    }+
-
-    // 회원가입 처리 코드
-    setMemberInfo({ ...values });
+    }
+    +(
+      // 회원가입 처리 코드
+      setMemberInfo({ ...values })
+    );
     values.address = address;
     values.zipCode = zonecode;
     console.log("Success:", values);
@@ -131,11 +219,20 @@ const Signup = () => {
     console.log("Failed:", errorInfo);
   };
   const handleClickBack = () => {
-    navigate(-1)
-  }
+    navigate(-1);
+  };
 
   return (
-    <>
+    <div>
+      {resultTitle !== "" ? (
+        <ResultModal
+          title={resultTitle}
+          content={resultContent}
+          callFN={closeModal}
+          errorbt={modalStyle}
+          errorbk={modalStyleBk}
+        />
+      ) : null}
       <SignupWrap>
         <div className="signimg">
           <img src={process.env.PUBLIC_URL + "/assets/images/signup.svg"} />
@@ -156,7 +253,6 @@ const Signup = () => {
             remember: true,
             nm: memberInfo.nm,
             uid: memberInfo.uid,
-
             upw: memberInfo.upw,
             confirm: memberInfo.confirm,
             zipCode: memberInfo.zipCode,
@@ -253,6 +349,7 @@ const Signup = () => {
             rules={[
               {
                 type: "email",
+                message: "이메일을 올바르게 작성 해주세요.",
               },
             ]}
           >
@@ -306,6 +403,8 @@ const Signup = () => {
                 동의하시겠습니까?
               </Checkbox>
               <Modal
+                okText="확인"
+                cancelText="취소"
                 open={isModalOpen}
                 onOk={handleModalOk}
                 onCancel={handleModalCancel}
@@ -322,12 +421,15 @@ const Signup = () => {
                     >
                       <p>{item.contents}</p>
                     </div>
-
-                    <input
+                    <Checkbox
                       type="checkbox"
                       name="bothcheck"
-                      onChange={e => setRequired(e.target.checked)}
-                    />
+                      onChange={e =>
+                        updateRequiredList(iclause, e.target.checked)
+                      }
+                    >
+                      동의함
+                    </Checkbox>
                   </li>
                 ))}
               </Modal>
@@ -335,7 +437,11 @@ const Signup = () => {
           </div>
           <div className="signupbt">
             <Form.Item>
-              <Button type="primary" style={buttonPrimaryBack} onClick={handleClickBack}>
+              <Button
+                type="primary"
+                style={buttonPrimaryBack}
+                onClick={handleClickBack}
+              >
                 <span style={{ color: "#868686" }}>뒤로가기</span>
               </Button>
             </Form.Item>
@@ -351,7 +457,7 @@ const Signup = () => {
           </div>
         </Form>
       </SignupWrap>
-    </>
+    </div>
   );
 };
 

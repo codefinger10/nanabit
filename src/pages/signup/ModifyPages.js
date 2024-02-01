@@ -7,7 +7,7 @@ import {
   babyInfoPush,
 } from "../../styles/signup/signup";
 
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { deleteModify, putModify } from "../../api/signupapi/SignupApi";
 import ChildComponent from "../../components/signup/ChildComponent ";
 import ResultModal from "../../components/signup/ResultModal";
@@ -40,9 +40,35 @@ const ModifyPages = () => {
   const [resultTitle, setResultTitle] = useState("");
   const [resultContent, setResultContent] = useState("");
   const [reDirect, setReDirect] = useState(0);
+  const [modalStyle, setModalStyle] = useState({});
+  const [modalStyleBk, setModalStyleBk] = useState({});
 
   const handleClickDelete = () => {
-    deleteModify();
+    deleteModify({ successPro, failPro, errorPro });
+  };
+
+  const successPro = result => {
+    setModalStyle({});
+    setModalStyleBk({});
+    setResultTitle("탈퇴 확인");
+    setResultContent("회원 탈퇴가 되었습니다. ");
+    setReDirect(0);
+    console.log(result);
+  };
+  const failPro = result => {
+    setResultContent("회원 탈퇴에 실패하였습니다. ");
+    console.lpg("실패", result);
+  };
+  const errorPro = result => {
+    setModalStyle({ color: "red" });
+    setModalStyleBk({ background: "red" });
+    setResultContent(
+      <div>
+        오류가 발생하였습니다. <br />
+        관리자에게 문의해 주세요.
+      </div>,
+    );
+    console.log("서버 오류", result);
   };
 
   const onFinish = values => {
@@ -57,8 +83,15 @@ const ModifyPages = () => {
   };
 
   const successFn = result => {
-    setResultTitle("회원정보수정 확인");
-    setResultContent("회원정보 수정이 되었습니다. 다시 로그인 해주세요.");
+    setModalStyle({});
+    setModalStyleBk({});
+    setResultTitle("회원정보수정");
+    setResultContent(
+      <div>
+        회원정보 수정이 되었습니다.
+        <br /> 다시 로그인 해주세요.
+      </div>,
+    );
     setReDirect(0);
     console.log(result);
   };
@@ -73,8 +106,15 @@ const ModifyPages = () => {
   };
 
   const errorFn = result => {
+    setModalStyle({ color: "red" });
+    setModalStyleBk({ background: "red" });
     setResultTitle("서버 오류");
-    setResultContent("오류가 발생하였습니다. 관리자에게 문의해 주세요.");
+    setResultContent(
+      <div>
+        오류가 발생하였습니다. <br />
+        관리자에게 문의해 주세요.
+      </div>,
+    );
     setReDirect(1);
     console.log(result);
   };
@@ -90,7 +130,6 @@ const ModifyPages = () => {
     }
   };
 
-
   return (
     <div>
       {resultTitle !== "" ? (
@@ -98,6 +137,9 @@ const ModifyPages = () => {
           title={resultTitle}
           content={resultContent}
           callFN={closeModal}
+          errorFn={errorFn}
+          errorbt={modalStyle}
+          errorbk={modalStyleBk}
         />
       ) : null}
       <div style={modifyInfo}>

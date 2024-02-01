@@ -1,10 +1,11 @@
 import Icon from "@ant-design/icons/lib/components/Icon";
-import { Button, Form, Modal } from "antd";
+import { Button, Modal } from "antd";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
-import { getProduct } from "../../api/signupapi/SignupApi";
+import { useNavigate, useParams } from "react-router-dom";
+import { getProduct, getwish, postOrder } from "../../api/signupapi/SignupApi";
 import PrettyCounter from "../../components/Count";
 import ImgSwiper from "../../components/signup/ImgSwiper";
+import useCustomMove from "../../hooks/useCustomMove";
 import {
   ItemHeart,
   ItemHover,
@@ -15,8 +16,20 @@ import {
   StyledButton,
   StyledDiv,
 } from "../../styles/signup/item";
-import { useSearchParams } from "react-router-dom";
+const initData = {
+  products: [
+    {
+      iproduct: 0,
+      productCnt: 0,
+      productTotalPrice: 0,
+    },
+  ],
+};
+
 const ItemPage = () => {
+  const [initProduct, setIntiProduct] = useState(initData);
+  const { iproduct } = useParams();
+  const { moveToItem, page } = useCustomMove();
   const [reviews, setReviews] = useState([
     {
       id: 1,
@@ -98,14 +111,7 @@ const ItemPage = () => {
     </svg>
   );
   const [bbb, setBbb] = useState(false);
-  const aaa = tno => {
-    if (!bbb) {
-      setBbb(true);
-      console.log(`상품${tno}번 찜했습니다.`);
-    } else {
-      setBbb(false);
-    }
-  };
+  const aaa = () => {};
   const HeartIcon = props => <Icon component={HeartSvg} {...props} />;
   const [isOpen, setIsOpen] = useState(false);
   const handleClickModal = () => {
@@ -118,46 +124,74 @@ const ItemPage = () => {
   const handleCancel = () => {
     setIsOpen(false);
   };
-  const handleClickadd = () => {
-    navigate("/payment");
-  };
+
   const [productData, setProductData] = useState([]);
+  console.log(productData.price);
+  console.log(productData.iproduct);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await getProduct();
-        setProductData(...result);
+        const result = await getProduct(iproduct, page);
+        // setProductData(...result);
+        setProductData(result);
       } catch (error) {
         alert("데이터 호출에 실패하였습니다.");
       }
     };
-
     fetchData();
   }, []);
 
   console.log(productData);
   const [count, setCount] = useState(1);
+  console.log(count);
 
-  const [urlSearchParams, setUrlSearchParams] = useSearchParams();
+  const asd = {
+    products: [
+      {
+        iproduct: productData.iproduct,
+        productCnt: count,
+        productTotalPrice: productData.price * count,
+      },
+    ],
+    totalOrderPrice: productData.price * count,
+  };
 
-  const page = urlSearchParams.get("page")
-    ? parseInt(urlSearchParams.get("page"))
-    : 1;
-
-  // 페이지당 보여줄 개수
-  const size = urlSearchParams.get("size")
-    ? parseInt(urlSearchParams.get("size"))
-    : 10;
+  console.log(asd);
 
 
+  const handleClickadd = () => { 
+    postOrder({
+      asd, successFn, failFn, errorFn
+    });
+    navigate(`/payment`, { state: { ...serverResult } })
+  };
 
-    
+  const [serverResult, setServerResult] = useState(null);
+  const successFn = result => {
+    setServerResult(result)
+  };
+
+  const failFn = result => {
+
+  };
+
+  const errorFn = result => {
+
+  };
+
+  const addComma = price => {
+    let returnString = price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return returnString;
+  };
+  const price = addComma(productData.price * count);
+
+
   return (
     <ItemMain>
       <ItemWrap>
         <div style={{ width: "600px", height: "520px" }}>
-          <ImgSwiper />
+          <ImgSwiper productData={productData} />
         </div>
         <div style={{ width: "800px" }}>
           <div style={{ paddingBottom: 220 }}>
@@ -176,12 +210,16 @@ const ItemPage = () => {
           </div>
           <ItemPrice>
             <div>
-              <PrettyCounter setCount={setCount} count={count} />
+              <PrettyCounter
+                name="productCnt"
+                setCount={setCount}
+                count={count}
+              />
             </div>
             <div>
               <div className="itemFree">무료배송</div>
               <div className="itemOnePrice">
-                {count}개 <b>{count * productData.price}</b> <sapn>원</sapn>
+                {count}개 <b name="">{price}</b> <sapn>원</sapn>
               </div>
             </div>
           </ItemPrice>
@@ -205,12 +243,13 @@ const ItemPage = () => {
           </Button>
           {isOpen && (
             <Modal
-              title="smartstore 내용:"
+              title="장바구니"
               open={handleClickModal}
               onOk={handleOk}
               okText="확인"
               onCancel={handleCancel}
               cancelText="취소"
+              style={{ background: "red", height: "500px" }}
             >
               <p>장바구니에 상품을 담았습니다.</p>
               <p>장바구니로 이동하시겠습니까?</p>
@@ -384,10 +423,8 @@ const ItemPage = () => {
                         >
                           <div>
                             <img
-                              src={
-                                process.env.PUBLIC_URL +
-                                "/assets/images/defaultitemimg.svg"
-                              }
+                              src={review.reqReviewPic}
+                              style={{ width: "300px", height: "200px" }}
                             />
                           </div>
                           <div
