@@ -11,6 +11,7 @@ import {
   ProductWrap,
 } from "../../styles/product/ProductGridStyle";
 import { getProductPage } from "../../api/product/productApi";
+import useCustomMove from "../../hooks/useCustomMove";
 
 const initState = {
   iproduct: 0,
@@ -112,6 +113,7 @@ const ProductLayout = () => {
     setCurrentPage(page);
   };
 
+  const { moveToItem } = useCustomMove();
   return (
     <ProductWrap>
       <div>
@@ -162,6 +164,9 @@ const ProductLayout = () => {
               key={product.iproduct}
               product={product}
               onCheckboxChange={handleCheckboxChange}
+              onselet={() => {
+                moveToItem(product.iproduct);
+              }}
             />
           ))}
         </GridContainer>

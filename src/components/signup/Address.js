@@ -70,7 +70,7 @@ const Address = ({ onAddressChange }) => {
 
       {isOpen && (
         <Modal
-          title="Basic Modal"
+          title="주소 찾기"
           open={isModalOpen}
           onOk={handleOk}
           onCancel={handleCancel}

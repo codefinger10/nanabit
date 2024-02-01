@@ -23,6 +23,7 @@ import CommuAdd from "./pages/community/communiys/CommuAdd";
 import CommuEdit from "./pages/community/communiys/CommuEdit";
 import CommuRead from "./pages/community/communiys/CommuRead";
 import NoticePage from "./pages/community/communiys/NoticePage";
+import ModifyPw from "./pages/signup/ModifyPw";
 
 import BasicLayout from "./layouts/BasicLayout";
 import ModifyPages from "./pages/signup/ModifyPages";
@@ -75,8 +76,9 @@ const App = () => {
           <Route path="/review" element={<ReviewPage />}></Route>
           <Route path="/reviewadd" element={<ReviewAddPage />}></Route>
           <Route path="/signup" element={<Signup />}></Route>
-          <Route path="/Modify" element={<ModifyPages />}></Route>
-          <Route path="/item" element={<ItemPage />}></Route>
+          <Route path="/modify/:id" element={<ModifyPages />}></Route>
+          <Route path="/modifypw" element={<ModifyPw />}></Route>
+          <Route path="/item/:iproduct" element={<ItemPage />}></Route>
           <Route path="/cc" element={<SerchPage />}></Route>
 
           <Route path="/address/" element={<AddressInfo />}></Route>

@@ -61,8 +61,12 @@ const ModifyPw = () => {
   const [resultTitle, setResultTitle] = useState("");
   const [resultContent, setResultContent] = useState("");
   const [reDirect, setReDirect] = useState(0);
+  const [modalStyle, setModalStyle] = useState({});
+  const [modalStyleBk, setModalStyleBk] = useState({});
 
   const successFn = result => {
+    setModalStyle({});
+    setModalStyleBk({});
     setServerResult(result);
     setResultTitle("비밀번호 확인");
     setResultContent("비밀번호 확인에 성공하였습니다.");
@@ -78,11 +82,20 @@ const ModifyPw = () => {
     console.log(result);
   };
   const errorFn = result => {
+    setModalStyle({ color: "red" });
+    setModalStyleBk({ background: "red" });
+
     setResultTitle("서버 오류");
-    setResultContent("오류가 발생하였습니다. 관리자에게 문의해 주세요.");
+    setResultContent(
+      <div>
+        오류가 발생하였습니다. <br />
+        관리자에게 문의해 주세요.
+      </div>,
+    );
     setReDirect(1);
     console.log(result);
   };
+
   const closeModal = () => {
     // 팝업닫기
     setResultTitle("");
@@ -105,6 +118,8 @@ const ModifyPw = () => {
           title={resultTitle}
           content={resultContent}
           callFN={closeModal}
+          errorbt={modalStyle}
+          errorbk={modalStyleBk}
         />
       ) : null}
       <ModifyPwWrap>

@@ -7,7 +7,7 @@ import "swiper/css/navigation";
 
 // import required modules
 import { Navigation } from "swiper/modules";
-import { getMainList } from "../../api/mainpageapi/mainPageApi";
+import { getMainList } from "../../api/mainpageapi/MainPageApi";
 import {
   ItemDecArea,
   ItemImg,
