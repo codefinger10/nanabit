@@ -1,11 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
-
 // Import Swiper
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
-
 // import required modules
 import { getPoPNewList } from "../../api/mainpageapi/mainPageApi";
 import useCustomLogin from "../../hooks/useCustomLogin";
@@ -21,7 +19,6 @@ import {
 } from "../../styles/mainstyle";
 import MainHeartBt from "./MainHeartBt";
 import MainItemBoxTag from "./MainItemBoxTag";
-
 const initState = [
   {
     iproduct: 0,
@@ -35,22 +32,18 @@ const initState = [
     repPic: "",
   },
 ];
-
 const MainRcItem = () => {
   // 데이터 자료연동
   const [data, setData] = useState(initState);
   const swiperRef = useRef(null);
-
   // 패스이동 =========================================
   const { moveToPath, moveToObj } = useCustomLogin();
   const moveToProduct = item => {
     moveToObj("/item", item.iproduct);
   };
   // 패스이동 =========================================
-
   useEffect(() => {
     // 데이터 연동 처리 결과
-
     const successFn = result => {
       setData(result);
       // console.log(result);
@@ -63,16 +56,13 @@ const MainRcItem = () => {
     };
     getPoPNewList({ successFn, failFn, errorFn });
   }, []);
-
   if (!setData) {
     return <p>Loading...</p>;
   }
-
   // 인기상품 필터
   const filteredPopFl = data.filter(item => item.popFl === 1);
   // 신상품 필터
   const filteredNewFl = data.filter(item => item.newFl === 1);
-
   return (
     <div>
       {/* 인기상품 */}
@@ -82,9 +72,8 @@ const MainRcItem = () => {
             품절되기 전에 확인하세요!
             <br />
           </span>
-          <i>🔥 Hot한 인기상품 🔥</i>
+          <i>:불: Hot한 인기상품 :불:</i>
         </TextArea>
-
         <RcSwiperWrap>
           <div
             style={{
@@ -179,9 +168,8 @@ const MainRcItem = () => {
             모두가 기다렸던 그 상품 지금 바로 OPEN
             <br />
           </span>
-          <i>💡 드디어 출시, 신상품 💡</i>
+          <i>:전구: 드디어 출시, 신상품 :전구:</i>
         </TextArea>
-
         <RcSwiperWrap>
           <div
             style={{
@@ -273,5 +261,4 @@ const MainRcItem = () => {
     </div>
   );
 };
-
 export default MainRcItem;

@@ -6,7 +6,9 @@ import ProductLayout from "./ProductLayout";
 const ProductPage = () => {
   return (
     <div>
-      <ProductLayout />
+      <Outlet>
+        <ProductLayout />
+      </Outlet>
     </div>
   );
 };

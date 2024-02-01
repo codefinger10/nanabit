@@ -3,6 +3,7 @@ import styled from "@emotion/styled";
 export const CardContainer = styled.div`
   padding: 16px;
   margin: 16px;
+  overflow: hidden;
 
   .card-img {
     width: 263px;
@@ -41,6 +42,7 @@ export const CardFlex = styled.div`
   justify-content: space-between;
   margin-top: 10px;
   margin-bottom: 10px;
+
   .tagform {
     display: flex;
   }

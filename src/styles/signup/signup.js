@@ -54,8 +54,8 @@ export const themeObj = {
 };
 
 export const postCodeStyle = {
-  width: "260px",
-  height: "380px",
+  width: "450px",
+  height: "500px",
 };
 
 export const BabyInfo = styled.div`
