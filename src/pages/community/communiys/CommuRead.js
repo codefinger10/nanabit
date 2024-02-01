@@ -3,8 +3,8 @@ import { useNavigate, useOutletContext, useParams } from "react-router";
 import { getOne } from "../../../api/community/communityApi";
 import DefaultButton from "../../../components/basic/DefaultButton";
 import { NoticeBoard } from "../styles/commStyle";
-import Asd from "./Asd";
 import { useSearchParams } from "react-router-dom";
+import Comment from "./Comment";
 
 const initState = {
   iboard: 0,
@@ -41,7 +41,7 @@ const CommuRead = () => {
       setMaintxt("1:1 문의");
       setSubtxt("문의사항이 있으면 언제든지 문의해 주세요.");
     }
-  }, []);
+  }, [id]);
 
   const handleGoBack = () => {
     navigate(-1);
@@ -85,7 +85,7 @@ const CommuRead = () => {
             />
           </div>
         </div>
-        <Asd />
+        <Comment id={id} />
       </NoticeBoard>
     </>
   );

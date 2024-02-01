@@ -11,7 +11,6 @@ import {
   ProductWrap,
 } from "../../styles/product/ProductGridStyle";
 import { getProductPage } from "../../api/product/productApi";
-import useCustomMove from "../../hooks/useCustomMove";
 
 const initState = {
   iproduct: 0,
@@ -25,7 +24,7 @@ const initState = {
   repPic: "",
 };
 
-const ProductLayout = () => {
+const ToyProduct = () => {
   const [productData, setProductData] = useState([]);
   const [listProductData, setlistProductData] = useState([]);
   const [activeCategory, setActiveCategory] = useState(0);
@@ -113,13 +112,12 @@ const ProductLayout = () => {
     setCurrentPage(page);
   };
 
-  const { moveToItem } = useCustomMove();
   return (
     <ProductWrap>
       <div>
         <div className="protitle">
           <CommunityTitle
-            maintxt="이유식"
+            maintxt="놀이용품"
             // 이이이
             subtxt="배송 및 상품관련 공지사항을 확인해 주세요."
           />
@@ -130,15 +128,15 @@ const ProductLayout = () => {
             onClick={() => handleSubcategoryClick(1)}
             active={activeSubcategory === 1}
           >
-            중분류1
+            유아교구
           </MealButton>
           <MealButton
             onClick={() => handleSubcategoryClick(2)}
             active={activeSubcategory === 2}
           >
-            중분류2
+            애착인형
           </MealButton>
-          <MealButton
+          {/* <MealButton
             onClick={() => handleSubcategoryClick(3)}
             active={activeSubcategory === 3}
           >
@@ -149,7 +147,7 @@ const ProductLayout = () => {
             active={activeSubcategory === 4}
           >
             중분류4
-          </MealButton>
+          </MealButton> */}
         </div>
 
         <LowHighBt
@@ -164,9 +162,6 @@ const ProductLayout = () => {
               key={product.iproduct}
               product={product}
               onCheckboxChange={handleCheckboxChange}
-              onselet={() => {
-                moveToItem(product.iproduct);
-              }}
             />
           ))}
         </GridContainer>
@@ -184,4 +179,4 @@ const ProductLayout = () => {
   );
 };
 
-export default ProductLayout;
+export default ToyProduct;

@@ -3,6 +3,7 @@ import styled from "styled-components";
 export const ItemMain = styled.div`
   width: 1220px;
   margin: 0 auto;
+
 `;
 
 export const ItemWrap = styled.div`

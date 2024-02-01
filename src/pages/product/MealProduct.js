@@ -11,7 +11,6 @@ import {
   ProductWrap,
 } from "../../styles/product/ProductGridStyle";
 import { getProductPage } from "../../api/product/productApi";
-import useCustomMove from "../../hooks/useCustomMove";
 
 const initState = {
   iproduct: 0,
@@ -25,7 +24,7 @@ const initState = {
   repPic: "",
 };
 
-const ProductLayout = () => {
+const MealProduct = () => {
   const [productData, setProductData] = useState([]);
   const [listProductData, setlistProductData] = useState([]);
   const [activeCategory, setActiveCategory] = useState(0);
@@ -37,6 +36,15 @@ const ProductLayout = () => {
   // soltby====================================
   const [sortBy, setSortBy] = useState(0); // 기본값으로 최신순(0)을 설정
   const [activeLHFilter, setActiveLHFilter] = useState(0);
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const openModal = () => {
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
 
   const handleChangeSortBy = newSortBy => {
     console.log("newSortBy", newSortBy);
@@ -113,7 +121,6 @@ const ProductLayout = () => {
     setCurrentPage(page);
   };
 
-  const { moveToItem } = useCustomMove();
   return (
     <ProductWrap>
       <div>
@@ -130,25 +137,25 @@ const ProductLayout = () => {
             onClick={() => handleSubcategoryClick(1)}
             active={activeSubcategory === 1}
           >
-            중분류1
+            초기(4~6개월)
           </MealButton>
           <MealButton
             onClick={() => handleSubcategoryClick(2)}
             active={activeSubcategory === 2}
           >
-            중분류2
+            중기(7~9개월)
           </MealButton>
           <MealButton
             onClick={() => handleSubcategoryClick(3)}
             active={activeSubcategory === 3}
           >
-            중분류3
+            후기(10~12개월)
           </MealButton>
           <MealButton
             onClick={() => handleSubcategoryClick(4)}
             active={activeSubcategory === 4}
           >
-            중분류4
+            완료기(12~24개월)
           </MealButton>
         </div>
 
@@ -164,9 +171,6 @@ const ProductLayout = () => {
               key={product.iproduct}
               product={product}
               onCheckboxChange={handleCheckboxChange}
-              onselet={() => {
-                moveToItem(product.iproduct);
-              }}
             />
           ))}
         </GridContainer>
@@ -184,4 +188,4 @@ const ProductLayout = () => {
   );
 };
 
-export default ProductLayout;
+export default MealProduct;

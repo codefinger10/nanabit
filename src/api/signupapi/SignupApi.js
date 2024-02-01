@@ -1,5 +1,8 @@
 import axios from "axios";
 import jwtAxios from "../../util/jwtUtil";
+import { API_SERVER_HOST } from "../../util/util";
+
+const host = `${API_SERVER_HOST}/api/product`;
 
 export const postSign = async ({ values, successFn, failFn, errFn }) => {
   console.log(values);
@@ -39,21 +42,24 @@ export const getList = async () => {
   }
 };
 
-export const postSignCheck = async userObject => {
+export const postSignCheck = async ({
+  userObject,
+  successFnid,
+  failFnid,
+  errorFnid,
+}) => {
   try {
     const res = await axios.post(`/api/user/sign-up/check-id`, userObject);
     console.log(res);
     const status = res.status.toString();
-    const httpSt = status.charAt(0);
-    if (httpSt === "2") {
-      alert("사용 가능한 아이디 입니다.");
-      return res.data;
-    } else {
-      alert("이미 사용중인 아이디 입니다.");
-      return "잘못된 정보를 전달함.";
+    if (status.charAt(0) === "2") {
+      successFnid(res.data);
+    } else if (status === "400") {
+      failFnid(res.data);
+      console.log("히윽");
     }
   } catch (error) {
-    console.log(error);
+    errorFnid("서버에러에요");
   }
 };
 
@@ -83,15 +89,35 @@ export const postModify = async ({ values, successFn, failFn, errorFn }) => {
       successFn(res.data);
     } else {
       failFn("전송 오류입니다.");
+      console.log("히윽");
     }
   } catch (error) {
     errorFn("서버에러에요");
   }
 };
 
-export const deleteModify = async () => {
+export const deleteModify = async ({ successPro, failPro, errorPro, aaa }) => {
   try {
     const res = await jwtAxios.delete(`/api/user/modify`);
+    console.log(res.data.result);
+    const status = res.status.toString();
+    if (status.charAt(0) === "2") {
+      successPro(res.data);
+    } else {
+      failPro("전송 오류입니다.");
+      console.log("히윽");
+    }
+  } catch (error) {
+    errorPro("서버에러에요");
+  }
+};
+
+export const getProduct = async (iproduct, param) => {
+  try {
+    const res = await jwtAxios.get(`/api/product/${iproduct}`, {
+      params: { ...param },
+    });
+    console.log(iproduct);
     console.log(res);
     const status = res.status.toString();
     const httpSt = status.charAt(0);
@@ -105,18 +131,32 @@ export const deleteModify = async () => {
   }
 };
 
-export const getProduct = async () => {
+export const postOrder = async ({ asd, successFn, failFn, errorFn }) => {
+  console.log(asd);
   try {
-    const res = await jwtAxios.get(`/api/product/1?page=1`);
+    const res = await jwtAxios.post(`/api/order`, asd);
     console.log(res);
     const status = res.status.toString();
-    const httpSt = status.charAt(0);
-    if (httpSt === "2") {
-      return res.data;
+    if (status.charAt(0) === "2") {
+      successFn(res.data);
     } else {
-      return "잘못된 정보를 전달함.";
+      failFn("히윽");
     }
   } catch (error) {
-    console.log(error);
+    // 오류 처리 함수 호출 시 오류 메시지 전달
+    errorFn("서버에러에요");
+  }
+};
+
+export const getPayItemList = async () => {
+  try {
+    const res = await jwtAxios.get(`api/order/confirm?iorder=100025`);
+    console.log("asdsadsa", res);
+    const status = res.status.toString();
+    if (status.charAt(0) === "2") {
+      console.log("!@!@!@!@", res);
+    }
+  } catch (error) {
+    console.log("목록 호출 서버 에러에요", error);
   }
 };

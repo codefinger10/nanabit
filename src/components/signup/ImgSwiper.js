@@ -30,7 +30,7 @@ const slideData = [
   },
 ];
 
-export default function ImgSwiper() {
+export default function ImgSwiper({productData}) {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
   return (

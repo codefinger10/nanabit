@@ -68,6 +68,8 @@ export const useCustomMove = () => {
 
   const queryStrpage = createSearchParams({ board_code, page }).toString();
 
+  const queryItempage = createSearchParams({page}).toString();
+
   //목록으로가기 기능 만들기
   //pageParam이 있으면 pageParam으로 이동
   //pageParam이 없으면 1페이지로 이동
@@ -87,6 +89,7 @@ export const useCustomMove = () => {
     }
     navigate({ pathname: "../list", search: queryStr });
   };
+
   const moveToListPahe = pageParam => {
     let queryStr = "";
     if (pageParam) {
@@ -100,7 +103,7 @@ export const useCustomMove = () => {
     } else {
       queryStr = queryStrpage;
     }
-    navigate({ pathname: "../list", search: queryStr });
+    navigate({ pathname: "../item", search: queryStr });
   };
 
   // 수정창 이동하기
@@ -115,6 +118,14 @@ export const useCustomMove = () => {
     navigate({
       pathname: `../read/${tno}`,
       search: queryStrDeafult,
+    });
+  };
+
+  // 상품 상세 보기
+  const moveToItem = tno => {
+    navigate({
+      pathname: `../item/${tno}`,
+      search: queryItempage,
     });
   };
 
@@ -152,6 +163,8 @@ export const useCustomMove = () => {
     moveToMypage,
     moveToReadPage,
     moveToAdd,
+    moveToItem,
+
   };
 };
 export default useCustomMove;

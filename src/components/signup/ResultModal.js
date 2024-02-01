@@ -1,6 +1,6 @@
 import React from "react";
 // 타이틀, 내용, 확인버튼 클릭시 콜백 함수
-const ResultModal = ({ title, content, callFN }) => {
+const ResultModal = ({ title, content, callFN, errorbt, errorbk }) => {
   const popstyle = {
     position: "fixed",
     display: "flex",
@@ -11,15 +11,63 @@ const ResultModal = ({ title, content, callFN }) => {
     width: "100%",
     height: "100%",
     background: "rgba(0,0,0,0.7)",
+    borderRadius: "20px",
     zIndex: 999,
   };
+  const popmodal = {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    textAlign: "center",
+    width: "500px",
+    height: "250px",
+    borderRadius: "20px",
+    background: "#fff",
+    gap: 15,
+  };
+  const poptitle = {
+    color: "#4F95FF",
+    fontFamily: "Noto Sans KR",
+    fontSize: "60px",
+    fontStyle: "normal",
+    fontWeight: 700,
+    lineHeight: "normal",
+    ...errorbt,
+  };
+  const popcontent = {
+    color: "#000",
+    textAlign: "center",
+    fontFamily: "Noto Sans KR",
+    fontSize: "25px",
+    fontStyle: "normal",
+    fontWeight: 500,
+    lineHeight: "normal",
+    wordBreak: "pre-line",
+  };
+  const popbt = {
+    width: "70px",
+    height: "40px",
+    fontFamily: "Noto Sans KR",
+    fontSize: "15px",
+    fontStyle: "normal",
+    fontWeight: 700,
+    lineHeight: "normal",
+    color: "#FFF",
+    border: "none",
+    borderRadius: "5px",
+    background: "#4F95FF",
+    ...errorbk,
+  };
+
   return (
     <div style={popstyle}>
-      <div style={{ background: "#fff", textAlign:"center" }}>
-        <div>{title}</div>
-        <div>{content}</div>
+      <div style={popmodal}>
+        <div style={poptitle}>{title}</div>
+        <div style={popcontent}>{content}</div>
         <div>
-          <button onClick={callFN}>창 닫기</button>
+          <button onClick={callFN} style={popbt}>
+            창 닫기
+          </button>
         </div>
       </div>
     </div>

@@ -20,7 +20,7 @@ const initData = {
   likeProduct: 0,
   repPic: "",
 };
-const ProductCard = ({ product }) => {
+const ProductCard = ({ product, onselet }) => {
   const [isHeartChecked, setHeartChecked] = useState(product.likeProduct === 1);
 
   const handleHeartButtonClick = () => {
@@ -31,7 +31,12 @@ const ProductCard = ({ product }) => {
 
   return (
     <CardContainer>
-      <img className="card-img" src={product.repPic} alt={product.repPic} />
+      <img
+        className="card-img"
+        src={product.repPic}
+        alt={product.repPic}
+        onClick={onselet}
+      />
       <CardFlex>
         <div className="tagform">
           {product.popFl === 1 && (
