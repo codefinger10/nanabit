@@ -33,6 +33,7 @@ const OCForm = () => {
   const { iorder } = useParams();
 
   useEffect(() => {
+    console.log("iorder", iorder);
     const successFn = result => {
       setData(result);
       // console.log(result);
@@ -44,7 +45,7 @@ const OCForm = () => {
       console.log("에러에옹", result);
     };
 
-    getOCPage(iorder, successFn, failFn, errorFn);
+    getOCPage({ iorder, successFn, failFn, errorFn });
   }, [iorder]);
 
   return (

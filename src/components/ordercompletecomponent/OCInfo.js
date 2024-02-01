@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { BorderLinemanager, BorderWrap } from "../../styles/oc/ocstyle";
 
 const OCInfo = ({ data }) => {
+  
   const dataObject = typeof data === "object" ? data : {};
   return (
     <BorderWrap>
