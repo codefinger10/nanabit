@@ -2,12 +2,7 @@ import { ConfigProvider, Table } from "antd";
 import React, { useEffect, useState } from "react";
 import { getOCPage } from "../../api/orderapi/orderApi";
 
-// 테이블 이미지 함수
-// const ImageCell = ({ value }) => (
-//   <div>
-//     <img src={value} alt="이미지" style={{ width: "90px", height: "90px" }} />
-//   </div>
-// );
+
 const OcDetail = ({ data }) => {
   // const [data, setData] = useState(null);
   const dataObject = typeof data === "object" ? data : {};
@@ -124,18 +119,6 @@ const OcDetail = ({ data }) => {
     },
   ];
 
-  // 주문자 정보 데이터
-  // const orderDataSource = [
-  //   {
-  //     key: "1",
-  //     "상품 이미지":
-  //       process.env.PUBLIC_URL + "/assets/images/defaultitemimg.svg",
-  //     상품명:
-  //       "[뽀로로] 우리아이가 좋아하는 젓가락 뽀롱뽀롱 뽀로로 아이 전용 미니 젓가락 3종 15묶음 세트 ( 파랑, 빨강, 노랑, 구찌 명품 에디션)",
-  //     수량: "1",
-  //     금액: "500" + "원",
-  //   },
-  // ];
 
   const orderDataSource = data.products.map((product, index) => ({
     key: index,

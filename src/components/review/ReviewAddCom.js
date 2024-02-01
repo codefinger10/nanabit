@@ -23,10 +23,12 @@ const initState = [
 ];
 
 const ReviewAddPageCom = () => {
-  const [serverData, setServerData] = useState(initState);
-  const [constents, setContents] = useState("");
-  const [productScore, setProductScore] = useState("");
-  const [reviewPics, setReviewPics] = useState("");
+  const [formData, setFormData] = useState({
+    // 여기에 폼의 각 필드에 대한 초기값을 설정하세요.
+    reviewPics: [],
+    dto: { idetails: 0, iorder: 0, contents: "", productScore: 0 },
+    iproduct: 0,
+  });
 
   const { moveToPath } = useCustomMove();
 
@@ -38,15 +40,26 @@ const ReviewAddPageCom = () => {
     return e?.fileList;
   };
 
-  const onFinish = values => {
-    setServerData({ constents, productScore, reviewPics });
+  const handleInputChange = (fieldName, value) => {
+    if (fieldName === "productScore") {
+      // 리뷰 별점인 경우, 값이 숫자로 변환되도록 처리
+      value = parseFloat(value);
+    }
 
-    console.loc("텍스트", constents);
-    console.loc("점수", productScore);
-    console.loc("사진", reviewPics);
-    console.log("Success:", values);
-    postReviewList({ values, successFn, failFn, errorFn });
+    setFormData({
+      ...formData,
+      [fieldName]: value,
+    });
   };
+  const handleSubmit = async () => {
+    try {
+      const response = await postReviewList(formData);
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const onFinishFailed = errorInfo => {
     console.log("Failed:", errorInfo);
   };
@@ -60,36 +73,18 @@ const ReviewAddPageCom = () => {
     console.log(result);
   };
 
-  // Antd Upload
-  // const [loading, setLoading] = useState(false);
+  const handleCustomRequest = async ({ file, onSuccess, onError }) => {
+    try {
+      // 업로드를 시작하는 비동기 로직을 수행
+      // ...
 
-  // const beforeUpload = file => {
-  //   // TODO: 여기서 인증 토큰을 가져오거나 설정
-  //   const token = "your_auth_token";
-
-  //   const headers = new Headers();
-  //   headers.append("Authorization", `Bearer ${token}`);
-
-  //   const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
-  //   if (!isJpgOrPng) {
-  //     message.error("JPG/PNG 파일만 업로드 가능해요!");
-  //   }
-  //   return isJpgOrPng ? true : Upload.LIST_IGNORE;
-  // };
-
-  // const handleChange = info => {
-  //   if (info.file.status === "uploading") {
-  //     setLoading(true);
-  //     return;
-  //   }
-  //   if (info.file.status === "done") {
-  //     setLoading(false);
-  //     message.success(`${info.file.name} file uploaded successfully`);
-  //   } else if (info.file.status === "error") {
-  //     setLoading(false);
-  //     message.error(`${info.file.name} file upload failed.`);
-  //   }
-  // };
+      // 업로드 성공 시
+      console.log("오오");
+    } catch (error) {
+      // 업로드 실패 시
+      console.log("뭔데왜안돼는데");
+    }
+  };
 
   return (
     <ReviewAddWrap>
@@ -142,13 +137,6 @@ const ReviewAddPageCom = () => {
             style={{
               maxWidth: 600,
             }}
-            onFinish={onFinish}
-            onFinishFailed={onFinishFailed}
-            initialValues={{
-              constents: serverData.constents,
-              productScore: serverData.productScore,
-              reviewPics: serverData.reviewPics,
-            }}
           >
             <div className="productInfo">
               <div>
@@ -176,7 +164,7 @@ const ReviewAddPageCom = () => {
                 <p>상품은 어떠셨나요 ?</p>
               </div>
               <Form.Item
-                name={productScore}
+                value={formData.name}
                 style={{
                   width: "350px",
                   margin: "0px",
@@ -185,22 +173,23 @@ const ReviewAddPageCom = () => {
                   alignItems: "center",
                 }}
               >
-                <span>
-                  <Rate
-                    style={{
-                      width: "200px",
-                      fontSize: "40px",
-                      display: "flex",
-                      justifyContent: "flex-end",
-                      alignItems: "center",
-                    }}
-                  />
-                </span>
+                <Rate
+                  style={{
+                    width: "200px",
+                    fontSize: "40px",
+                    display: "flex",
+                    justifyContent: "flex-end",
+                    alignItems: "center",
+                  }}
+                  value={formData.productScore}
+                  onChange={value => handleInputChange("productScore", value)}
+                />
               </Form.Item>
             </RateAddBox>
 
-            <Form.Item style={{ width: "1150px" }} name={constents}>
+            <Form.Item style={{ width: "1150px" }}>
               <TextArea
+                value={formData.contents}
                 style={{
                   width: "1150px",
                   height: "600px",
@@ -217,6 +206,7 @@ const ReviewAddPageCom = () => {
                   maxRows: 17,
                 }}
                 spellCheck={false}
+                onChange={e => handleInputChange("contents", e.target.value)}
               />
             </Form.Item>
 
@@ -251,15 +241,16 @@ const ReviewAddPageCom = () => {
                         justifyContent: "center",
                         alignItems: "center",
                       }}
-                      // beforeUpload={beforeUpload}
                       maxCount={5}
-                      // action="/review.do" 업로드 되는 사진 뒤에 붙는 url
                       listType="picture-card"
                       multiple
                       accept=".jpg, .png"
                       overlay="true"
-                      type={reviewPics}
-                      // onChange={handleChange}
+                      fileList={formData.reviewPics}
+                      onChange={({ fileList }) =>
+                        handleInputChange("reviewPics", fileList)
+                      }
+                      customRequest={handleCustomRequest}
                     >
                       <button
                         style={{
@@ -293,6 +284,7 @@ const ReviewAddPageCom = () => {
                           height: "60px",
                         }}
                         htmlType="submit"
+                        onClick={handleSubmit}
                       >
                         작성완료
                       </Button>

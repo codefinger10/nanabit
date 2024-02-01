@@ -25,11 +25,15 @@ const PayMethod = () => {
   };
 
   const handleButtonClick = buttonName => {
+    const newState = buttonName === "bankTransfer" ? 2 : 3;
+
     if (activeButton === buttonName) {
       setIsModalOpen(prevState => !prevState);
+      console.log(`${newState}`);
     } else {
       setActiveButton(buttonName);
       setIsModalOpen(true);
+      console.log(`${newState}`);
     }
   };
   return (

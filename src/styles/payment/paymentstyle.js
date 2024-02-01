@@ -155,3 +155,32 @@ export const Selectadress = styled.div`
     padding-inline-end: 0;
   }
 `;
+
+// 주문 목록
+export const OrderProduct = styled.div`
+  font-size: 15px;
+  color: #575757;
+  display: flex;
+  height: 120px;
+  justify-content: space-between;
+  width: 1110px;
+  margin-bottom: 30px;
+  .productImgDesc {
+    display: flex;
+  }
+
+  .productNameTex {
+    margin-left: 20px;
+    height: 120px;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+  }
+  .countPrice {
+    height: 120px;
+    margin-right: 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+`;

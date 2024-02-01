@@ -33,6 +33,9 @@ export const ItemImg = styled.div`
     width: 230px;
     height: 230px;
   }
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 export const ItemDecArea = styled.div`
@@ -41,12 +44,18 @@ export const ItemDecArea = styled.div`
   align-items: center;
   width: 230px;
   margin-top: 8px;
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 export const ItemTagBoxDiv = styled.div`
   display: flex;
   align-items: center;
   gap: 5px;
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 export const ReviewWish = styled.div`

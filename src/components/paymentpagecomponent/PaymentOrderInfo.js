@@ -1,6 +1,8 @@
 import styled from "@emotion/styled";
 import { ConfigProvider, Input } from "antd";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { getPage } from "../../api/mypage/mypageApi";
+import { useSearchParams } from "react-router-dom";
 
 const OrderInfo = styled.div`
   margin-bottom: 30px;
@@ -14,7 +16,36 @@ const OrderInfo = styled.div`
     }
   }
 `;
-const OrderInfoCom = () => {
+const PaymentOrderInfo = () => {
+  const [orderInfo, setOrderInfo] = useState([]);
+
+  // useEffect(() => {
+  //   getPage({ successFn, failFn, errorFn });
+  // }, []);
+
+  // const successFn = result => {
+  //   setOrderInfo(result);
+  //   if (setOrderInfo === 0) {
+  //     console.log("0입니다");
+  //   }
+  //   console.log(result);
+  // };
+  // const failFn = result => {
+  //   console.log(result);
+  // };
+  // const errorFn = result => {
+  //   console.log(result);
+  // };
+  const [urlSearchParams, setUrlSearchParams] = useSearchParams();
+  const [serverResult, setServerResult] = useState(null);
+
+  const value = urlSearchParams.get("result")
+    ? parseInt(urlSearchParams.get("result"))
+    : 1;
+
+  // console.log(value);
+  // console.log(serverResult);
+
   return (
     <ConfigProvider
       theme={{
@@ -38,7 +69,7 @@ const OrderInfoCom = () => {
         <div className="paymentListTitle">수령인 정보</div>
         <div className="InfoDetail">
           <div>
-            <p>이름</p>
+            <p>이름 {orderInfo}</p>
           </div>
 
           <Input
@@ -90,4 +121,4 @@ const OrderInfoCom = () => {
   );
 };
 
-export default OrderInfoCom;
+export default PaymentOrderInfo;

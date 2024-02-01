@@ -1,52 +1,46 @@
 import { ConfigProvider, Radio } from "antd";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Detailadress,
   PostNum,
   Selectadress,
 } from "../../styles/payment/paymentaddressstyle";
-
-const adressDemo = [
-  {
-    index: 1,
-    우편번호: "11111",
-    주소: "서울특별시 강남구 역삼동 123-45",
-    상세주소: "XYZ 아파트 102호",
-  },
-  {
-    index: 2,
-    우편번호: "67890",
-    주소: "경기도 분당구 정자동 678-90",
-    상세주소: "ABC 빌딩 3층",
-  },
-  {
-    index: 3,
-    우편번호: "54321",
-    주소: "인천광역시 부평구 부개동 543-21",
-    상세주소: "마을 공원 맞은편",
-  },
-];
-
+import { getAddress } from "../../api/address/AddressApi";
 const PaymentAdress = () => {
-  const [selectedadress, setSelectedadress] = useState(adressDemo[0].index);
-  const [showPostNum, setShowPostNum] = useState(adressDemo[0].우편번호);
-  const [showAddress, setShowAddress] = useState(adressDemo[0].주소);
-  const [showDtAddress, setShowDtAddress] = useState(adressDemo[0].상세주소);
-
+  const [serverData, setServerData] = useState([]);
+  const [selectedadress, setSelectedadress] = useState(null);
+  const [showPostNum, setShowPostNum] = useState("");
+  const [showAddress, setShowAddress] = useState("");
+  const [showDtAddress, setShowDtAddress] = useState("");
   const onChange = e => {
     const selectedValue = e.target.value;
-    const selectedAddress = adressDemo.find(
-      address => address.index === selectedValue,
+    const selectedAddress = serverData.find(
+      address => address.iaddress === selectedValue,
     );
-
     if (selectedAddress) {
       setSelectedadress(selectedValue);
-      setShowPostNum(selectedAddress.우편번호);
-      setShowAddress(selectedAddress.주소);
-      setShowDtAddress(selectedAddress.상세주소);
+      setShowPostNum(selectedAddress.zipCode);
+      setShowAddress(selectedAddress.address);
+      setShowDtAddress(selectedAddress.addressDetail);
     }
   };
-
+  useEffect(() => {
+    try {
+      getAddress({ successFn, failFn, errorFn });
+    } catch (error) {
+      console.log("error");
+    }
+  }, []);
+  const successFn = result => {
+    setServerData(result);
+    console.log(result);
+  };
+  const failFn = result => {
+    console.log(result);
+  };
+  const errorFn = result => {
+    console.log(result);
+  };
   return (
     <ConfigProvider
       theme={{
@@ -64,11 +58,9 @@ const PaymentAdress = () => {
         </div>
         <PostNum className="postNum">
           <p>우편번호</p>
-
           <div className="postNumDiv">
             <i>{showPostNum}</i>
           </div>
-
           <i>
             *주문 후 배송지 수정이 어려울 수 있습니다. 확인 후 결제 진행
             부탁드립니다.
@@ -82,7 +74,6 @@ const PaymentAdress = () => {
             <p>{showDtAddress}</p>
           </div>
         </Detailadress>
-
         <Selectadress>
           <form>
             <div>
@@ -91,15 +82,15 @@ const PaymentAdress = () => {
                 value={selectedadress}
                 style={{ flexDirection: "column" }}
               >
-                {adressDemo.map(adress => (
+                {serverData.map(item => (
                   <Radio
-                    key={adress.index}
-                    value={adress.index}
+                    key={item.iaddress}
+                    value={item.iaddress}
                     style={{ marginRight: "0px", padding: 0 }}
                     className="custom-radio"
                   >
                     <div className="adressTextDiv">
-                      <p>{`(${adress.우편번호}) ${adress.주소} ${adress.상세주소}`}</p>
+                      <p>{`(${item.zipCode}) ${item.address} ${item.addressDetail}`}</p>
                     </div>
                   </Radio>
                 ))}
