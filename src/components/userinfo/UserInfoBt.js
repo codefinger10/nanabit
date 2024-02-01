@@ -1,7 +1,11 @@
 import React from "react";
 import { UserInformBt } from "../../styles/userinfo/userinfobtstyle";
 
-export const UserInfoBt = ({ handleClickAddress, productData }) => {
+export const UserInfoBt = ({
+  handleClickAddress,
+  handleClickModify,
+  productData,
+}) => {
   return (
     <UserInformBt>
       <img
@@ -23,7 +27,12 @@ export const UserInfoBt = ({ handleClickAddress, productData }) => {
         >
           주소정보 관리하기
         </button>
-        <button style={{ marginRight: "30px" }}>회원정보 수정하기</button>
+        <button
+          style={{ marginRight: "30px" }}
+          onClick={() => handleClickModify()}
+        >
+          회원정보 수정하기
+        </button>
       </div>
     </UserInformBt>
   );

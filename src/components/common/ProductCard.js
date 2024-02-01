@@ -1,6 +1,7 @@
 // ProductCard.js
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import styled from "@emotion/styled";
 import {
   CardContainer,
   CardFlex,
@@ -16,10 +17,11 @@ const initData = {
   popFl: 0,
   newFl: 0,
   reviewCnt: 0,
+  likeProduct: 0,
   repPic: "",
 };
 const ProductCard = ({ product }) => {
-  const [isHeartChecked, setHeartChecked] = useState();
+  const [isHeartChecked, setHeartChecked] = useState(product.likeProduct === 1);
 
   const handleHeartButtonClick = () => {
     const newValue = !isHeartChecked ? 1 : 0;

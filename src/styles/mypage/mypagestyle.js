@@ -113,4 +113,5 @@ export const MyWishWrap = styled.div`
   width: 1156px;
   height: 1182px;
   margin: 0 auto;
+  display: flex;
 `;
