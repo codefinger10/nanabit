@@ -19,11 +19,14 @@ const MyPage = () => {
   const [productData, setProductData] = useState([]);
   const { moveToPath } = useCustomLogin();
 
-  const myWishList = productData.myWishList;
-  console.log(productData.myWishList);
+  const myWishList = productData.myWishList || [];
 
   const handleClickAddress = e => {
     moveToPath("/address");
+  };
+
+  const handleClickModify = e => {
+    moveToPath("/modifypw");
   };
 
   useEffect(() => {
@@ -53,6 +56,7 @@ const MyPage = () => {
       </MyPageHeader>
       <UserInfoBt
         handleClickAddress={handleClickAddress}
+        handleClickModify={handleClickModify}
         productData={productData}
       ></UserInfoBt>
       <InfoHead>
@@ -71,7 +75,7 @@ const MyPage = () => {
       <MyWishWrap>
         {myWishList &&
           myWishList.map(item => (
-            <ProductCard key={item} product={myWishList} />
+            <ProductCard key={item.iproduct} product={item} />
           ))}
       </MyWishWrap>
     </MyPageWrap>

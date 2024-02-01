@@ -2,7 +2,6 @@ import React from "react";
 
 import { Navigate, Route, Routes } from "react-router-dom";
 import { Wrap } from "./styles/basic";
-
 import LoginPage from "./pages/LoginPage";
 import CartPage from "./pages/cartpage/CartPage";
 import CommunityPage from "./pages/community/CommunityPage";
@@ -34,6 +33,10 @@ import AddressAdd from "./pages/address/AddressAdd";
 import AddressModify from "./pages/address/AddressModify";
 import MainPage from "./pages/mainPage/MainPage";
 import ReviewAddPage from "./pages/reviewPage/ReviewAddPage";
+
+import ModifyPw from "./pages/signup/ModifyPw";
+import useCustomLogin from "./hooks/useCustomLogin";
+
 import ProductLayout from "./pages/product/ProductLayout";
 
 import ToyProduct from "./pages/product/ToyProduct";
@@ -42,7 +45,9 @@ import BreastfeedingProduct from "./pages/product/BreastfeedingProduct";
 import AppliancesProduct from "./pages/product/AppliancesProduct";
 import CleanProduct from "./pages/product/CleanProduct";
 
+
 const App = () => {
+  const { isLogin, loginState, doLogout, moveToPath } = useCustomLogin();
   return (
     <Wrap>
       <BasicLayout>
@@ -81,7 +86,11 @@ const App = () => {
           <Route path="/detail" element={<DetailPage />}></Route>
 
           <Route path="/monthly" element={<MonthlyPage />}></Route>
-          <Route path="/mypage" element={<MyPage />}></Route>
+          {loginState.nm ? (
+            <Route path="/mypage" element={<MyPage />}></Route>
+          ) : null}
+
+          <Route path="/modifypw" element={<ModifyPw />}></Route>
 
           <Route path="/order/:iorder" element={<OrderCompletePage />}></Route>
           <Route path="/ol" element={<OrderList />}></Route>

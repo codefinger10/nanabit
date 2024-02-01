@@ -71,6 +71,7 @@ export const putAdress = async ({
 export const deleteOne = async ({ iaddress, successFn, failFn, errorFn }) => {
   try {
     // http://192.168.0.144:5223/api/user/address?iaddress=45
+    // http://192.168.0.144:5223/api/product/cart?iproduct=1&iproduct=2&iproduct=3
     const res = await jwtAxios.delete(`${host}?iaddress=${iaddress}`);
 
     const status = res.status.toString();
