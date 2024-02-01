@@ -27,7 +27,7 @@ const items = [
 const items1 = [
   {
     label: (
-      <Link to="/product" rel="noopener noreferrer">
+      <Link to="/meal" rel="noopener noreferrer">
         임신/출산 (~0개월)
       </Link>
     ),
@@ -172,7 +172,7 @@ const BasicMenu = () => {
           items: items1,
         }}
       >
-        <Link to="/product">
+        <Link to="/product/meal">
           {/* <a onClick={e => e.preventDefault()}> */}
           <Space>
             이유식
@@ -187,12 +187,12 @@ const BasicMenu = () => {
           items: items2,
         }}
       >
-        <a onClick={e => e.preventDefault()}>
+        <Link to="/product/Appliances">
           <Space>
             유아가전
             {/* <DownOutlined /> */}
           </Space>
-        </a>
+        </Link>
       </Dropdown>
 
       <Dropdown
@@ -200,36 +200,36 @@ const BasicMenu = () => {
           items: items3,
         }}
       >
-        <a onClick={e => e.preventDefault()}>
+        <Link to="/product/toy">
           <Space>
             놀이용품
             {/* <DownOutlined /> */}
           </Space>
-        </a>
+        </Link>
       </Dropdown>
       <Dropdown
         menu={{
           items: items4,
         }}
       >
-        <a onClick={e => e.preventDefault()}>
+        <Link to="/product/clean">
           <Space>
             위생용품
             {/* <DownOutlined /> */}
           </Space>
-        </a>
+        </Link>
       </Dropdown>
       <Dropdown
         menu={{
           items: items5,
         }}
       >
-        <a onClick={e => e.preventDefault()}>
+        <Link to="/product/breast">
           <Space>
             모유/수유용품
             {/* <DownOutlined /> */}
           </Space>
-        </a>
+        </Link>
       </Dropdown>
       <Dropdown
         menu={{
