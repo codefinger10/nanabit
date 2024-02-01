@@ -33,6 +33,13 @@ import AddressAdd from "./pages/address/AddressAdd";
 import AddressModify from "./pages/address/AddressModify";
 import MainPage from "./pages/mainPage/MainPage";
 import ReviewAddPage from "./pages/reviewPage/ReviewAddPage";
+import ProductLayout from "./pages/product/ProductLayout";
+
+import ToyProduct from "./pages/product/ToyProduct";
+import MealProduct from "./pages/product/MealProduct";
+import BreastfeedingProduct from "./pages/product/BreastfeedingProduct";
+import AppliancesProduct from "./pages/product/AppliancesProduct";
+import CleanProduct from "./pages/product/CleanProduct";
 
 const App = () => {
   return (
@@ -62,8 +69,14 @@ const App = () => {
           </Route>
 
           <Route path="/product/" element={<ProductPage />}>
-            <Route path="product/:id" element={<ProductPage />} />
+            {/* <Route path="meal" element={<ProductLayout />} /> */}
+            <Route path="meal" element={<MealProduct />} />
+            <Route path="Appliances" element={<AppliancesProduct />} />
+            <Route path="toy" element={<ToyProduct />} />
+            <Route path="clean" element={<CleanProduct />} />
+            <Route path="breast" element={<BreastfeedingProduct />} />
           </Route>
+
           <Route path="/detail" element={<DetailPage />}></Route>
 
           <Route path="/monthly" element={<MonthlyPage />}></Route>

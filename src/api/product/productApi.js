@@ -1,5 +1,3 @@
-// productApi.js
-
 import axios, { Axios } from "axios";
 import { API_SERVER_HOST } from "../../util/util";
 

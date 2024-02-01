@@ -7,7 +7,7 @@ export const InfoTitle = ({ infoText }) => {
     color: #d68000;
     height: 101px;
     position: block;
-    background-color: aqua;
+    /* background-color: aqua; */
     display: flex;
     align-items: center;
     /* margin-top: auto; */
