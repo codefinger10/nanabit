@@ -59,7 +59,6 @@ const NoticePage = () => {
   };
 
   const handleClikSearch = () => {
-    console.log(search);
     getList({ board_code, page }, search)
       .then(res => {
         setTableData(res);
@@ -135,7 +134,7 @@ const NoticePage = () => {
             </button>
           </div>
         </div>
-        <PageList />
+        {/* <PageList /> */}
       </CommuMain>
     </>
   );
