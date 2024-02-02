@@ -6,24 +6,32 @@ import {
   Selectadress,
 } from "../../styles/payment/paymentaddressstyle";
 import { getAddress } from "../../api/address/AddressApi";
-const PaymentAdress = () => {
-  const [serverData, setServerData] = useState([]);
+
+const PaymentAdress = ({ handleAddressChange }) => {
+  const [serverDataAdd, setServerDataAdd] = useState([]);
   const [selectedadress, setSelectedadress] = useState(null);
   const [showPostNum, setShowPostNum] = useState("");
   const [showAddress, setShowAddress] = useState("");
   const [showDtAddress, setShowDtAddress] = useState("");
-  const onChange = e => {
+
+  // 배송지 칸에 선택된 값 업데이트와 동시에
+  // 부모 컴포넌트로 값을 전달을 해 준다.
+  const onRadioChange = e => {
     const selectedValue = e.target.value;
-    const selectedAddress = serverData.find(
+    const selectedAddress = serverDataAdd.find(
       address => address.iaddress === selectedValue,
     );
+
     if (selectedAddress) {
       setSelectedadress(selectedValue);
       setShowPostNum(selectedAddress.zipCode);
       setShowAddress(selectedAddress.address);
       setShowDtAddress(selectedAddress.addressDetail);
+      handleAddressChange(selectedValue);
     }
   };
+
+
   useEffect(() => {
     try {
       getAddress({ successFn, failFn, errorFn });
@@ -32,8 +40,8 @@ const PaymentAdress = () => {
     }
   }, []);
   const successFn = result => {
-    setServerData(result);
-    console.log(result);
+    setServerDataAdd(result);
+    // console.log(result);
   };
   const failFn = result => {
     console.log(result);
@@ -78,11 +86,11 @@ const PaymentAdress = () => {
           <form>
             <div>
               <Radio.Group
-                onChange={onChange}
+                onChange={onRadioChange}
                 value={selectedadress}
                 style={{ flexDirection: "column" }}
               >
-                {serverData.map(item => (
+                {serverDataAdd.map(item => (
                   <Radio
                     key={item.iaddress}
                     value={item.iaddress}

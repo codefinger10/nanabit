@@ -55,6 +55,11 @@ export const useCustomMove = () => {
     ? parseInt(urlSearchParams.get("size"))
     : 10;
 
+  // iorder 전달하기
+  const iorder = urlSearchParams.get("iorder")
+    ? parseInt(urlSearchParams.get("iorder"))
+    : 1;
+
   // 게시판 분류
   const board_code = urlSearchParams.get("board_code")
     ? parseInt(urlSearchParams.get("board_code"))
@@ -74,7 +79,10 @@ export const useCustomMove = () => {
 
   const queryItempage = createSearchParams({ page }).toString();
 
+
   const querypayment = createSearchParams({ iorder }).toString();
+
+
 
   //목록으로가기 기능 만들기
   //pageParam이 있으면 pageParam으로 이동
@@ -111,6 +119,7 @@ export const useCustomMove = () => {
     }
     navigate({ pathname: "../item", search: queryStr });
   };
+
 
   // 수정창 이동하기
   const moveToModify = tno => {
@@ -173,7 +182,10 @@ export const useCustomMove = () => {
     moveToReadPage,
     moveToAdd,
     moveToItem,
+
     moveToPayment,
+
+
   };
 };
 export default useCustomMove;

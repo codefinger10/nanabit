@@ -43,7 +43,7 @@ const MainLoginSwiper = () => {
   // 패스이동 =========================================
   const { moveToPath, moveToObj } = useCustomLogin();
   const moveToProduct = item => {
-    moveToObj("/item", item.iproduct);
+    moveToObj(`/item/${item.iproduct}?page=1`);
   };
   // 패스이동 =========================================
   useEffect(() => {
@@ -113,7 +113,14 @@ const MainLoginSwiper = () => {
                           moveToProduct(item);
                         }}
                       >
-                        <img src={item.repPic} />
+                        <img
+                          src={
+                            item.repPic === ""
+                              ? process.env.PUBLIC_URL +
+                                "/assets/images/defaultitemimg.svg"
+                              : item.repPic
+                          }
+                        />
                       </ItemImg>
                       <ItemDecArea>
                         <ItemTagBoxDiv

@@ -37,9 +37,9 @@ const MainRcItem = () => {
   const [data, setData] = useState(initState);
   const swiperRef = useRef(null);
   // 패스이동 =========================================
-  const { moveToPath, moveToObj } = useCustomLogin();
+  const { moveToPath, moveToObj, page } = useCustomLogin();
   const moveToProduct = item => {
-    moveToObj("/item", item.iproduct);
+    moveToObj(`/item/${item.iproduct}?page=1`);
   };
   // 패스이동 =========================================
   useEffect(() => {
@@ -72,7 +72,7 @@ const MainRcItem = () => {
             품절되기 전에 확인하세요!
             <br />
           </span>
-          <i>:불: Hot한 인기상품 :불:</i>
+          <i>🔥 Hot한 인기상품 🔥</i>
         </TextArea>
         <RcSwiperWrap>
           <div
@@ -109,7 +109,14 @@ const MainRcItem = () => {
                         moveToProduct(item);
                       }}
                     >
-                      <img src={item.repPic} />
+                      <img
+                        src={
+                          item.repPic === ""
+                            ? process.env.PUBLIC_URL +
+                              "/assets/images/defaultitemimg.svg"
+                            : item.repPic
+                        }
+                      />
                     </ItemImg>
                     <ItemDecArea>
                       <ItemTagBoxDiv
@@ -168,7 +175,7 @@ const MainRcItem = () => {
             모두가 기다렸던 그 상품 지금 바로 OPEN
             <br />
           </span>
-          <i>:전구: 드디어 출시, 신상품 :전구:</i>
+          <i>💡 드디어 출시, 신상품 💡</i>
         </TextArea>
         <RcSwiperWrap>
           <div
@@ -205,7 +212,14 @@ const MainRcItem = () => {
                         moveToProduct(item);
                       }}
                     >
-                      <img src={item.repPic} />
+                      <img
+                        src={
+                          item.repPic === ""
+                            ? process.env.PUBLIC_URL +
+                              "/assets/images/defaultitemimg.svg"
+                            : item.repPic
+                        }
+                      />
                     </ItemImg>
                     <ItemDecArea>
                       <ItemTagBoxDiv
