@@ -13,7 +13,7 @@ const initState = {
 };
 
 const NoticePage = () => {
-  const [tableData, setTableData] = useState([initState]);
+  const [tableData, setTableData] = useState([]);
   const [urlSearchParams] = useSearchParams();
   const board = urlSearchParams.get("board_code");
   const [search, setSerch] = useState("");

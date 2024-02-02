@@ -80,6 +80,7 @@ export const useCustomMove = () => {
   const queryItempage = createSearchParams({ page }).toString();
 
 
+
   const querypayment = createSearchParams({ iorder }).toString();
 
 
@@ -117,7 +118,7 @@ export const useCustomMove = () => {
     } else {
       queryStr = queryStrpage;
     }
-    navigate({ pathname: "../item", search: queryStr });
+    navigate({ pathname: "../list", search: queryStr });
   };
 
 
@@ -183,7 +184,9 @@ export const useCustomMove = () => {
     moveToAdd,
     moveToItem,
 
+
     moveToPayment,
+
 
 
   };
