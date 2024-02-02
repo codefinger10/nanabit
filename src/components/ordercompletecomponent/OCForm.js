@@ -46,7 +46,7 @@ const OCForm = () => {
     };
 
     getOCPage({ iorder, successFn, failFn, errorFn });
-  }, [iorder]);
+  }, []);
 
   return (
     <>

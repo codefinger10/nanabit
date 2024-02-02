@@ -10,6 +10,7 @@ const MainHeartBt = ({ item }) => {
     const newValue = !isHeartChecked ? 1 : 0;
     setHeartChecked(!isHeartChecked);
     console.log("제품 pk값 내놔 : ", item.iproduct);
+
     console.log(newValue);
 
     try {
@@ -45,7 +46,7 @@ const MainHeartBt = ({ item }) => {
 
   // 로그인 유무 따져서 버튼 클릭 시 로그인 이동 모달창 또는 on/off 넣기
   const { isLogin } = useCustomLogin();
-
+  // console.log("제품 찜 상태 : ", item.likeProduct);
   return (
     <StyledButton checked={isHeartChecked} onClick={handleHeartButtonClick}>
       <img

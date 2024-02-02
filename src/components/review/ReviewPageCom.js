@@ -143,7 +143,15 @@ const ReviewPageCom = () => {
                         key={pic}
                       >
                         <SwiperSlide>
-                          <img src={pic.pics} />
+                          <img
+                            src={
+                              pic.pics === ""
+                                ? process.env.PUBLIC_URL +
+                                  "/assets/images/defaultitemimg.svg"
+                                : pic.pics
+                            }
+                            alt={index.productNm}
+                          />
                         </SwiperSlide>
                       </Swiper>
                     ))}
