@@ -2,7 +2,12 @@ import Icon from "@ant-design/icons/lib/components/Icon";
 import { Button, Modal } from "antd";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { getProduct, getwish, postOrder } from "../../api/signupapi/SignupApi";
+import {
+  getProduct,
+  getwish,
+  postCart,
+  postOrder,
+} from "../../api/signupapi/SignupApi";
 import PrettyCounter from "../../components/Count";
 import ImgSwiper from "../../components/signup/ImgSwiper";
 import useCustomMove from "../../hooks/useCustomMove";
@@ -16,18 +21,9 @@ import {
   StyledButton,
   StyledDiv,
 } from "../../styles/signup/item";
-const initData = {
-  products: [
-    {
-      iproduct: 0,
-      productCnt: 0,
-      productTotalPrice: 0,
-    },
-  ],
-};
+import ResultModal from "../../components/signup/ResultModal";
 
 const ItemPage = () => {
-  const [initProduct, setIntiProduct] = useState(initData);
   const { iproduct } = useParams();
   const { moveToItem, page } = useCustomMove();
   const [reviews, setReviews] = useState([
@@ -111,19 +107,10 @@ const ItemPage = () => {
     </svg>
   );
   const [bbb, setBbb] = useState(false);
-  const aaa = () => {};
+  const aaa = () => {
+    setBbb(!bbb);
+  };
   const HeartIcon = props => <Icon component={HeartSvg} {...props} />;
-  const [isOpen, setIsOpen] = useState(false);
-  const handleClickModal = () => {
-    setIsOpen(true);
-  };
-  const handleOk = () => {
-    setIsOpen(false);
-    navigate("/cart");
-  };
-  const handleCancel = () => {
-    setIsOpen(false);
-  };
 
   const [productData, setProductData] = useState([]);
   console.log(productData.price);
@@ -146,46 +133,81 @@ const ItemPage = () => {
   const [count, setCount] = useState(1);
   console.log(count);
 
-  const asd = {
-    products: [
-      {
-        iproduct: productData.iproduct,
-        productCnt: count,
-        productTotalPrice: productData.price * count,
-      },
-    ],
-    totalOrderPrice: productData.price * count,
+  // 장바구니 버튼
+  const handleClickModal = () => {
+    showModal();
+    setModealShow(true);
   };
 
-  console.log(asd);
+  const [isOpen, setIsOpen] = useState(false);
 
+  const showModal = () => {
+    setIsOpen(true);
+    setTitleResult("장바구니");
 
-  const handleClickadd = () => { 
+    setModalMessage(
+      <>
+        <p>장바구니에 상품을 담겠습니까?</p>
+        <p>확인 누를 시 장바구니로 이동합니다.</p>
+      </>,
+    );
+  };
+
+  const handleOk = () => {
+    setIsOpen(false);
+    const cart = {
+      iproduct: productData.iproduct,
+      productCnt: count,
+    };
+    postCart(cart);
+    navigate("/cart");
+  };
+  const handleCancel = () => {
+    setIsOpen(false);
+  };
+
+  const handleClickadd = () => {
+    const asd = {
+      products: [
+        {
+          iproduct: productData.iproduct,
+          productCnt: count,
+          productTotalPrice: productData.price * count,
+        },
+      ],
+      totalOrderPrice: productData.price * count,
+    };
     postOrder({
-      asd, successFn, failFn, errorFn
+      asd,
+      successFn,
+      failFn,
+      errorFn,
     });
-    navigate(`/payment`, { state: { ...serverResult } })
+    navigate(`/payment`, { state: { ...serverResult } });
   };
 
   const [serverResult, setServerResult] = useState(null);
   const successFn = result => {
-    setServerResult(result)
+    setServerResult(result);
   };
 
-  const failFn = result => {
+  const failFn = result => {};
 
-  };
-
-  const errorFn = result => {
-
-  };
+  const errorFn = result => {};
 
   const addComma = price => {
     let returnString = price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     return returnString;
   };
   const price = addComma(productData.price * count);
+  const [titleResult, setTitleResult] = useState("");
+  const [modalMessage, setModalMessage] = useState("");
+  const [modalShow, setModealShow] = useState(false);
 
+  const modalClose = () => {
+    setIsOpen(false);
+    handleOk();
+  };
 
   return (
     <ItemMain>
@@ -199,7 +221,11 @@ const ItemPage = () => {
               <div className="itemtext">{productData.productNm}</div>
               <ItemHeart onClick={() => aaa(1)}>
                 <HeartIcon
-                  style={bbb ? { color: "red" } : { color: "#D9D9D9" }}
+                  style={
+                    productData.likeProduct === 1
+                      ? { color: "red" }
+                      : { color: "#D9D9D9" }
+                  }
                 />
               </ItemHeart>
             </ItemHover>
@@ -219,7 +245,7 @@ const ItemPage = () => {
             <div>
               <div className="itemFree">무료배송</div>
               <div className="itemOnePrice">
-                {count}개 <b name="">{price}</b> <sapn>원</sapn>
+                {count}개 <b>{price}</b> <sapn>원</sapn>
               </div>
             </div>
           </ItemPrice>
@@ -242,18 +268,11 @@ const ItemPage = () => {
             장바구니
           </Button>
           {isOpen && (
-            <Modal
-              title="장바구니"
-              open={handleClickModal}
-              onOk={handleOk}
-              okText="확인"
-              onCancel={handleCancel}
-              cancelText="취소"
-              style={{ background: "red", height: "500px" }}
-            >
-              <p>장바구니에 상품을 담았습니다.</p>
-              <p>장바구니로 이동하시겠습니까?</p>
-            </Modal>
+            <ResultModal
+              title={titleResult}
+              message={modalMessage}
+              callFN={modalClose}
+            />
           )}
           <Button
             type="primary"
@@ -298,10 +317,10 @@ const ItemPage = () => {
         {selectedSection === "productInfo" && (
           <div style={{ textAlign: "center", margin: "100px 0" }}>
             {/* 상품 정보 표시 */}
-            {productData.productDetails}
+
             <img
               style={{}}
-              src={process.env.PUBLIC_URL + "/assets/images/mama.jpg"}
+              src={process.env.PUBLIC_URL + productData.productDetails}
             />
           </div>
         )}
