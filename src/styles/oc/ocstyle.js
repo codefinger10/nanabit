@@ -10,7 +10,7 @@ export const OcPadding = styled.div`
 `;
 export const OcWrap = styled.div`
   width: 1290px;
-  height: 1520px;
+  /* height: 1520px; */
   background: #fff;
   box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.1);
   padding: 50px;
@@ -20,6 +20,9 @@ export const BorderWrap = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  .pageMargin {
+    margin-bottom: 50px;
+  }
 
   .orderInfoTitle {
     height: 60px;
@@ -112,5 +115,23 @@ export const OCMDesc = styled.div`
     font-size: 20px;
     color: #595959;
     font-weight: 500;
+  }
+`;
+
+export const OcDetailWrap = styled.div`
+  width: 1150px;
+  margin: 0 auto;
+  .orderInfoTitle {
+    height: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    p {
+      font-size: 20px;
+      color: #e9b25f;
+      text-align: left;
+      margin-left: 35px;
+      font-weight: 600;
+    }
   }
 `;

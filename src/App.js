@@ -89,7 +89,7 @@ const App = () => {
 
           <Route path="/order/:iorder" element={<OrderCompletePage />}></Route>
           <Route path="/ol" element={<OrderList />}></Route>
-          <Route path="/payment/:iorder" element={<PaymentPage />}></Route>
+          <Route path="/payment" element={<PaymentPage />}></Route>
           <Route path="/review" element={<ReviewPage />}></Route>
           <Route path="/reviewadd" element={<ReviewAddPage />}></Route>
           <Route path="/signup" element={<Signup />}></Route>

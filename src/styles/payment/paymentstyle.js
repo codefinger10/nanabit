@@ -165,6 +165,11 @@ export const OrderProduct = styled.div`
   justify-content: space-between;
   width: 1110px;
   margin-bottom: 30px;
+  img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+  }
   .productImgDesc {
     display: flex;
   }
@@ -182,5 +187,45 @@ export const OrderProduct = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
+    text-align: end;
+  }
+`;
+export const PaymentInfo = styled.div`
+  hr {
+    border: none;
+    background-color: #e9b25f;
+    height: 1px;
+    margin-bottom: 30px;
+  }
+`;
+
+export const TotalOrder = styled.div`
+  display: flex;
+  justify-content: space-between;
+  height: 350px;
+  margin-bottom: 30px;
+  .orderPrice {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 740px;
+  }
+  .orderPriceDiv {
+    justify-content: space-between;
+    display: flex;
+    font-size: 15px;
+    color: #575757;
+  }
+`;
+export const OrderInfo = styled.div`
+  margin-bottom: 30px;
+  .InfoDetail {
+    font-size: 15px;
+    display: flex;
+    margin-bottom: 10px;
+    div {
+      width: 100px;
+      line-height: 40px;
+    }
   }
 `;
