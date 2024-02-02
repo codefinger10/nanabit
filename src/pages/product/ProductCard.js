@@ -8,6 +8,7 @@ import {
   HeartButton,
   TagStyle,
 } from "../../styles/product/productCardStyle";
+import { useNavigate } from "react-router";
 
 const initData = {
   iproduct: 0,
@@ -22,7 +23,7 @@ const initData = {
 };
 const ProductCard = ({ product, onselet }) => {
   const [isHeartChecked, setHeartChecked] = useState(product.likeProduct === 1);
-
+  const iproductNavi = useNavigate();
   const handleHeartButtonClick = () => {
     const newValue = !isHeartChecked ? 1 : 0;
     setHeartChecked(!isHeartChecked);
@@ -35,7 +36,8 @@ const ProductCard = ({ product, onselet }) => {
         className="card-img"
         src={product.repPic}
         alt={product.repPic}
-        onClick={onselet}
+        // onClick={onselet}
+        onClick={() => iproductNavi(`/item/${product.iproduct}?page=1`)}
       />
       <CardFlex>
         <div className="tagform">

@@ -123,7 +123,7 @@ export const OrderViewStyle = styled.div`
     /* padding-right: 50px; */
     /* margin-right: 50px; */
 
-    width: 950px;
+    width: 1050px;
     .itme-img {
       width: 50px;
       height: 50px;
@@ -146,7 +146,7 @@ export const OrderViewStyle = styled.div`
   .refl {
     display: flex;
     /* width: 150px; */
-    margin-left: 10px;
+    /* margin-left: 10px; */
     /* padding-right: 30px; */
     .itme-bt {
       /* width: 9.3%; */

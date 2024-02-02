@@ -11,6 +11,8 @@ import {
   ProductWrap,
 } from "../../styles/product/ProductGridStyle";
 import { getProductPage } from "../../api/product/productApi";
+import useCustomLogin from "../../hooks/useCustomLogin";
+import { useNavigate } from "react-router";
 
 const initState = {
   iproduct: 0,
@@ -43,9 +45,6 @@ const BreastfeedingProduct = () => {
     // 여기서 다른 작업을 수행할 수도 있습니다.
   };
 
-  const handleClickLowHigh = filter => {
-    setActiveLHFilter(filter);
-  };
   useEffect(() => {
     fetchData();
   }, [sortBy]);
@@ -92,7 +91,11 @@ const BreastfeedingProduct = () => {
     setProductData(data);
     // setServerData(Array(data.products.length).fill(false));
   };
-
+  // 이동 함수
+  const iproductNavi = useNavigate();
+  const handleClickLowHigh = filter => {
+    setActiveLHFilter(filter);
+  };
   const handleCheckboxChange = index => {
     setServerData(prevProductlist => {
       const updatedProduct = [...prevProductlist];
@@ -159,6 +162,7 @@ const BreastfeedingProduct = () => {
         <GridContainer itemsPerPage={itemsPerPage}>
           {productData.map(product => (
             <ProductCard
+              onClick={() => iproductNavi(`/item/${product.iproduct}`)}
               key={product.iproduct}
               product={product}
               onCheckboxChange={handleCheckboxChange}
