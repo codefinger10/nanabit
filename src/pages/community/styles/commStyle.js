@@ -285,3 +285,57 @@ export const Pagenation = styled.div`
     border-radius: 30px;
   }
 `;
+
+export const CommentRead = styled.div`
+  margin-bottom: 20px;
+  .comment-top {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    align-items: center;
+    position: relative;
+    h3 {
+      color: #868686;
+      font-size: 20px;
+      font-weight: 400;
+      line-height: normal;
+    }
+    button {
+      border: none;
+      background: transparent;
+      cursor: pointer;
+    }
+  }
+
+  .comment-bts {
+    position: absolute;
+    right: 0;
+    top: 10%;
+    background-color: #fff;
+
+    li {
+      padding: 8px;
+      cursor: pointer;
+      &:hover {
+        background-color: #f5f5f5;
+      }
+    }
+  }
+  .comment-mid {
+    text-align: start;
+    color: #595959;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+    margin-bottom: 10px;
+  }
+  .comment-bottom {
+    color: #868686;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    text-align: start;
+    margin-bottom: 10px;
+  }
+`;

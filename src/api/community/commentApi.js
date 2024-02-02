@@ -19,3 +19,50 @@ export const getList = async id => {
     console.log(error);
   }
 };
+
+export const postCommet = async (iboard, comment) => {
+  try {
+    console.log(iboard);
+    const commentPost = { iboard, comment };
+    const res = await jwtAxios.post(
+      `/api/comment?iboard=${iboard}&comment=${comment}`,
+      commentPost,
+    );
+    console.log(res);
+    const status = res.status.toString();
+    if (status.charAt(0) === "2") {
+      return res.data.result;
+    }
+  } catch (error) {
+    console.log("서버에러에요");
+  }
+};
+
+export const deleteCommet = async icomment => {
+  try {
+    const res = await jwtAxios.delete(`/api/comment?icomment=${icomment}`);
+    const status = res.status.toString();
+    if (status.charAt(0) === "2") {
+      return res.data.result;
+    }
+  } catch (error) {
+    console.log("서버에러에요");
+  }
+};
+
+export const patchCommet = async (icomment, comment) => {
+  try {
+    console.log(icomment);
+    const commentPatch = { icomment, comment };
+    const res = await jwtAxios.patch(
+      `/api/comment?icomment=${icomment}&comment=${comment}`,
+      commentPatch,
+    );
+    const status = res.status.toString();
+    if (status.charAt(0) === "2") {
+      return res.data.result;
+    }
+  } catch (error) {
+    console.log("서버에러에요");
+  }
+};

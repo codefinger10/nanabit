@@ -68,7 +68,7 @@ export const useCustomMove = () => {
 
   const queryStrpage = createSearchParams({ board_code, page }).toString();
 
-  const queryItempage = createSearchParams({page}).toString();
+  const queryItempage = createSearchParams({ page }).toString();
 
   //목록으로가기 기능 만들기
   //pageParam이 있으면 pageParam으로 이동
@@ -103,7 +103,7 @@ export const useCustomMove = () => {
     } else {
       queryStr = queryStrpage;
     }
-    navigate({ pathname: "../item", search: queryStr });
+    navigate({ pathname: "../list", search: queryStr });
   };
 
   // 수정창 이동하기
@@ -164,7 +164,6 @@ export const useCustomMove = () => {
     moveToReadPage,
     moveToAdd,
     moveToItem,
-
   };
 };
 export default useCustomMove;

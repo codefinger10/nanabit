@@ -1,23 +1,68 @@
 import { motion } from "framer-motion";
-import React, { useMemo, useRef } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import "react-quill/dist/quill.snow.css";
 import { useNavigate, useOutletContext } from "react-router";
 import DefaultButton from "../../components/basic/DefaultButton";
 import { Axx, Azxc, StyledReactQuill } from "./styles/commStyle";
 import { useSearchParams } from "react-router-dom";
+import DOMPurify from "dompurify";
+import { getIBorad, postImage } from "../../api/community/communityApi";
+import jwtAxios from "../../util/jwtUtil";
 
+const initState = {
+  iboard: 0,
+  title: "",
+  contents: "",
+};
 const Reactquills = () => {
+  const navigate = useNavigate();
   const [urlSearchParams] = useSearchParams();
   const board = urlSearchParams.get("board_code");
   const { setMaintxt, setSubtxt } = useOutletContext();
-  console.log(board);
-  const initState = {
-    boardCode: parseInt(board),
-    title: "",
-    content: "",
+  console.log("게시판 번호 : ", board);
+
+  const [iBoard, setIBoard] = useState(0);
+  const getIBoardNumber = async () => {
+    const tempBoardId = await getIBorad();
+    // console.log(tempBoardId);
+    setIBoard(tempBoardId);
   };
+  useEffect(() => {
+    getIBoardNumber();
+  }, []);
+
   const quillRef = useRef(null);
+  // 현재 에디터에 배치된 이미지를 보관하고
+  const [imgList, setImgList] = useState([]);
+  // 임시 URL 보관하기
+  // const [imageBefore, setImageBefore] = useState([]);
+
+  useEffect(() => {
+    // console.log("imgList : ", imgList);
+  }, [imgList]);
+
+  // 현재 Quill 에 담겨진 글자
+  const [quillTxtHtml, setQuillTxtHtml] = useState("");
+  useEffect(() => {
+    // console.log(quillTxtHtml);
+  }, [quillTxtHtml]);
+
+  const sendImageFn = _file => {
+    const formData = new FormData();
+    formData.append("pics", _file);
+    postImage(board, { pics: formData, successFn, failFn, errorFn });
+  };
+  const successFn = _result => {
+    console.log("이미지 업로드 성공 : ", _result);
+  };
+  const failFn = _result => {
+    console.log("실패 : ", _result);
+  };
+
+  const errorFn = _result => {
+    console.log("서버에러 : ", _result);
+  };
 
   const imageHandler = () => {
     // 1. 에디터를 저장한다.
@@ -30,19 +75,55 @@ const Reactquills = () => {
     input.click(); // 강제클릭
 
     // 이미지 선택을 한다면 처리를 진행한다.
-    input.addEventListener("change", () => {
-      // console.log("파일체인지");
-      // 일반적인 파일 처리과정을 진행한다.
-      const file = input.files[0];
-      console.log(file);
-      const formData = new FormData();
-      formData.append("img", file);
-      // 백엔드 이미지 서버로 전송해서 이미지 경로 받아야 합니다.
+    input.addEventListener("change", async () => {
+      console.log("파일체인지");
+      // const arr = imgList;
+      // arr.push(file);
+      // setImgList([...arr]);
+
+      // const imgUrl = sendImageFn(file);
+
       try {
-        console.log("서버로 이미지 전송 axio 실행");
-      } catch (err) {
-        console.log("err");
+        // 배치될 이미지 경로
+        let imgUrl = "";
+        // 02-02 백경국 : 서버 이미지 경로 작성 필요
+        const serverImgUrl = "";
+        // 일반적인 파일 처리과정을 진행한다.
+        // 선택된 파일
+        const file = input.files[0];
+        const formData = new FormData();
+        formData.append("pics", file);
+        const header = { headers: { "Content-Type": "multipart/form-data" } };
+        const res = await jwtAxios.post(
+          `/api/board/image-upload?iboard=${board}`,
+          formData,
+          header,
+        );
+        const resStatus = res.status.toString();
+        if (resStatus.charAt(0) === "2") {
+          // 서버에서 받은 경로
+          imgUrl = `${serverImgUrl}${res.data}`;
+          console.log("imgUrl : ", imgUrl);
+          setImgList(prevUrl => [...prevUrl, imgUrl]);
+          // 이미지 태그를 에디터에 써주기 - 여러 방법이 있다.
+          const editor = quillRef.current.getEditor(); // 에디터 객체 가져오기
+          // editor.root.innerHTML += `<img src=${imgUrl} />`;
+          // 2. 현재 에디터 커서 위치값을 가져온다
+          const range = editor.getSelection();
+          editor.insertEmbed(range.index, "image", imgUrl);
+          editor.setSelection(range.index + 1);
+        } else {
+          console.log("업로드 실패입니다.");
+        }
+      } catch (error) {
+        errorFn(error);
       }
+
+      // 미리보기 (웹브라우의 URL 을 임시로 사용해서 활요)
+      // const tempUrl = URL.createObjectURL(file);
+      // setImageBefore(prevImages => [...prevImages, tempUrl]);
+
+      // console.log(tempUrl);
     });
   };
 
@@ -81,10 +162,7 @@ const Reactquills = () => {
     [],
   );
 
-  console.log("리랜더링");
-
-  const navigate = useNavigate();
-
+  // console.log("리랜더링");
   const handleClika = () => {
     navigate(-1);
   };
@@ -101,7 +179,38 @@ const Reactquills = () => {
 
   // 확인 버튼 선택시 실행
   const handleSubmitMy = data => {
-    console.log("asdas", data);
+    data.contents = quillTxtHtml;
+    if (data.title === "") {
+      alert("제목을 입력하세요.");
+      return;
+    }
+    if (data.contents === "<p><br></p>" || data.contents === "") {
+      alert("내용을 입력하세요.");
+      return;
+    }
+    // imgList
+    const sendData = {
+      board: {
+        iboard: iBoard,
+        title: data.title,
+        contents: data.contents,
+      },
+      pics: imgList,
+    };
+
+    console.log(imgList);
+    console.log(sendData);
+    // {
+    //   "dto": {
+    //     "iboard": 0,
+    //     "title": "string",
+    //     "contents": "string"
+    //   },
+    //   "pics": [
+    //     "string"
+    //   ]
+    // }
+    // console.log("asdas", data);
   };
 
   return (
@@ -111,6 +220,10 @@ const Reactquills = () => {
       transition={{ duration: 1 }}
       onSubmit={handleSubmit(handleSubmitMy)}
     >
+      <div
+        dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(quillTxtHtml) }}
+      ></div>
+
       <Axx>
         <input
           type="text"
@@ -124,7 +237,8 @@ const Reactquills = () => {
           modules={modules}
           placeholder="여러분의 경험을 자유롭게 적어주세요."
           preserveWhitespace
-          onChange={value => setValue("content", value)}
+          // onChange={value => setValue("content", value)}
+          onChange={setQuillTxtHtml}
         />
       </Axx>
       <Azxc>
@@ -141,17 +255,14 @@ const Reactquills = () => {
             borderColor="#868686"
           />
           <DefaultButton
-            type="Submit"
+            type="submit"
             txt="등록하기"
             txtColor="#42B0FF"
             borderColor="#42B0FF"
           />
         </div>
       </Azxc>
-      {/* <h1> {asd.title}</h1>
-      <div
-        dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(asd.content) }}
-      ></div> */}
+      {/* <h1> {asd.title}</h1> */}
     </motion.form>
   );
 };
