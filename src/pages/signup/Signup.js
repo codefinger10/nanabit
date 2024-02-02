@@ -24,6 +24,7 @@ import {
 } from "../../styles/signup/signup";
 import { useNavigate } from "react-router";
 import ResultModal from "../../components/signup/ResultModal";
+import ModalComponent from "../../components/signup/ModalComponent";
 const initState = {
   nm: "",
   uid: "",
@@ -100,6 +101,7 @@ const Signup = () => {
       try {
         const result = await getList();
         setAgreeBt(result);
+        setRequiredList(Array(result.length).fill(false));
       } catch (error) {
         alert("데이터 호출에 실패하였습니다.");
       }
@@ -164,13 +166,18 @@ const Signup = () => {
     postSignCheck({ userObject, successFnid, failFnid, errorFnid });
   };
 
+  const [asdf, setAsdf] = useState(0);
+  const [modalShow, setModealShow] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
+  const [titleResult, setTitleResult] = useState("");
+
   const successFnid = result => {
     setModalStyle({});
     setModalStyleBk({});
     setResultTitle("아이디 중복 확인");
     setResultContent("사용할 수 있는 아이디입니다.");
     setReDirect(0);
-    console.log(result);
+    setAsdf(result);
   };
 
   const failFnid = result => {
@@ -201,9 +208,11 @@ const Signup = () => {
 
   const onFinish = values => {
     // 회원가입 버튼 클릭 시 체크박스가 체크되어 있는지 확인
-    if (required) {
+    if (!isCheckedaa) {
       // 체크박스가 체크되지 않은 경우 회원가입 처리를 하지 않고 반환
-      alert("약관에 동의해주세요.");
+      setTitleResult("약관 동의");
+      setModalMessage("약관에 동의해주세요.");
+      setModealShow(true);
       return;
     }
     +(
@@ -213,8 +222,19 @@ const Signup = () => {
     values.address = address;
     values.zipCode = zonecode;
     console.log("Success:", values);
-    postSign({ values, successFn, failFn, errFn });
+    if (asdf === 1) {
+      postSign({ values, successFn, failFn, errFn });
+    } else {
+      setTitleResult("아이디 중복");
+      setModalMessage("아이디 중복확인해주세요.");
+      setModealShow(true);
+    }
   };
+
+  const modalClose = () => {
+    setModealShow(false);
+  };
+
   const onFinishFailed = errorInfo => {
     console.log("Failed:", errorInfo);
   };
@@ -222,8 +242,46 @@ const Signup = () => {
     navigate(-1);
   };
 
+  const [username, setUsername] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const [passwordChk, setPasswordChk] = React.useState("");
+
+  const emailRegEx =
+    /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@[A-Za-z0-9]([-_.]?[A-Za-z0-9])*\.[A-Za-z]{2,3}$/i;
+  const passwordRegEx = /^[A-Za-z0-9]{8,20}$/;
+
+  const emailCheck = username => {
+    return emailRegEx.test(username); //형식에 맞을 경우, true 리턴
+  };
+  const passwordCheck = password => {
+    if (password.match(passwordRegEx) === null) {
+      //형식에 맞지 않을 경우 아래 콘솔 출력
+      console.log("비밀번호 형식을 확인해주세요");
+      return;
+    } else {
+      // 맞을 경우 출력
+      console.log("비밀번호 형식이 맞아요");
+    }
+  };
+  const passwordDoubleCheck = (password, passwordChk) => {
+    if (password !== passwordChk) {
+      console.log("비밀번호가 다릅니다.");
+      return;
+    } else {
+      console.log("비밀번호가 동일합니다");
+    }
+  };
+
   return (
     <div>
+      {modalShow && (
+        <ResultModal
+          title={titleResult}
+          message={modalMessage}
+          callFN={modalClose}
+        />
+      )}
+
       {resultTitle !== "" ? (
         <ResultModal
           title={resultTitle}
@@ -271,7 +329,16 @@ const Signup = () => {
             name="nm"
             rules={[
               {
-                type: "text",
+                required: true,
+                message: "이름을 입력하세요.",
+              },
+              {
+                pattern: /^[가-힣]{2,4}$/,
+                message: "한글로 2~4자 사이의 이름을 입력하세요.",
+              },
+              {
+                whitespace: true,
+                message: "이름은 공백만으로 만들 수 없습니다",
               },
             ]}
           >
@@ -286,6 +353,10 @@ const Signup = () => {
                 {
                   required: true,
                   message: "아이디를 입력하세요!",
+                },
+                {
+                  whitespace: true,
+                  message: "아이디는 공백만으로 만들 수 없습니다",
                 },
               ]}
             >
@@ -306,8 +377,40 @@ const Signup = () => {
           </div>
 
           <div>비밀번호*</div>
-          <Form.Item name="upw">
-            <Input.Password style={inputBt} />
+          <Form.Item
+            name="upw"
+            rules={[
+              {
+                required: true,
+                message: "비밀번호를 입력하세요.",
+              },
+              {
+                min: 8,
+                message:
+                  "비밀번호는 공백을 제외한 영어와 숫자, 특수문자를 하나 이상 포함한 8~16자리이어야 합니다.",
+              },
+              {
+                max: 16,
+                message:
+                  "비밀번호는 공백을 제외한 영어와 숫자, 특수문자를 하나 이상 포함한 8~16자리이어야 합니다.",
+              },
+              {
+                pattern: /^[A-Za-z0-9]{8,20}$/,
+                message: "비밀번호 양식에 맞게 작성해주세요.",
+              },
+              {
+                whitespace: true,
+                message: "비밀번호는 공백만으로 만들 수 없습니다",
+              },
+            ]}
+          >
+            <Input.Password
+              style={inputBt}
+              onChange={e => {
+                setPassword(e.target.value);
+                passwordCheck(e.target.value);
+              }}
+            />
           </Form.Item>
           <div>비밀번호 확인*</div>
           <Form.Item
@@ -327,7 +430,13 @@ const Signup = () => {
               }),
             ]}
           >
-            <Input.Password style={inputBt} />
+            <Input.Password
+              style={inputBt}
+              onChange={e => {
+                setPasswordChk(e.target.value);
+                passwordDoubleCheck(password, e.target.value);
+              }}
+            />
           </Form.Item>
 
           <Address onAddressChange={updateAddressInfo} />
@@ -339,6 +448,10 @@ const Signup = () => {
                 required: true,
                 message: "전화번호를 입력 해주세요",
               },
+              {
+                whitespace: true,
+                message: "전화번호는 공백만으로 만들 수 없습니다",
+              },
             ]}
           >
             <Input style={emailtitle} />
@@ -349,11 +462,29 @@ const Signup = () => {
             rules={[
               {
                 type: "email",
-                message: "이메일을 올바르게 작성 해주세요.",
+                message: "올바른 이메일 형식을 입력하세요.",
+              },
+              {
+                required: true,
+                message: "이메일을 입력하세요.",
+              },
+              {
+                pattern:
+                  /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@[A-Za-z0-9]([-_.]?[A-Za-z0-9])*\.[A-Za-z]{2,3}$/i,
+                message: "이메일 형식에 맞게 작성해주세요",
+              },
+              {
+                whitespace: true,
+                message: "이메일은 공백만으로 만들 수 없습니다",
               },
             ]}
           >
-            <MyInput />
+            <MyInput
+              onChange={e => {
+                setUsername(e.target.value);
+                emailCheck(e.target.value);
+              }}
+            />
           </Form.Item>
 
           <Form.List name="children">
@@ -422,6 +553,7 @@ const Signup = () => {
                       <p>{item.contents}</p>
                     </div>
                     <Checkbox
+                      key={agreeBt.includes}
                       type="checkbox"
                       name="bothcheck"
                       onChange={e =>
