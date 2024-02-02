@@ -55,9 +55,18 @@ export const useCustomMove = () => {
     ? parseInt(urlSearchParams.get("size"))
     : 10;
 
+  // iorder 전달하기
+  const iorder = urlSearchParams.get("iorder")
+    ? parseInt(urlSearchParams.get("iorder"))
+    : 1;
+
   // 게시판 분류
   const board_code = urlSearchParams.get("board_code")
     ? parseInt(urlSearchParams.get("board_code"))
+    : 1;
+
+  const iorder = urlSearchParams.get("iorder")
+    ? parseInt(urlSearchParams.get("iorder"))
     : 1;
 
   // 쿼리스트링 만들기
@@ -69,6 +78,12 @@ export const useCustomMove = () => {
   const queryStrpage = createSearchParams({ board_code, page }).toString();
 
   const queryItempage = createSearchParams({ page }).toString();
+
+
+
+  const querypayment = createSearchParams({ iorder }).toString();
+
+
 
   //목록으로가기 기능 만들기
   //pageParam이 있으면 pageParam으로 이동
@@ -106,12 +121,16 @@ export const useCustomMove = () => {
     navigate({ pathname: "../list", search: queryStr });
   };
 
+
   // 수정창 이동하기
   const moveToModify = tno => {
     navigate({ pathname: `../modify/${tno}`, search: queryStrDeafult });
   };
 
   //페이지 이동하기
+  const moveToPayment = iorder => {
+    navigate({ pathname: `../payment/${iorder}`, search: querypayment });
+  };
 
   // 상세 내용 보기
   const moveToRead = tno => {
@@ -164,6 +183,12 @@ export const useCustomMove = () => {
     moveToReadPage,
     moveToAdd,
     moveToItem,
+
+
+    moveToPayment,
+
+
+
   };
 };
 export default useCustomMove;

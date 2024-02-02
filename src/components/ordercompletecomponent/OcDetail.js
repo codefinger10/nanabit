@@ -1,7 +1,7 @@
 import { ConfigProvider, Table } from "antd";
 import React, { useEffect, useState } from "react";
 import { getOCPage } from "../../api/orderapi/orderApi";
-
+import { OcDetailWrap } from "../../styles/oc/ocstyle";
 
 const OcDetail = ({ data }) => {
   // const [data, setData] = useState(null);
@@ -119,7 +119,6 @@ const OcDetail = ({ data }) => {
     },
   ];
 
-
   const orderDataSource = data.products.map((product, index) => ({
     key: index,
     "상품 이미지": product.repPic,
@@ -159,7 +158,11 @@ const OcDetail = ({ data }) => {
           }}
         >
           <img
-            src={text}
+            src={
+              text === ""
+                ? process.env.PUBLIC_URL + "/assets/images/defaultitemimg.svg"
+                : text
+            }
             alt="이미지"
             style={{ width: "90px", height: "90px" }}
           />
@@ -266,7 +269,7 @@ const OcDetail = ({ data }) => {
 
   return (
     <>
-      <div style={{ width: "1150px", margin: "0 auto" }}>
+      <OcDetailWrap>
         <ConfigProvider
           theme={{
             components: {
@@ -280,6 +283,10 @@ const OcDetail = ({ data }) => {
           }}
         >
           <div style={{ height: "50px" }}></div>
+          <div className="orderInfoTitle">
+            <p>주문금액</p>
+          </div>
+
           <Table
             dataSource={amountDataSource}
             columns={amountColumns}
@@ -287,6 +294,10 @@ const OcDetail = ({ data }) => {
             style={{ borderTop: "1px solid #E9B25F" }}
           />
           <div style={{ height: "50px", width: "1150px" }}></div>
+          <div className="orderInfoTitle">
+            <p>주문상품</p>
+          </div>
+
           <Table
             dataSource={orderDataSource}
             columns={orderColumns}
@@ -295,7 +306,7 @@ const OcDetail = ({ data }) => {
           />
           <div style={{ height: "50px", width: "1150px" }}></div>
         </ConfigProvider>
-      </div>
+      </OcDetailWrap>
     </>
   );
 };

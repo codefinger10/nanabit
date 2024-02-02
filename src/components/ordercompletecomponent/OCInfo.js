@@ -1,14 +1,11 @@
 import React from "react";
-import styled from "styled-components";
 import { BorderLinemanager, BorderWrap } from "../../styles/oc/ocstyle";
 
 const OCInfo = ({ data }) => {
-  
   const dataObject = typeof data === "object" ? data : {};
   return (
     <BorderWrap>
-      <div>
-        <div style={{ width: "1150px", height: "50px" }} />
+      <div className="pageMargin">
         <div className="orderInfoTitle">
           <p>주문정보</p>
         </div>

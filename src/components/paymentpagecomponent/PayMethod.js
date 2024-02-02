@@ -7,11 +7,27 @@ import { ConfigProvider, Modal } from "antd";
 import BankTransferModal from "./BankTransferModal";
 import CreditCardModal from "./CreditCardModal";
 
-const PayMethod = () => {
+const PayMethod = ({ handlebuyMethodChange }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeButton, setActiveButton] = useState(null);
   const [confirmLoading, setConfirmLoading] = useState(false);
 
+  // 결제 버튼
+  const handleButtonClick = buttonName => {
+    const newState = buttonName === "bankTransfer" ? 2 : 3;
+    handlebuyMethodChange(`${newState}`);
+    if (activeButton === buttonName) {
+      setIsModalOpen(prevState => !prevState);
+      console.log(`${newState}`);
+    } else {
+      setActiveButton(buttonName);
+      setIsModalOpen(true);
+      console.log(`${newState}`);
+    }
+  };
+
+  // 모달
+  const [modalState, setModalState] = useState();
   const handleOk = () => {
     setConfirmLoading(true);
     setTimeout(() => {
@@ -22,20 +38,14 @@ const PayMethod = () => {
 
   const handleCancel = () => {
     setIsModalOpen(false);
+    setActiveButton(null);
   };
+  // 은행 모달 입력 완료했니?
+  // const BankState = selectedAddress => {
+  //   setModalState({ ...modalState, address: selectedAddress });
+  //   // console.log("은행입니다. ", selectedAddress);
+  // };
 
-  const handleButtonClick = buttonName => {
-    const newState = buttonName === "bankTransfer" ? 2 : 3;
-
-    if (activeButton === buttonName) {
-      setIsModalOpen(prevState => !prevState);
-      console.log(`${newState}`);
-    } else {
-      setActiveButton(buttonName);
-      setIsModalOpen(true);
-      console.log(`${newState}`);
-    }
-  };
   return (
     <>
       <ConfigProvider

@@ -70,7 +70,7 @@ const ReturnView = () => {
       orderParam: {
         list_flag: 2,
         // process_state_code: optionButton,
-        // date: dateButton,
+        date: dateButton,
       },
       successFn,
       failFn,
@@ -105,10 +105,6 @@ const ReturnView = () => {
   useEffect(() => {
     fetchData();
   }, [optionButton]);
-
-  // useEffect(() => {
-  //   fetchData();
-  // }, [orderData]);
 
   const DateBt = styled.button`
     /* border: none; */
@@ -198,9 +194,9 @@ const ReturnView = () => {
                     {orders.createdAt}
                     <br /> <span>[{orders.iorder}]</span>
                   </p>
-                  <button onClick={() => iorderNavi(`/order/${orders.iorder}`)}>
+                  {/* <button onClick={() => iorderNavi(`/order/${orders.iorder}`)}>
                     주문상세보기
-                  </button>
+                  </button> */}
                 </div>
 
                 <div className="itemmap">

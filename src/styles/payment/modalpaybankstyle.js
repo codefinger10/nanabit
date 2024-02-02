@@ -22,7 +22,7 @@ export const ModalHeader = styled.div`
   }
 `;
 export const TotalAmount = styled.div`
-  width: 348px;
+  width: 100%;
   height: 80px;
   border-radius: 10px;
   background-color: #ddf1ff;

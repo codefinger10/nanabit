@@ -50,14 +50,14 @@ const LowHighBt = ({
       </LowHighFilter>
 
       <LowHighFilter
-        onClick={() => handleClickLowHigh(1)}
-        active={activeLHFilter === 1}
+        onClick={() => handleClickLowHigh(2)}
+        active={activeLHFilter === 2}
       >
         낮은가격순
       </LowHighFilter>
       <LowHighFilter
-        onClick={() => handleClickLowHigh(2)}
-        active={activeLHFilter === 2}
+        onClick={() => handleClickLowHigh(1)}
+        active={activeLHFilter === 1}
       >
         높은가격순
       </LowHighFilter>
