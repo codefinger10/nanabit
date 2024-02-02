@@ -59,7 +59,7 @@ export const putWish = async ({ iproduct, successFn, failFn, errorFn }) => {
   try {
     const header = { headers: { "Content-Type": "application/json" } };
     const body = { iproduct };
-    const res = await jwtAxios.put(`${host}/wish`, body, header);
+    const res = await jwtAxios.put(`${host}/wish`, body);
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
       successFn(res.data);

@@ -36,7 +36,7 @@ import ReviewAddPage from "./pages/reviewPage/ReviewAddPage";
 import useCustomLogin from "./hooks/useCustomLogin";
 
 import ProductLayout from "./pages/product/ProductLayout";
-
+import ModifyPw from "./pages/signup/ModifyPw";
 import ToyProduct from "./pages/product/ToyProduct";
 import MealProduct from "./pages/product/MealProduct";
 import BreastfeedingProduct from "./pages/product/BreastfeedingProduct";
@@ -89,12 +89,12 @@ const App = () => {
 
           <Route path="/order/:iorder" element={<OrderCompletePage />}></Route>
           <Route path="/ol" element={<OrderList />}></Route>
-          <Route path="/payment/:iorder" element={<PaymentPage />}></Route>
+          <Route path="/payment" element={<PaymentPage />}></Route>
           <Route path="/review" element={<ReviewPage />}></Route>
           <Route path="/reviewadd" element={<ReviewAddPage />}></Route>
           <Route path="/signup" element={<Signup />}></Route>
           <Route path="/modify/:id" element={<ModifyPages />}></Route>
-
+          <Route path="/modifypw" element={<ModifyPw />}></Route>
           <Route path="/item/:iproduct" element={<ItemPage />}></Route>
           <Route path="/cc" element={<SerchPage />}></Route>
 

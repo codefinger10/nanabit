@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from "react";
 
 import DefaultButton from "../../../components/basic/DefaultButton";
-import styled from "@emotion/styled";
-import { getList } from "../../../api/community/commentApi";
+import {
+  deleteCommet,
+  getList,
+  patchCommet,
+  postCommet,
+} from "../../../api/community/commentApi";
+import { CommentRead } from "../styles/commStyle";
 
 const initState = {
   icomment: 0,
@@ -15,6 +20,10 @@ const initState = {
 const Comment = ({ id }) => {
   const [comment, setComment] = useState([initState]);
   const [openDropdown, setOpenDropdown] = useState(null);
+  const [openPatch, setOpenPatch] = useState(null);
+  const [commentPost, setCommentPost] = useState("");
+  const [commentPatch, setCommentPatch] = useState("");
+
   useEffect(() => {
     getList(id)
       .then(result => {
@@ -25,119 +34,150 @@ const Comment = ({ id }) => {
       });
   }, []);
 
-  const handleModify = iuser => {
-    console.log("수정", iuser);
+  const handleModify = icomment => {
+    console.log("수정", icomment);
+    setOpenPatch(icomment);
     setOpenDropdown(null);
   };
 
-  const handleDelete = iuser => {
-    console.log("삭제", iuser);
+  const handleDelete = icomment => {
+    deleteCommet(icomment).then(() => {
+      getList(id).then(res => {
+        setComment(res);
+        setCommentPost("");
+        setOpenPatch(null);
+      });
+    });
+    console.log("삭제", icomment);
     setOpenDropdown(null);
   };
 
-  const CommentAdd = styled.div`
-    width: 100%;
-    height: 57px;
-    display: flex;
-    gap: 15px;
-    margin-bottom: 30px;
-    input {
-      font-size: 2rem;
-      border: 1px solid #000;
-    }
-  `;
+  const handleChangeC = e => {
+    setCommentPost(e.target.value);
+  };
 
-  const CommentRead = styled.div`
-    margin-bottom: 20px;
-    .comment-top {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 10px;
-      align-items: center;
-      position: relative;
-      h3 {
-        color: #868686;
-        font-size: 20px;
-        font-weight: 400;
-        line-height: normal;
-      }
-      button {
-        border: none;
-        background: transparent;
-        cursor: pointer;
-      }
-    }
+  const handleChangeM = e => {
+    setCommentPatch(e.target.value);
+  };
 
-    .comment-bts {
-      position: absolute;
-      right: 0;
-      top: 10%;
-      background-color: #fff;
+  const handlePost = () => {
+    if (commentPost.length > 1) {
+      postCommet(id, commentPost).then(() => {
+        getList(id).then(res => {
+          setComment(res);
+          setCommentPost("");
+          setOpenPatch(null);
+        });
+      });
+    }
+  };
 
-      li {
-        padding: 8px;
-        cursor: pointer;
-        &:hover {
-          background-color: #f5f5f5;
-        }
-      }
-    }
-    .comment-mid {
-      text-align: start;
-      color: #595959;
-      font-size: 15px;
-      font-style: normal;
-      font-weight: 400;
-      margin-bottom: 10px;
-    }
-    .comment-bottom {
-      color: #868686;
-      font-size: 13px;
-      font-style: normal;
-      font-weight: 400;
-      line-height: normal;
-      text-align: start;
-      margin-bottom: 10px;
-    }
-  `;
+  const handlePatch = icomment => {
+    patchCommet(icomment, commentPatch).then(() => {
+      getList(id).then(res => {
+        setComment(res);
+        setCommentPost("");
+        setOpenPatch(null);
+      });
+    });
+  };
 
   return (
     <>
-      <CommentAdd>
-        <input type="text" />
+      <div
+        style={{
+          width: "100%",
+          height: 57,
+          display: "flex",
+          marginBottom: 30,
+          gap: 15,
+        }}
+      >
+        <input
+          style={{
+            fontSize: "2rem",
+            border: "1px solid #000",
+          }}
+          type="text"
+          value={commentPost}
+          onChange={handleChangeC}
+          maxLength={40}
+        />
         <DefaultButton
+          aa={handlePost}
           type="button"
           txt="등록하기"
           txtColor="#42B0FF"
           borderColor="#42B0FF"
         />
-      </CommentAdd>
+      </div>
       <CommentRead>
         {comment.map(item => (
-          <div key={item.iuser}>
+          <div key={item.icomment}>
             <div className="comment-top">
               <h3>{item.nm}</h3>
               <button
                 type="button"
                 onClick={() =>
                   setOpenDropdown(
-                    openDropdown === item.iuser ? null : item.iuser,
+                    openDropdown === item.icomment ? null : item.icomment,
                   )
                 }
               >
                 ...
               </button>
-              {openDropdown === item.iuser && (
+              {openDropdown === item.icomment && (
                 <div className="comment-bts">
                   <ul>
-                    <li onClick={() => handleModify(item.iuser)}>수정하기</li>
-                    <li onClick={() => handleDelete(item.iuser)}>삭제하기</li>
+                    <li onClick={() => handleModify(item.icomment)}>
+                      수정하기
+                    </li>
+                    <li onClick={() => handleDelete(item.icomment)}>
+                      삭제하기
+                    </li>
                     <li onClick={() => setOpenDropdown(null)}>취소하기</li>
                   </ul>
                 </div>
               )}
             </div>
-            <div className="comment-mid">{item.comment}</div>
+            {openPatch === item.icomment ? (
+              <div
+                style={{
+                  width: "100%",
+                  height: 30,
+                  display: "flex",
+                  marginBottom: 30,
+                  gap: 15,
+                }}
+              >
+                <input
+                  style={{
+                    fontSize: "2rem",
+                    border: "1px solid #000",
+                  }}
+                  type="text"
+                  defaultValue={item.comment}
+                  onChange={e => {
+                    handleChangeM(e);
+                  }}
+                  maxLength={40}
+                />
+                <button
+                  type="button"
+                  style={{
+                    background: "#fff",
+                    border: "1px solid #000",
+                    width: 100,
+                    cursor: "pointer",
+                  }}
+                  onClick={() => handlePatch(item.icomment)}
+                >
+                  수정하기
+                </button>
+              </div>
+            ) : (
+              <div className="comment-mid">{item.comment}</div>
+            )}
             <div className="comment-bottom">{item.createdAt}</div>
           </div>
         ))}

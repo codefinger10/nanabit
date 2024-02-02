@@ -20,7 +20,7 @@ const BankTransferModal = () => {
     console.log("radio checked", e.target.value);
     setValue(e.target.value);
   };
-  const [passwordVisible, setPasswordVisible] = React.useState(false);
+
 
   const onChange = e => {
     console.log(`checked = ${e.target.checked}`);

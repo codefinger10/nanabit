@@ -8,51 +8,58 @@ const CartProduct = ({
   handleClickDeleteEach,
   updateData,
   setServerData,
+  selectedItems,
+  setSelectedItems,
+  calculateTotalPriceOfSelectedItems,
 }) => {
-  const [selectedItems, setSelectedItems] = useState([]);
+  const [inputValues, setInputValues] = useState([]);
+
+  const handleInputChange = (index, newValue) => {
+    // input 값의 상태를 변경
+    setInputValues(prevValues => {
+      const newValues = [...prevValues];
+      newValues[index] = newValue;
+      return newValues;
+    });
+  };
 
   const handleToggleSelectAll = () => {
-    const allItemIds = serverData.map(item => item.iproduct);
+    const allItemIds = serverData.map(item => item);
 
     if (selectedItems.length === allItemIds.length) {
       // 선택된 아이템이 전체 아이템과 같으면 모두 해제
-      setSelectedItems([]);
+      onSelectedItemsChange([]);
     } else {
       // 선택된 아이템이 전체 아이템과 다르면 전체 선택
-      setSelectedItems(allItemIds);
+      onSelectedItemsChange(allItemIds);
     }
 
     setDeleteAllFlag(prevSelectAll => !prevSelectAll);
   };
-
   const handleSelectRow = item => {
-    const updatedSelectedItems = selectedItems.includes(item.iproduct)
-      ? selectedItems.filter(itemId => itemId !== item.iproduct)
-      : [...selectedItems, item.iproduct];
+    const updatedSelectedItems = selectedItems.includes(item)
+      ? selectedItems.filter(selectedItem => selectedItem !== item)
+      : [...selectedItems, item];
     setSelectedItems(updatedSelectedItems);
-    onSelectedItemsChange(item);
+    onSelectedItemsChange(updatedSelectedItems);
   };
+
   useEffect(() => {
     onSelectedItemsChange(selectedItems);
+    if (Array.isArray(serverData)) {
+      setInputValues(serverData.map(item => item.productCnt.toString()));
+    }
     return () => {};
   }, [selectedItems, onSelectedItemsChange, serverData, updateData]);
 
-  const handleClickPut = async item => {
+  const handleClickPut = async (item, index) => {
     const iproduct = item.iproduct;
-    const productCnt = item.productCnt;
-    patchCart({
-      iproduct,
-      productCnt,
-      successFn,
-      failFn,
-      errorFn,
-    });
-  };
+    const productCnt = inputValues[index];
 
-  const handleClickDelete = async item => {
     try {
-      await deleteCart({
-        iproduct: item.iproduct,
+      await patchCart({
+        iproduct,
+        productCnt,
         successFn,
         failFn,
         errorFn,
@@ -64,7 +71,23 @@ const CartProduct = ({
       // error에 따른 처리를 추가
       errorFn(error);
     }
-    // 삭제 후 최신 데이터 다시 불러오기
+
+    await getCart({ successFn, failFn, errorFn });
+  };
+
+  const handleClickDelete = async item => {
+    try {
+      await deleteCart({
+        iproduct: item.iproduct,
+        successFn,
+        failFn,
+        errorFn,
+      });
+    } catch (error) {
+      console.error("Delete Error:", error);
+
+      errorFn(error);
+    }
     getCart({ successFn, failFn, errorFn });
   };
   const successFn = async result => {
@@ -123,12 +146,12 @@ const CartProduct = ({
             ></td>
           </tr>
           {Array.isArray(serverData) &&
-            serverData.map(item => (
+            serverData.map((item, index) => (
               <tr key={item.iproduct} style={{ textAlign: "center" }}>
                 <td style={{ padding: "26px 0" }}>
                   <input
                     type="checkbox"
-                    checked={selectedItems.includes(item.iproduct)}
+                    checked={selectedItems.includes(item)}
                     onChange={() => handleSelectRow(item)}
                   />
                 </td>
@@ -155,6 +178,7 @@ const CartProduct = ({
                     max={9}
                     step={1}
                     defaultValue={item.productCnt}
+                    onChange={e => handleInputChange(index, e.target.value)}
                     style={{
                       border: "1px solid #d9d9d9",
                       width: "45px",
@@ -176,7 +200,7 @@ const CartProduct = ({
                       fontSize: "10px",
                       fontWeight: "400",
                     }}
-                    onClick={() => handleClickPut(item)}
+                    onClick={() => handleClickPut(item, index)}
                   >
                     변경
                   </button>

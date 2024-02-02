@@ -11,6 +11,8 @@ import {
   getOrderListPage,
   postOne,
 } from "../../api/orderapi/orderListApi";
+import { PagiWarp } from "../../styles/product/ProductGridStyle";
+import { Pagination } from "antd";
 
 const initState = {
   createdAt: "",
@@ -38,6 +40,7 @@ const OrderView = () => {
   const [optionButton, setOptionButton] = useState(0);
 
   const iorderNavi = useNavigate();
+
   const handleOpen = index => {
     setIsOpen(item => {
       const updatedOrder = [...item];
@@ -69,14 +72,21 @@ const OrderView = () => {
     });
   };
 
-  const handleReturnOrder = iReturn => {
-    postOne({
-      idetails: iReturn,
+  const handleReturnOrder = (iDetails, iPrice, iProductCount) => {
+    console.log(iDetails);
+    console.log("환불요청", iDetails);
+    const idetailData = {
+      contents: "단순변심",
+      refundCnt: iProductCount,
+      refundPrice: iPrice,
+    };
+
+    postOne(iDetails, {
+      idetailData,
       successFn,
       failFn,
       errorFn,
     });
-    console.log("환불요청", iReturn);
   };
 
   const fetchData = () => {
@@ -119,6 +129,59 @@ const OrderView = () => {
   useEffect(() => {
     fetchData();
   }, [optionButton]);
+
+  // 배송관련 텍스트 state 관리
+  const StateMap = {
+    구매확인: 0,
+    배송준비중: 1,
+    배송중: 2,
+    배송완료: 3,
+    주문취소: 4,
+    반품: 5,
+  };
+
+  const StateNum = StateMap[orderData.processState];
+  console.log("orderData", orderData);
+
+  // 상태에 따른 버튼 출력
+  const makeStateBt = _orders => {
+    console.log("dksehlwy.", _orders);
+    return (
+      <>
+        {_orders.processState === "배송완료" ? (
+          <button
+            onClick={() =>
+              handleReturnOrder(
+                _orders.idetails,
+                _orders.productCnt,
+                _orders.price,
+              )
+            }
+            style={{
+              backgroundColor: "#F24747",
+              color: "#fff",
+              border: "none",
+            }}
+          >
+            반품처리 {_orders.idetails}|{_orders.productCnt}|{_orders.price}
+          </button>
+        ) : null}
+        {/* ================================== */}
+        {_orders.processState === "배송준비중" ? (
+          <button
+            onClick={() => handleCancelOrder(_orders.idetails)}
+            style={{
+              backgroundColor: "#F24747",
+              color: "#fff",
+              border: "none",
+            }}
+          >
+            주문취소 {_orders.iorder}
+          </button>
+        ) : null}
+      </>
+    );
+  };
 
   const DateBt = styled.button`
     /* border: none; */
@@ -225,42 +288,30 @@ const OrderView = () => {
                         <p>{orders.productCnt}</p>
                         <p>{orders.price}</p>
                         <p>{orders.processState}</p>
+                        <div className="refl">
+                          <div className="itme-bt">
+                            {orders.reviewFl === 0 ? (
+                              <button
+                                onClick={() =>
+                                  iorderNavi(`/reviewadd/${orders.iproduct}`)
+                                }
+                              >
+                                리뷰작성
+                              </button>
+                            ) : (
+                              <div
+                                className="itme-bt"
+                                style={{ width: "100px" }}
+                              >
+                                {/* 빈 요소, 아무 내용이 없으므로 공백이나 다른 텍스트가 들어가도 좋습니다. */}
+                              </div>
+                            )}
 
-                        {/* <div className="itme-bt">
-                        {orders.refundFl === 1 && <button>주문취소</button>}
-                      </div> */}
+                            {makeStateBt(orders)}
+                          </div>
+                        </div>
                       </div>
                     ))}
-                </div>
-
-                <div className="refl">
-                  <div className="itme-bt">
-                    {/* {orders.refundFl === 1 && (
-                      <button onClick={() => handleCancelOrder(orders.iorder)}>
-                        주문취소
-                      </button>
-                    )} */}
-                    {orders.refundFl === 0 && <button>반품신청</button>}
-                    {orders.refundFl === 1 && (
-                      <div className="itme-bt" style={{ width: "100px" }}>
-                        {/* 빈 요소, 아무 내용이 없으므로 공백이나 다른 텍스트가 들어가도 좋습니다. */}
-                      </div>
-                    )}
-                  </div>
-                  <div className="itme-bt">
-                    {orders.reviewFl === 0 && <button>리뷰작성</button>}
-                    {orders.reviewFl === 1 && (
-                      <div className="itme-bt" style={{ width: "100px" }}>
-                        {/* 빈 요소, 아무 내용이 없으므로 공백이나 다른 텍스트가 들어가도 좋습니다. */}
-                      </div>
-                    )}
-                  </div>
-                  <div className="itme-bt">
-                    {/* <button>주문취소</button> */}
-                  </div>
-                  <div className="itme-bt">
-                    {/* <button>주문취소</button> */}
-                  </div>
                 </div>
               </div>
 
@@ -277,6 +328,15 @@ const OrderView = () => {
               </div>
             </div>
           ))}
+        <PagiWarp>
+          <Pagination
+            // current={currentPage}
+            // onChange={handlePageChange}
+            total={orderData.length}
+            // pageSize={itemsPerPage}
+            className="pagination"
+          />
+        </PagiWarp>
       </div>
     </OrderViewStyle>
   );

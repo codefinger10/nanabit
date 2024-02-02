@@ -73,6 +73,7 @@ const ModifyPages = () => {
 
   const onFinish = values => {
     setMemberInfo({ ...values });
+
     const result = putModify({ values, successFn, failFn, errorFn });
     console.log("Success:", values);
     console.log("result", result);
@@ -170,7 +171,16 @@ const ModifyPages = () => {
             name="nm"
             rules={[
               {
-                type: "text",
+                required: true,
+                message: "이름을 입력하세요.",
+              },
+              {
+                pattern: /^[가-힣]{2,4}$/,
+                message: "한글로 2~4자 사이의 이름을 입력하세요.",
+              },
+              {
+                whitespace: true,
+                message: "이름은 공백만으로 만들 수 없습니다",
               },
             ]}
           >
@@ -182,13 +192,35 @@ const ModifyPages = () => {
               }
             />
           </Form.Item>
-          <div>현재 비밀번호</div>
-          <Form.Item>
-            <Input.Password style={modifyInputBt} autocomplete="new-password" />
-          </Form.Item>
-
+         
           <div>새 비밀번호</div>
-          <Form.Item name="upw">
+          <Form.Item
+            name="upw"
+            rules={[
+              {
+                required: true,
+                message: "비밀번호를 입력하세요.",
+              },
+              {
+                min: 8,
+                message:
+                  "비밀번호는 공백을 제외한 영어와 숫자, 특수문자를 하나 이상 포함한 8~16자리이어야 합니다.",
+              },
+              {
+                max: 16,
+                message:
+                  "비밀번호는 공백을 제외한 영어와 숫자, 특수문자를 하나 이상 포함한 8~16자리이어야 합니다.",
+              },
+              {
+                pattern: /^[A-Za-z0-9]{8,20}$/,
+                message: "비밀번호 양식에 맞게 작성해주세요.",
+              },
+              {
+                whitespace: true,
+                message: "비밀번호는 공백만으로 만들 수 없습니다",
+              },
+            ]}
+          >
             <Input.Password style={modifyInputBt} autocomplete="new-password" />
           </Form.Item>
           <div>새 비밀번호 확인</div>
@@ -220,6 +252,10 @@ const ModifyPages = () => {
                 required: true,
                 message: "전화번호를 입력 해주세요",
               },
+              {
+                whitespace: true,
+                message: "전화번호는 공백만으로 만들 수 없습니다",
+              },
             ]}
           >
             <Input
@@ -236,7 +272,20 @@ const ModifyPages = () => {
             rules={[
               {
                 type: "email",
-                message: "올바른 이메일 방식으로 입력 해주세요 예)aaa@aaa.com",
+                message: "올바른 이메일 형식을 입력하세요.",
+              },
+              {
+                required: true,
+                message: "이메일을 입력하세요.",
+              },
+              {
+                pattern:
+                  /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@[A-Za-z0-9]([-_.]?[A-Za-z0-9])*\.[A-Za-z]{2,3}$/i,
+                message: "이메일 형식에 맞게 작성해주세요",
+              },
+              {
+                whitespace: true,
+                message: "이메일은 공백만으로 만들 수 없습니다",
               },
             ]}
           >

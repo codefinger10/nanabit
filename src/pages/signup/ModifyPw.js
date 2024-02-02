@@ -87,10 +87,7 @@ const ModifyPw = () => {
 
     setResultTitle("서버 오류");
     setResultContent(
-      <div>
-        오류가 발생하였습니다. <br />
-        관리자에게 문의해 주세요.
-      </div>,
+      result
     );
     setReDirect(1);
     console.log(result);
