@@ -65,10 +65,6 @@ export const useCustomMove = () => {
     ? parseInt(urlSearchParams.get("board_code"))
     : 1;
 
-  const iorder = urlSearchParams.get("iorder")
-    ? parseInt(urlSearchParams.get("iorder"))
-    : 1;
-
   // 쿼리스트링 만들기
   const queryStrDeafult = createSearchParams({
     page,
@@ -79,11 +75,7 @@ export const useCustomMove = () => {
 
   const queryItempage = createSearchParams({ page }).toString();
 
-
-
   const querypayment = createSearchParams({ iorder }).toString();
-
-
 
   //목록으로가기 기능 만들기
   //pageParam이 있으면 pageParam으로 이동
@@ -120,7 +112,6 @@ export const useCustomMove = () => {
     }
     navigate({ pathname: "../list", search: queryStr });
   };
-
 
   // 수정창 이동하기
   const moveToModify = tno => {
@@ -171,6 +162,7 @@ export const useCustomMove = () => {
     moveToModify,
     page,
     size,
+    iorder,
     board_code,
     moveToListPahe,
     moveToRead,
@@ -184,11 +176,7 @@ export const useCustomMove = () => {
     moveToAdd,
     moveToItem,
 
-
     moveToPayment,
-
-
-
   };
 };
 export default useCustomMove;

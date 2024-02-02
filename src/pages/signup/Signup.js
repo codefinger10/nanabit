@@ -24,7 +24,6 @@ import {
 } from "../../styles/signup/signup";
 import { useNavigate } from "react-router";
 import ResultModal from "../../components/signup/ResultModal";
-import ModalComponent from "../../components/signup/ModalComponent";
 const initState = {
   nm: "",
   uid: "",

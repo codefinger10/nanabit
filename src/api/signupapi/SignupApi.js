@@ -53,10 +53,9 @@ export const postSignCheck = async ({
     console.log(res);
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
-      successFnid(res.data);
-    } else if (status === "400") {
-      failFnid(res.data);
-      console.log("히윽");
+      successFnid(res.data.result);
+    } else if (status.charAt(0) === "4") {
+      console.log("히윽", res.data);
     }
   } catch (error) {
     errorFnid("서버에러에요");
@@ -92,7 +91,7 @@ export const postModify = async ({ values, successFn, failFn, errorFn }) => {
       console.log("히윽");
     }
   } catch (error) {
-    errorFn("서버에러에요");
+    errorFn(error.response.data.message);
   }
 };
 
@@ -158,5 +157,21 @@ export const getPayItemList = async () => {
     }
   } catch (error) {
     console.log("목록 호출 서버 에러에요", error);
+  }
+};
+
+export const postCart = async cart => {
+  try {
+    const res = await jwtAxios.post(`/api/product/cart`, cart);
+    console.log(res);
+    const status = res.status.toString();
+    if (status.charAt(0) === "2") {
+      return res.data;
+    } else {
+      console.log("히윽");
+    }
+  } catch (error) {
+    // 오류 처리 함수 호출 시 오류 메시지 전달
+    console.log("서버에러에요");
   }
 };
