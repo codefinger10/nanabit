@@ -1,7 +1,7 @@
 import React from "react";
 import { ProductSubDiscount } from "../../styles/cart/cartstyle";
 
-const CartSubDis = ({ serverData }) => {
+const CartSubDis = ({ serverData, totalOrderPrice }) => {
   return (
     <div>
       <ProductSubDiscount>
@@ -11,13 +11,17 @@ const CartSubDis = ({ serverData }) => {
         <div>
           <p>
             상품구매금액:{" "}
-            {serverData && serverData.paymentAmount
+            {totalOrderPrice > 0
+              ? totalOrderPrice.toLocaleString()
+              : serverData && serverData.paymentAmount
               ? serverData.paymentAmount.toLocaleString()
               : 0}{" "}
             + 배송비 0 (무료) = 합계:{" "}
-            {serverData && serverData.paymentAmount
+            {totalOrderPrice > 0
+              ? totalOrderPrice.toLocaleString()
+              : serverData && serverData.paymentAmount
               ? serverData.paymentAmount.toLocaleString()
-              : 0}
+              : 0}{" "}
           </p>
         </div>
       </ProductSubDiscount>

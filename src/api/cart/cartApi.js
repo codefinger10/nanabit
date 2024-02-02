@@ -19,13 +19,7 @@ export const getCart = async ({ successFn, failFn, errorFn }) => {
 };
 
 // 제품 삭제하기
-export const deleteCart = async ({
-  iproduct,
-  successFn,
-  failFn,
-  errorFn,
-  updateData,
-}) => {
+export const deleteCart = async ({ iproduct, successFn, failFn, errorFn }) => {
   try {
     const res = await jwtAxios.delete(`${host}?iproduct=${iproduct}`);
 
@@ -52,7 +46,7 @@ export const patchCart = async ({
 }) => {
   try {
     const res = await jwtAxios.patch(
-      `${host}??iproduct=${iproduct}&productCnt=${productCnt}`,
+      `${host}?iproduct=${iproduct}&productCnt=${productCnt}`,
       { productCnt, iproduct },
     );
     const status = res.status.toString();
@@ -63,5 +57,32 @@ export const patchCart = async ({
     }
   } catch (error) {
     errorFn(error);
+  }
+};
+
+// 파일 업로드 비동기 통신
+
+export const postCart = async ({
+  products,
+  totalOrderPrice,
+  successFn,
+  failFn,
+  errorFn,
+}) => {
+  try {
+    // {zipCode: "12", address: "12", addressDetail: "12"}
+    // {detailedAddress: '12', address: '부산 기장군 장안읍 좌해로 14', zipCode: '46033'}
+    const res = await jwtAxios.post(`${API_SERVER_HOST}/api/order`, {
+      products,
+      totalOrderPrice,
+    });
+    const status = res.status.toString();
+    if (status.charAt(0) === "2") {
+      successFn(res.data);
+    } else {
+      failFn("전송 오류입니다.");
+    }
+  } catch (error) {
+    errorFn("서버에러에요");
   }
 };
