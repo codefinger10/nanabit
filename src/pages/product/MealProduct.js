@@ -65,7 +65,7 @@ const MealProduct = () => {
   useEffect(() => {
     fetchData();
   }, [sortBy]);
-  // soltby end=====================================
+  // soltby end======================================
 
   useEffect(() => {
     fetchData();
