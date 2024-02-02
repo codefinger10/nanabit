@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import ProductCard from "./ProductCard";
 import styled from "@emotion/styled";
 import CommunityTitle from "../../components/basic/CommunityTitle";
-import { Pagination } from "antd";
+import { Modal, Pagination } from "antd";
 import LowHighBt from "../../components/product/LowHighBt";
 import {
   GridContainer,
@@ -11,6 +11,8 @@ import {
   ProductWrap,
 } from "../../styles/product/ProductGridStyle";
 import { getProductPage } from "../../api/product/productApi";
+import MealModal from "../../components/modal/MealModal";
+import AddressConfirm from "../../components/modal/AddressConfirm";
 
 const initState = {
   iproduct: 0,
@@ -36,15 +38,20 @@ const MealProduct = () => {
   // soltby====================================
   const [sortBy, setSortBy] = useState(0); // 기본값으로 최신순(0)을 설정
   const [activeLHFilter, setActiveLHFilter] = useState(0);
+
+  // 모달 여기 다 넣죠
   const [modalOpen, setModalOpen] = useState(false);
 
+  // 모달 열기
   const openModal = () => {
     setModalOpen(true);
   };
 
+  // 모달 닫기
   const closeModal = () => {
     setModalOpen(false);
   };
+  // 모달끝========================================
 
   const handleChangeSortBy = newSortBy => {
     console.log("newSortBy", newSortBy);
@@ -65,13 +72,6 @@ const MealProduct = () => {
   }, [activeSubcategory]);
 
   const fetchData = () => {
-    // const tempObj = {
-    //   imiddle: activeSubcategory,
-    //   imain: 0,
-    //   sortBy: sortBy,
-    //   page: 1,
-    // };
-    // console.log(tempObj);
     getProductPage({
       productParam: {
         imiddle: activeSubcategory,
@@ -121,6 +121,25 @@ const MealProduct = () => {
     setCurrentPage(page);
   };
 
+  const ButtonContainer = styled.div`
+    position: relative;
+    width: 100px;
+    height: 100px;
+
+    border-radius: 50px;
+    left: 90%;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.25);
+  `;
+
+  const OpenModalButton = styled.button`
+    border: none;
+    background-color: transparent;
+    img {
+      width: 70px;
+      height: 70px;
+    }
+  `;
+
   return (
     <ProductWrap>
       <div>
@@ -130,6 +149,13 @@ const MealProduct = () => {
             // 이이이
             subtxt="배송 및 상품관련 공지사항을 확인해 주세요."
           />
+          <ButtonContainer>
+            <OpenModalButton onClick={openModal}>
+              이유식 설명서
+              <img src={process.env.PUBLIC_URL + "/assets/images/clip.svg"} />
+            </OpenModalButton>
+            {modalOpen && <MealModal closeModal={closeModal} />}
+          </ButtonContainer>
         </div>
 
         <div>

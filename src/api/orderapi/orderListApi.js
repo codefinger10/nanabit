@@ -28,23 +28,6 @@ export const getOrderListPage = async ({
     errorFn("목록호출안된다");
   }
 };
-// 112.222.157.156:5223/api/order?iorder=1
-// export const deleteOne = async ({ iorder, successFn, failFn, errorFn }) => {
-//   try {
-//     // http://192.168.0.144:5223/api/user/address?iaddress=45
-//     const url = `${prefix}`;
-//     const res = await jwtAxios.delete(url, { data: { iorder } });
-
-//     const status = res.status.toString();
-//     if (status.charAt(0) === "2") {
-//       successFn(res.data);
-//     } else {
-//       failFn("제품삭제 호출 오류입니다.");
-//     }
-//   } catch (error) {
-//     errorFn(error);
-//   }
-// };
 
 export const deleteOne = async ({ iorder, successFn, failFn, errorFn }) => {
   try {
@@ -63,17 +46,22 @@ export const deleteOne = async ({ iorder, successFn, failFn, errorFn }) => {
   }
 };
 
-export const postOne = async ({ idetails, successFn, failFn, errorFn }) => {
+export const postOne = async (
+  idetails,
+  { idetailData, successFn, failFn, errorFn },
+) => {
   try {
+    console.log(idetails);
+    console.log(idetailData);
     // http://192.168.0.144:5223/api/user/address?iaddress=45
     const url = `${prefix}/${idetails}`;
-    const res = await jwtAxios.delete(url);
+    const res = await jwtAxios.post(url, idetailData);
 
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
       successFn(res.data);
     } else {
-      failFn("제품삭제 호출 오류입니다.");
+      failFn("상품 환불 처리 호출 오류입니다.");
     }
   } catch (error) {
     errorFn(error);
