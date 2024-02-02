@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { putWish } from "../../api/mainpageapi/mainPageApi";
+import { putWish } from "../../api/mainpage/mainPageApi";
 import useCustomLogin from "../../hooks/useCustomLogin";
 import { StyledButton } from "../../styles/mainstyle";
 

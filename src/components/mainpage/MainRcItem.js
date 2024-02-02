@@ -5,13 +5,11 @@ import "swiper/css";
 import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
 // import required modules
-import { getPoPNewList } from "../../api/mainpageapi/mainPageApi";
+import { getPoPNewList } from "../../api/mainpage/mainPageApi";
 import useCustomLogin from "../../hooks/useCustomLogin";
 import {
   ItemDecArea,
-
   ItemImg,
-
   ItemPacket,
   ItemTagBoxDiv,
   ItemTitlePrice,

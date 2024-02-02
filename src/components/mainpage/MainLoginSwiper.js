@@ -7,7 +7,7 @@ import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
 
 // import required modules
-import { getAfterList } from "../../api/mainpageapi/mainPageApi";
+import { getAfterList } from "../../api/mainpage/mainPageApi";
 import useCustomLogin from "../../hooks/useCustomLogin";
 import {
   ItemDecArea,
