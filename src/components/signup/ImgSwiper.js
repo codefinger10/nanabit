@@ -1,24 +1,20 @@
 import React, { useRef, useState } from "react";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
-
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
 import "../../styles/signup/styles.css";
-
 // import required modules
 import { FreeMode, Navigation, Thumbs } from "swiper/modules";
-
 export default function ImgSwiper({ productData, iproduct }) {
   console.log(productData);
 
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   let imgUrl = `/pic/product/${iproduct}/`;
   const imgProduct = productData.productPics || [];
-
   console.log(imgProduct);
 
   return (

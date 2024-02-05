@@ -40,6 +40,7 @@ export const OrderModalWrap = styled.div`
   line-height: normal;
 } */
   .modal-content {
+    position: relative;
     h2 {
       color: #f24747;
       text-align: center;
@@ -49,13 +50,18 @@ export const OrderModalWrap = styled.div`
       line-height: normal;
     }
     .return-input {
-      margin-top: 30px;
+      display: flex;
+      /* margin-top: 30px; */
+      top: 50%;
       color: #868686;
       width: 350px;
       height: 40px;
       font-size: 15px;
       border-radius: 5px;
       border: 1px solid #868686;
+      /* text-align: center; */
+      margin: 0 auto;
+      margin-top: 50px;
     }
     .return-input::placeholder {
       padding-left: 20px;
@@ -77,7 +83,7 @@ export const OrderModalBtWrap = styled.div`
   display: flex;
   justify-content: center;
   gap: 26.5px;
-  padding-top: 50px;
+  padding-top: 30px;
   .modal-bt {
     width: 150px;
     height: 56px;
@@ -88,6 +94,31 @@ export const OrderModalBtWrap = styled.div`
 `;
 
 export const RuturnModalBtWrap = styled.div`
+  width: 250px;
+  /* height: 56px; */
+  border-radius: 38.5px;
+  /* flex-shrink: 0; */
+  text-align: center;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  gap: 26.5px;
+  /* padding-top: 100px; */
+
+  .modal-bt {
+    width: 150px;
+    height: 56px;
+    flex-shrink: 0;
+    border-radius: 7px;
+    border: none;
+  }
+`;
+
+export const CancelModalBtWrap = styled.div`
   width: 250px;
   height: 56px;
   border-radius: 38.5px;

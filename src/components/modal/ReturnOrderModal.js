@@ -40,15 +40,7 @@ const ReturnOrderModal = ({
         <OrderModalBtWrap>
           <button
             className="modal-bt"
-            onClick={
-              () => handleReturnOrder(idetailData, returncontents)
-              // {
-              //   idetail: idetailData.idetail,
-              //   contents: returncontents,
-              //   refundCnt: idetailData.productCnt,
-              //   refundPrice: idetailData.price,
-              // }
-            }
+            onClick={() => handleReturnOrder(idetailData, returncontents)}
             style={{
               backgroundColor: "#F24747",
               color: "#fff",
