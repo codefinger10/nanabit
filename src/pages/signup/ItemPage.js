@@ -466,7 +466,7 @@ const ItemPage = () => {
                         >
                           <div>
                             <img
-                              src={`${API_SERVER_HOST}/pic/review/${review.ireview}/${review.pics}`}
+                              src={`${API_SERVER_HOST}/pic/review/${review.ireview}/${review.pics[0]}`}
                               style={{ width: "300px", height: "200px" }}
                             />
                           </div>
