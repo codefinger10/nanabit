@@ -101,7 +101,7 @@ const App = () => {
 
           <Route path="/payment" element={<PaymentPage />}></Route>
 
-//           <Route path="/ol" element={<OrderList />}></Route>
+          <Route path="/ol" element={<OrderList />}></Route>
           <Route path="/payment/:iorder" element={<PaymentPage />}></Route>
 
           <Route path="/review" element={<ReviewPage />}></Route>
