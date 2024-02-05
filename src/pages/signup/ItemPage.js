@@ -237,14 +237,14 @@ const ItemPage = () => {
     setIsOpen(false);
     handleCancel();
   };
-  let imgUrl = `http://192.168.0.144:5223/pic/product/${iproduct}/`;
-  let imgreviewUrl = `http://192.168.0.144:5223/pic/review/${iproduct}/`;
+  let imgUrl = `http://112.222.157.156:5223/pic/product/${iproduct}/`;
+  let imgreviewUrl = `http://112.222.157.156:5223/pic/review/${iproduct}/`;
 
   return (
     <ItemMain>
       <ItemWrap>
         <div style={{ width: "600px", height: "520px" }}>
-          <ImgSwiper productData={productData} iproduct={iproduct}/>
+          <ImgSwiper productData={productData} iproduct={iproduct} />
         </div>
         <div style={{ width: "800px" }}>
           <div style={{ paddingBottom: 220 }}>
@@ -466,7 +466,7 @@ const ItemPage = () => {
                         >
                           <div>
                             <img
-                              src={imgreviewUrl+review.reqReviewPic}
+                              src={imgreviewUrl + review.reqReviewPic}
                               style={{ width: "300px", height: "200px" }}
                             />
                           </div>

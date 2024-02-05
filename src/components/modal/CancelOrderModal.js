@@ -1,6 +1,7 @@
 import React from "react";
 import { AddressWrap } from "../../styles/address/addressconfirmstyle";
 import {
+  CancelModalBtWrap,
   OrderModalBtWrap,
   OrderModalWrap,
   RuturnModalBtWrap,
@@ -15,7 +16,7 @@ const CancelOrderModal = ({ closeModal, handleCancelOrder, orderData }) => {
     <OrderModalWrap>
       <div className="modal-content">
         <h2>주문취소 하시겠습니까?</h2>
-        <RuturnModalBtWrap>
+        <CancelModalBtWrap>
           <button
             className="modal-bt"
             onClick={() => handleCancelOrder(orderData)}
@@ -34,7 +35,7 @@ const CancelOrderModal = ({ closeModal, handleCancelOrder, orderData }) => {
           >
             아니요
           </button>
-        </RuturnModalBtWrap>
+        </CancelModalBtWrap>
       </div>
     </OrderModalWrap>
   );
