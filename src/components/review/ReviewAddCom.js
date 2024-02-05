@@ -45,7 +45,7 @@ const getBase64 = file =>
 
 const ReviewAddPageCom = () => {
   const [checkInfoPlz, setCheckInfoPlz] = useState(false);
-  const { moveToPath } = useCustomMove();
+  const { navigate } = useCustomMove();
   // console.log(useParams());
   // console.log(productData.iproduct);
   const { iproduct, idetails, iorder } = useParams();
@@ -121,7 +121,7 @@ const ReviewAddPageCom = () => {
         contents: value,
       },
     });
-    console.log(formData);
+    // console.log(formData);
   };
 
   //========= 파일전송
@@ -161,9 +161,10 @@ const ReviewAddPageCom = () => {
       errorFn: errorFnPost,
     });
   };
-  console.log();
+
   const successFnPost = result => {
     console.log("성공", result);
+    navigate(`../review?page=1`);
   };
   const failFnPost = result => {
     console.log("실패", result);
