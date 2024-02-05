@@ -84,7 +84,7 @@ const CommuEdit = () => {
       try {
         const newIBoard = await getIBorad();
         let imgUrl = "http://192.168.0.144:5223/pic";
-        const serverImgUrl = "http://192.168.0.144:5223/pic";
+        const serverImgUrl = "/pic";
         const file = input.files[0];
         const formData = new FormData();
         formData.append("pics", file);
