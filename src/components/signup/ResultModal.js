@@ -1,7 +1,16 @@
 import React from "react";
 import { motion } from "framer-motion";
 // 타이틀, 내용, 확인버튼 클릭시 콜백 함수
-const ResultModal = ({ title, content, callFN, errorbt, errorbk, message }) => {
+const ResultModal = ({
+  title,
+  content,
+  callFN,
+  errorbt,
+  errorbk,
+  message,
+  btchange,
+  cancelFN,
+}) => {
   const popstyle = {
     position: "fixed",
     display: "flex",
@@ -21,7 +30,7 @@ const ResultModal = ({ title, content, callFN, errorbt, errorbk, message }) => {
     justifyContent: "center",
     textAlign: "center",
     width: "500px",
-    height: "250px",
+    height: "300px",
     borderRadius: "20px",
     background: "#fff",
     gap: 15,
@@ -69,11 +78,25 @@ const ResultModal = ({ title, content, callFN, errorbt, errorbk, message }) => {
         style={popmodal}
       >
         <div style={poptitle}>{title}</div>
-        <div style={popcontent}>{content}{message}</div>
+        <div style={popcontent}>
+          {content}
+          {message}
+        </div>
         <div>
-          <button onClick={callFN} style={popbt}>
-            창 닫기
-          </button>
+          {btchange === false ? (
+            <div style={{ display: "flex", justifyContent: "center", gap: 15 }}>
+              <button onClick={cancelFN} style={popbt}>
+                취소
+              </button>
+              <button onClick={callFN} style={popbt}>
+                확인
+              </button>
+            </div>
+          ) : (
+            <button onClick={callFN} style={popbt}>
+              창 닫기
+            </button>
+          )}
         </div>
       </motion.div>
     </div>

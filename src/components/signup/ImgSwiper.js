@@ -7,7 +7,7 @@ import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
-import "../../styles/signup/styles.css"
+import "../../styles/signup/styles.css";
 
 // import required modules
 import { FreeMode, Navigation, Thumbs } from "swiper/modules";
@@ -30,8 +30,10 @@ const slideData = [
   },
 ];
 
-export default function ImgSwiper({productData}) {
+export default function ImgSwiper({ productData, iproduct }) {
+  console.log(productData);
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
+  let imgUrl = `http://192.168.0.144:5223/pic/product/${iproduct}/`;
 
   return (
     <>
@@ -47,9 +49,9 @@ export default function ImgSwiper({productData}) {
         modules={[FreeMode, Navigation, Thumbs]}
         className="mySwiper2"
       >
-        {slideData.map((item, index) => (
+        {productData.productPics.map((item, index) => (
           <SwiperSlide key={index}>
-            <img src={item.pic} alt={item.title} />
+            <img src={imgUrl+item} alt={item.title} />
           </SwiperSlide>
         ))}
       </Swiper>
@@ -63,9 +65,9 @@ export default function ImgSwiper({productData}) {
         modules={[FreeMode, Navigation, Thumbs]}
         className="mySwiper"
       >
-        {slideData.map((item, index) => (
+        {productData.productPics.map((item, index) => (
           <SwiperSlide key={index}>
-            <img src={item.pic} alt={item.title} />
+            <img src={imgUrl+item} alt={item.title} />
           </SwiperSlide>
         ))}
       </Swiper>

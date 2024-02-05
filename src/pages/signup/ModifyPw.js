@@ -85,7 +85,7 @@ const ModifyPw = () => {
     setModalStyle({ color: "red" });
     setModalStyleBk({ background: "red" });
 
-    setResultTitle("서버 오류");
+    setResultTitle("비밀번호 확인");
     setResultContent(
       result
     );

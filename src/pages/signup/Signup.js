@@ -79,7 +79,12 @@ const Signup = () => {
 
   const failFn = () => {
     setResultTitle("항목 확인");
-    setResultContent("모든 항목을 입력해주세요.");
+    setResultContent(
+      <div>
+        잘못된 양식의 항목있습니다.
+        <br /> 다시 확인해주세요.
+      </div>,
+    );
     setReDirect(1);
   };
   const errFn = () => {
@@ -181,7 +186,7 @@ const Signup = () => {
 
   const failFnid = result => {
     setResultTitle("아이디 중복 확인");
-    setResultContent("이미 사용중인 아이디입니다.");
+    setResultContent(result);
     setReDirect(1);
     console.log(result);
   };
@@ -190,12 +195,7 @@ const Signup = () => {
     setModalStyle({ color: "red" });
     setModalStyleBk({ background: "red" });
     setResultTitle("서버 오류");
-    setResultContent(
-      <div>
-        오류가 발생하였습니다. <br />
-        관리자에게 문의해 주세요.
-      </div>,
-    );
+    setResultContent(result);
     setReDirect(1);
     console.log(result);
   };
@@ -223,6 +223,7 @@ const Signup = () => {
     console.log("Success:", values);
     if (asdf === 1) {
       postSign({ values, successFn, failFn, errFn });
+      navigate("/login");
     } else {
       setTitleResult("아이디 중복");
       setModalMessage("아이디 중복확인해주세요.");
@@ -393,10 +394,10 @@ const Signup = () => {
                 message:
                   "비밀번호는 공백을 제외한 영어와 숫자, 특수문자를 하나 이상 포함한 8~16자리이어야 합니다.",
               },
-              {
-                pattern: /^[A-Za-z0-9]{8,20}$/,
-                message: "비밀번호 양식에 맞게 작성해주세요.",
-              },
+              // {
+              //   pattern: /^[A-Za-z0-9]{8,16}$/,
+              //   message: "비밀번호 양식에 맞게 작성해주세요.",
+              // },
               {
                 whitespace: true,
                 message: "비밀번호는 공백만으로 만들 수 없습니다",
