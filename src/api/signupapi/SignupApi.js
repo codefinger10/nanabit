@@ -146,10 +146,10 @@ export const getProduct = async (iproduct, param) => {
   }
 };
 
-export const postOrder = async ({ asd, successFn, failFn, errorFn }) => {
-  console.log(asd);
+export const postOrder = async ({ productOrder, successFn, failFn, errorFn }) => {
+  console.log(productOrder);
   try {
-    const res = await jwtAxios.post(`/api/order`, asd);
+    const res = await jwtAxios.post(`/api/order`, productOrder);
     console.log(res);
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
