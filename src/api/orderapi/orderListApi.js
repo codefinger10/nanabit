@@ -48,16 +48,14 @@ export const deleteOne = async ({ iorder, successFn, failFn, errorFn }) => {
 };
 
 export const postOne = async (
-  // idetails,
-  { idetails, idetailData, successFn, failFn, errorFn },
+  idetails,
+  { idetailData, successFn, failFn, errorFn },
 ) => {
   try {
     console.log(idetails);
     console.log(idetailData);
-    // console.log("URL:", url);
     // http://192.168.0.144:5223/api/user/address?iaddress=45
     const url = `${prefix}/${idetails}`;
-    console.log("URL:", url);
     const res = await jwtAxios.post(url, idetailData);
 
     const status = res.status.toString();
