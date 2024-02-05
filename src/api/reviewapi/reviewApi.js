@@ -7,7 +7,6 @@ const host = `${API_SERVER_HOST}/api/review`;
 // http://112.222.157.156:5223/api/review?page=1
 export const getReviewList = async ({ param, successFn, failFn, errorFn }) => {
   try {
-    // const header = { headers: { "Content-Type": "application/json" } }; header
     const res = await jwtAxios.get(`${host}`, { params: param });
 
     const status = res.status.toString();

@@ -162,7 +162,7 @@ export const useCustomMove = () => {
     moveToItem,
     moveToOl,
     moveToModifyPage,
-
+    navigate,
     moveToPayment,
   };
 };

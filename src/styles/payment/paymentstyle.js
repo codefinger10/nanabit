@@ -230,29 +230,43 @@ export const OrderInfo = styled.div`
   }
 `;
 
- export const ModalPop = styled.div`
-    position: fixed;
+export const ModalPop = styled.div`
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 999;
+  .modalBack {
+    background: #fff;
+    text-align: center;
+    width: 300px;
+    height: 150px;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    z-index: 999;
-  `;
- export const ModalButton = styled.div`
-    height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    button {
-      height: 30px;
-      width: 150px;
-      border-radius: 30px;
-      background-color: #d68000;
-      border: none;
-      color: #ffffff;
-    }
-  `;
+    border-radius: 10px;
+  }
+  button {
+    height: 30px;
+  }
+`;
+export const ModalButton = styled.div`
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  button {
+    height: 30px;
+    width: 150px;
+    border-radius: 30px;
+    background-color: #d68000;
+    border: none;
+    color: #ffffff;
+  }
+`;
