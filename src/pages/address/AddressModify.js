@@ -51,7 +51,7 @@ const AddressModify = () => {
   const { moveToPrev } = useCustomMove();
   useEffect(() => {
     setServerData({ ...loginState });
-  }, [loginState ]);
+  }, [loginState]);
 
   const updateAddressInfo = ({ zonecode, address }) => {
     // 주소 정보 업데이트
@@ -60,11 +60,11 @@ const AddressModify = () => {
   };
 
   const onFinish = values => {
-    console.log("values", values);
+    // console.log("values", values);
     setServerData({ ...values });
     values.address = address;
     values.zipCode = zonecode;
-    console.log("Success:", values);
+    // console.log("Success:", values);
     putAdress({ iaddress: item.iaddress, values, successFn, failFn, errorFn });
   };
   const onFinishFailed = errorInfo => {

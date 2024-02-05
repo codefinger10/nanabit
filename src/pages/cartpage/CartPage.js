@@ -35,22 +35,22 @@ const CartPage = () => {
 
   const successFn = result => {
     setServerData(result);
-    console.log(result);
+    // console.log(result);
   };
   const failFn = result => {
-    console.log(result);
+    // console.log(result);
   };
   const errorFn = result => {
-    console.log(result);
+    // console.log(result);
   };
 
   const handleSelectedItemsChange = selectedItems => {
-    console.log("Selected Item Info:", selectedItems);
+    // console.log("Selected Item Info:", selectedItems);
     setSelectedItems(selectedItems);
   };
 
   const handleClickDeleteEach = async () => {
-    console.log("눌리니");
+    // console.log("눌리니");
     if (selectedItems.length > 0) {
       const iproducts = selectedItems.map(item => item.iproduct);
       await deleteCart({

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { deleteCart, getCart, patchCart } from "../../api/cart/cartApi";
+import { API_SERVER_HOST } from "../../util/util";
 
 const CartProduct = ({
   serverData,
@@ -157,10 +158,14 @@ const CartProduct = ({
                 </td>
                 <td style={{ padding: "26px 0" }}>
                   <img
-                    src={item.producImg}
-                    alt="이미지 설명"
-                    width="92"
-                    height="92"
+                    style={{ width: "92px", height: "92px" }}
+                    src={
+                      item.repPic === ""
+                        ? process.env.PUBLIC_URL +
+                          "/assets/images/defaultitemimg.svg"
+                        : `${API_SERVER_HOST}/pic/product/${item.iproduct}/${item.repPic}`
+                    }
+                    alt={item.productNm}
                   />
                 </td>
                 <td style={{ padding: "26px 0", textAlign: "start" }}>

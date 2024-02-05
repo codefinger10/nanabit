@@ -27,7 +27,7 @@ export const AddressInfo = () => {
 
   const handleClickModify = item => {
     moveToObj(`/address/modify`, item);
-    console.log(item.address, "address");
+    // console.log(item.address, "address");
   };
 
   const [serverData, setServerData] = useState([]);
@@ -43,13 +43,13 @@ export const AddressInfo = () => {
 
   const successFn = result => {
     setServerData(result);
-    console.log(result);
+    // console.log(result);
   };
   const failFn = result => {
-    console.log(result);
+    // console.log(result);
   };
   const errorFn = result => {
-    console.log(result);
+    // console.log(result);
   };
 
   return (

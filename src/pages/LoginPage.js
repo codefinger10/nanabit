@@ -29,7 +29,7 @@ const LoginPage = () => {
     setResultTitle("로그인 성공");
     setResultContent("로그인에 성공하였습니다.");
     setReDirect(0);
-    console.log(result);
+    // console.log(result);
   };
   const failFn = result => {
     setResultTitle("로그인 실패");
@@ -43,7 +43,6 @@ const LoginPage = () => {
       setModalStyle({ color: "red" });
       setModalStyleBk({ background: "red" });
       setResultTitle("로그인 실패");
-      
     }
     // setResultContent(result);
     setReDirect(1);
@@ -76,11 +75,11 @@ const LoginPage = () => {
   // 커스텀 훅 사용하기
 
   const onFinish = values => {
-    console.log("Success:", values);
+    // console.log("Success:", values);
     doLogin({ loginParam, successFn, failFn, errorFn });
   };
   const onFinishFailed = errorInfo => {
-    console.log("Failed:", errorInfo);
+    // console.log("Failed:", errorInfo);
   };
 
   // slice 값(state)을 읽을때        useSelector
