@@ -10,7 +10,6 @@ import {
 import PayMethod from "./PayMethod";
 import PaymentAdress from "./PaymentAdress";
 import PaymentOrderInfo from "./PaymentOrderInfo";
-
 const Payment = () => {
   const [formData, setFormData] = useState({
     iorder: 0,
@@ -20,11 +19,11 @@ const Payment = () => {
     email: 0,
     ipaymentOption: 0,
   });
-
   // 배송지
   const handleAddressChange = selectedAddress => {
     setFormData({ ...formData, address: selectedAddress });
-    // console.log("나는 부모컴포넌트 주소 : ", selectedAddress);
+    console.log("나는 부모컴포넌트 주소 : ", selectedAddress);
+    console.log("나는 formData 주소 : ", selectedAddress);
   };
   //수령인 정보
   const handleOrderInfoChange = orderInfo => {
@@ -43,32 +42,28 @@ const Payment = () => {
     setFormData({ ...formData, ipaymentOption: buyMethod });
     console.log("나는 부모컴포넌트 결제수단 : ", buyMethod);
   };
-
   const handleSubmit = async () => {
     // 폼 데이터를 이용한 PUT 요청 등의 작업 수행
-    try {
-      console.log("Submitted Data:", formData);
-      // API 호출
-
-      const result = await putOrderPage({
-        formData,
-        successFn,
-        failFn,
-        errorFn,
-      });
-      console.log("PUT 요청 성공:", result);
-      // 성공적으로 처리되면 추가 작업 수행
-    } catch (error) {
-      console.log("PUT 요청 에러:", error);
-      // 에러 처리 로직 추가
-    }
+    console.log("Submitted Data:", formData);
+    // try {
+    //   // API 호출
+    //   const result = await putOrderPage({
+    //     formData,
+    //     successFn,
+    //     failFn,
+    //     errorFn,
+    //   });
+    //   console.log("PUT 요청 성공:", result);
+    //   // 성공적으로 처리되면 추가 작업 수행
+    // } catch (error) {
+    //   console.log("PUT 요청 에러:", error);
+    //   // 에러 처리 로직 추가
+    // }
   };
-
   const successFn = data => console.log("PUT API 성공", data);
   const failFn = error => console.log("PUT API 실패", error);
   const errorFn = (errorMsg, error) =>
     console.log("PUT API 서버에러", errorMsg, error);
-
   return (
     <PaymentWrap>
       <PaymentBody>
@@ -100,12 +95,10 @@ const Payment = () => {
           <div className="paymentMain">
             {/* ===== 배송지 선택 ===== */}
             <PaymentAdress handleAddressChange={handleAddressChange} />
-
             <hr />
             {/* ===== 수령자 정보 ===== */}
             <PaymentOrderInfo handleOrderInfoChange={handleOrderInfoChange} />
             <hr />
-
             <PayMethod handlebuyMethodChange={handlebuyMethodChange} />
           </div>
           <hr />

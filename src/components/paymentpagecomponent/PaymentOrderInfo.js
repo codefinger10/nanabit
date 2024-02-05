@@ -8,10 +8,8 @@ import {
   TotalOrder,
 } from "../../styles/payment/paymentstyle";
 import { useParams } from "react-router";
-
 const PaymentOrderInfo = ({ handleOrderInfoChange }) => {
   const { iorder } = useParams();
-
   const [orderInfo, setOrderInfo] = useState({
     iorder: "",
     addresseeNm: "",
@@ -28,12 +26,11 @@ const PaymentOrderInfo = ({ handleOrderInfoChange }) => {
     totalProductCnt: 0,
     totalOrderPrice: 0,
   });
-
   useEffect(() => {
     console.log("iorder from URL:", iorder);
     const successFn = result => {
-      setOrderInfo(result);
-      // console.log(result);
+      setOrderInfo(result.data);
+      console.log(result);
     };
     const failFn = result => {
       console.log(result);
@@ -43,12 +40,10 @@ const PaymentOrderInfo = ({ handleOrderInfoChange }) => {
     };
     getPayItemList({ iorder, successFn, failFn, errorFn });
   }, [iorder]);
-
   // 넘길 값 콘솔로 확인하기
   // console.log("수령인", orderInfo.addresseeNm);
   // console.log("이메일", orderInfo.email);
   // console.log("전화번호", orderInfo.phoneNumber);
-
   const handleInputChange = (e, key) => {
     // Input 값이 변경될 때마다 state를 업데이트
     setOrderInfo(prevState => ({
@@ -60,14 +55,13 @@ const PaymentOrderInfo = ({ handleOrderInfoChange }) => {
       [key]: e.target.value, // 업데이트된 값만 추가
     });
   };
-
   return (
     <PaymentInfo>
       <ConfigProvider
         theme={{
           components: {
             Button: {
-              // colorPrimary: "#00b96b",
+              // colorPrimary: "#00B96B",
             },
             Radio: {
               // buttonStyle: "solid",
@@ -87,7 +81,6 @@ const PaymentOrderInfo = ({ handleOrderInfoChange }) => {
             <div>
               <p>이름</p>
             </div>
-
             <Input
               maxLength={20}
               style={{
@@ -105,7 +98,6 @@ const PaymentOrderInfo = ({ handleOrderInfoChange }) => {
             <div>
               <p>이메일</p>
             </div>
-
             <Input
               maxLength={20}
               style={{
@@ -123,7 +115,6 @@ const PaymentOrderInfo = ({ handleOrderInfoChange }) => {
             <div>
               <p>전화번호</p>
             </div>
-
             <Input
               type="tel"
               maxLength={20}
@@ -156,7 +147,6 @@ const PaymentOrderInfo = ({ handleOrderInfoChange }) => {
                     alt={product.productNm}
                   />
                 </div>
-
                 <div className="productNameTex">
                   <div className="pdName">{product.productNm}</div>
                   <div className="pdTex">
@@ -164,7 +154,6 @@ const PaymentOrderInfo = ({ handleOrderInfoChange }) => {
                   </div>
                 </div>
               </div>
-
               <div className="countPrice">
                 <p>{product.productCnt} 개</p>
                 <b>{product.productTotalPrice.toLocaleString()} 원</b>
@@ -202,5 +191,4 @@ const PaymentOrderInfo = ({ handleOrderInfoChange }) => {
     </PaymentInfo>
   );
 };
-
 export default PaymentOrderInfo;

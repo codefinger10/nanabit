@@ -14,19 +14,41 @@ import {
   ProductWrap,
 } from "../../styles/mypage/mypagestyle";
 import ProductCard from "../../components/common/ProductCard";
-
+import { useNavigate } from "react-router-dom";
 const MyPage = () => {
+  const navigate = useNavigate();
   const [productData, setProductData] = useState([]);
   const { moveToPath } = useCustomLogin();
 
-  const myWishList = productData.myWishList || [];
+  const myWishList = (productData && productData.myWishList) || [];
+
+  const elementsPerRow = 4;
+
+  const groupedData = myWishList.reduce((result, item, index) => {
+    const chunkIndex = Math.floor(index / elementsPerRow);
+
+    if (!result[chunkIndex]) {
+      result[chunkIndex] = []; // 초기화
+    }
+
+    result[chunkIndex].push(item);
+    return result;
+  }, []);
 
   const handleClickAddress = e => {
-    moveToPath("/address");
+    navigate("/address");
   };
 
   const handleClickModify = e => {
-    moveToPath("/modifypw");
+    navigate("/modifypw");
+  };
+
+  const handleClickReview = e => {
+    navigate("/review");
+  };
+
+  const handleClickOl = e => {
+    navigate("/ol");
   };
 
   useEffect(() => {
@@ -65,18 +87,23 @@ const MyPage = () => {
         </InfoWrap>
       </InfoHead>
       <InfoBtWrap>
-        <InfoBt>내가 작성한 리뷰</InfoBt>
-        <InfoBt>주문내역 조회하기</InfoBt>
+        <InfoBt onClick={() => handleClickReview()}>내가 작성한 리뷰</InfoBt>
+        <InfoBt onClick={() => handleClickOl()}>주문내역 조회하기</InfoBt>
       </InfoBtWrap>
       <ProductWrap>
         <h2>Wish-List</h2>
         <h3>*찜은 최대 12개까지만 가능합니다</h3>
       </ProductWrap>
       <MyWishWrap>
-        {myWishList &&
-          myWishList.map(item => (
-            <ProductCard key={item.iproduct} product={item} />
+        <div>
+          {groupedData.map((row, rowIndex) => (
+            <div key={rowIndex} style={{ display: "flex" }}>
+              {row.map(item => (
+                <ProductCard key={item.iproduct} product={item} />
+              ))}
+            </div>
           ))}
+        </div>
       </MyWishWrap>
     </MyPageWrap>
   );
