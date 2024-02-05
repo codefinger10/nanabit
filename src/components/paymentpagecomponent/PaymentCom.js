@@ -2,6 +2,8 @@ import { Button, ConfigProvider } from "antd";
 import React, { useState } from "react";
 import { putOrderPage } from "../../api/paymentapi/paymentapi";
 import {
+  ModalButton,
+  ModalPop,
   PaymentBody,
   PaymentFooter,
   PaymentHeader,
@@ -10,11 +12,17 @@ import {
 import PayMethod from "./PayMethod";
 import PaymentAdress from "./PaymentAdress";
 import PaymentOrderInfo from "./PaymentOrderInfo";
+import styled from "styled-components";
+import useCustomLogin from "../../hooks/useCustomLogin";
 
 const Payment = () => {
+  const { moveToPath } = useCustomLogin();
+  const [checkInfoPlz, setCheckInfoPlz] = useState(false);
+  const [resultTitle, setResultTitle] = useState("");
+  const [resultContent, setResultContent] = useState("");
   const [formData, setFormData] = useState({
     iorder: 0,
-    address: 0,
+    iaddress: 0,
     addresseeNm: "",
     phoneNumber: 0,
     email: 0,
@@ -23,41 +31,74 @@ const Payment = () => {
 
   // 배송지
   const handleAddressChange = selectedAddress => {
-    setFormData({ ...formData, address: selectedAddress });
-    // console.log("나는 부모컴포넌트 주소 : ", selectedAddress);
+    setFormData({ ...formData, iaddress: selectedAddress });
+    console.log("나는 부모컴포넌트 주소 : ", selectedAddress);
+    // console.log("나는 formData 주소 : ", selectedAddress);
   };
+
   //수령인 정보
   const handleOrderInfoChange = orderInfo => {
     setFormData({
       ...formData,
       iorder: orderInfo.iorder,
-      address: orderInfo.address,
       addresseeNm: orderInfo.addresseeNm,
       phoneNumber: orderInfo.phoneNumber,
       email: orderInfo.email,
     });
     // console.log("나는 부모컴포넌트 유저정보 : ", orderInfo);
   };
+
   // 결제수단
   const handlebuyMethodChange = buyMethod => {
     setFormData({ ...formData, ipaymentOption: buyMethod });
-    console.log("나는 부모컴포넌트 결제수단 : ", buyMethod);
+    // console.log("나는 부모컴포넌트 결제수단 : ", buyMethod);
   };
 
   const handleSubmit = async () => {
-    // 폼 데이터를 이용한 PUT 요청 등의 작업 수행
-    try {
-      console.log("Submitted Data:", formData);
-      // API 호출
+    // 필수 값들 확인
+    if (formData.address === 0) {
+      console.log("address 필수 값이 누락되었습니다.");
+      setCheckInfoPlz(true);
+      setResultTitle("배송지를 선택해 주세요.");
+      return;
+    }
 
+    if (formData.addresseeNm === "") {
+      console.log("addresseeNm 필수 값이 누락되었습니다.");
+      setCheckInfoPlz(true);
+      setResultTitle("수령인 정보를 입력해 주세요.");
+      return;
+    }
+
+    if (formData.phoneNumber === 0) {
+      setResultTitle("수령인 정보를 입력해 주세요.");
+      setCheckInfoPlz(true);
+      return;
+    }
+
+    if (formData.email === "") {
+      setResultTitle("수령인 정보를 입력해 주세요.");
+      setCheckInfoPlz(true);
+      return;
+    }
+
+    if (formData.ipaymentOption === 0) {
+      setResultTitle("결제수단을 선택해 주세요.");
+      setCheckInfoPlz(true);
+      return;
+    }
+
+    // 나머지 코드는 여기에 작성
+    try {
       const result = await putOrderPage({
         formData,
         successFn,
         failFn,
         errorFn,
       });
-      console.log("PUT 요청 성공:", result);
       // 성공적으로 처리되면 추가 작업 수행
+      console.log("formData.iorder", formData);
+      moveToPath(`/order/${formData.iorder}`);
     } catch (error) {
       console.log("PUT 요청 에러:", error);
       // 에러 처리 로직 추가
@@ -69,8 +110,25 @@ const Payment = () => {
   const errorFn = (errorMsg, error) =>
     console.log("PUT API 서버에러", errorMsg, error);
 
+  const callFN = () => {
+    // 모달 닫기
+    setCheckInfoPlz(false);
+  };
+
   return (
     <PaymentWrap>
+      {checkInfoPlz ? (
+        <ModalPop>
+          <div
+            style={{ background: "#fff", textAlign: "center", width: "200px" }}
+          >
+            <h1>{resultTitle}</h1>
+            <ModalButton>
+              <button onClick={callFN}>확인</button>
+            </ModalButton>
+          </div>
+        </ModalPop>
+      ) : null}
       <PaymentBody>
         <ConfigProvider
           theme={{

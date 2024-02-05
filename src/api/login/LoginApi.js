@@ -1,7 +1,9 @@
 import axios from "axios";
+import { logout } from "../../slices/loginSlice";
 import { API_SERVER_HOST } from "../../util/util";
 
 const host = `${API_SERVER_HOST}/api/user/sign-in`;
+
 // 로그인 하기 위한 정보보내기
 // 결과 성공시 RTK 에 업데이트하기
 // 일반적으로 post 로 전송합니다.
@@ -28,7 +30,9 @@ export const loginPost = async ({ loginParam, successFn, failFn, errorFn }) => {
       failFn("로그인에 실패하였습니다. 다시 시도해주세요.");
     }
   } catch (error) {
-    errorFn("로그인에 실패하였습니다. 서버가 불안정합니다.다시 시도해주세요.");
+    console.error("Error in loginPost:", error);
+
+    // 에러를 처리하는 함수 호출
+    errorFn(error);
   }
 };
-

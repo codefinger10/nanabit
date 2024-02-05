@@ -8,6 +8,8 @@ import {
   TotalOrder,
 } from "../../styles/payment/paymentstyle";
 import { useParams } from "react-router";
+import { API_SERVER_HOST } from "../../util/util";
+import styled from "styled-components";
 
 const PaymentOrderInfo = ({ handleOrderInfoChange }) => {
   const { iorder } = useParams();
@@ -19,6 +21,7 @@ const PaymentOrderInfo = ({ handleOrderInfoChange }) => {
     phoneNumber: "",
     products: [
       {
+        iproduct: 0,
         productNm: "",
         productCnt: 0,
         productTotalPrice: 0,
@@ -29,18 +32,24 @@ const PaymentOrderInfo = ({ handleOrderInfoChange }) => {
     totalOrderPrice: 0,
   });
 
+  const successFn = result => {
+    const updatedOrderInfo = result.data;
+    setOrderInfo(updatedOrderInfo);
+    handleOrderInfoChange(updatedOrderInfo);
+    console.log(result);
+  };
+
+  const failFn = result => {
+    console.log(result);
+  };
+
+  const errorFn = result => {
+    console.log("에러에옹", result);
+  };
+
   useEffect(() => {
     console.log("iorder from URL:", iorder);
-    const successFn = result => {
-      setOrderInfo(result);
-      // console.log(result);
-    };
-    const failFn = result => {
-      console.log(result);
-    };
-    const errorFn = result => {
-      console.log("에러에옹", result);
-    };
+
     getPayItemList({ iorder, successFn, failFn, errorFn });
   }, [iorder]);
 
@@ -148,10 +157,10 @@ const PaymentOrderInfo = ({ handleOrderInfoChange }) => {
                 <div>
                   <img
                     src={
-                      product.repPic !== ""
-                        ? product.repPic
-                        : process.env.PUBLIC_URL +
+                      product.repPic === ""
+                        ? process.env.PUBLIC_URL +
                           "/assets/images/defaultitemimg.svg"
+                        : `${API_SERVER_HOST}/pic/product/${product.iproduct}/${product.repPic}`
                     }
                     alt={product.productNm}
                   />

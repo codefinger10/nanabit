@@ -18,7 +18,8 @@ const AddressDetail = ({ onAddressChange, item }) => {
     const { address, zonecode, addressDetail } = data;
     setZonecode(zonecode);
     setAddress(address);
-    onAddressChange({ zonecode, address }); // 부모 컴포넌트에 주소 정보 전달
+    setAddressDetail(addressDetail);
+    onAddressChange({ zonecode, address, addressDetail }); // 부모 컴포넌트에 주소 정보 전달
     setIsOpen(false);
   };
 
@@ -37,6 +38,7 @@ const AddressDetail = ({ onAddressChange, item }) => {
 
   const inputChangeHandler = event => {
     setAddressDetail(event.target.value);
+    
   };
 
   const handleOk = () => {
@@ -69,7 +71,7 @@ const AddressDetail = ({ onAddressChange, item }) => {
         >
           우편번호
         </h2>
-        <Form.Item valuePropName="zipCode" name="zipCode">
+        <Form.Item valuePropName="zipCode">
           <Input
             style={{ width: 193, height: 50 }}
             value={item ? item.zipCode : zonecode}

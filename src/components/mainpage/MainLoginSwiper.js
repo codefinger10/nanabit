@@ -21,6 +21,7 @@ import {
 } from "../../styles/mainstyle";
 import MainHeartBt from "./MainHeartBt";
 import MainItemBoxTag from "./MainItemBoxTag";
+import { API_SERVER_HOST } from "../../util/util";
 
 const initState = [
   {
@@ -57,7 +58,7 @@ const MainLoginSwiper = () => {
       console.log(result);
     };
     const errorFn = result => {
-      console.log("에러에옹", result);
+      console.log("비상인데", result);
     };
     getAfterList({ successFn, failFn, errorFn });
   }, []);
@@ -118,7 +119,7 @@ const MainLoginSwiper = () => {
                             item.repPic === ""
                               ? process.env.PUBLIC_URL +
                                 "/assets/images/defaultitemimg.svg"
-                              : item.repPic
+                              : `${API_SERVER_HOST}/pic/product/${item.iproduct}/${item.repPic}`
                           }
                         />
                       </ItemImg>

@@ -5,7 +5,14 @@ import {
   ProductMainDiscountWrap,
 } from "../../styles/cart/cartstyle";
 
-const CartMainDis = ({ serverData }) => {
+const CartMainDis = ({ serverData, selectedItems, calculateTotalPrice }) => {
+  const items = selectedItems || [];
+
+  // calculateTotalPrice 함수에 빈 배열을 전달하여 호출
+  const totalPrice = calculateTotalPrice(items);
+  const formattedTotalPrice = totalPrice ? totalPrice.toLocaleString() : 0;
+  // console.log("formattedTotalPrice:", formattedTotalPrice);
+
   return (
     <div>
       <ProductMainDiscountWrap>
@@ -15,21 +22,9 @@ const CartMainDis = ({ serverData }) => {
           <p>결제예정금액</p>
         </ProductMainDiscountTxt>
         <ProductMainDiscount>
-          <p>
-            {serverData && serverData.paymentAmount
-              ? serverData.paymentAmount.toLocaleString()
-              : 0}
-            원
-          </p>
+          <p>{formattedTotalPrice}원</p>
           <p>0 원</p>
-          <p style={{ marginLeft: "2px" }}>
-            {" "}
-            =
-            {serverData && serverData.paymentAmount
-              ? serverData.paymentAmount.toLocaleString()
-              : 0}
-            원
-          </p>
+          <p> ={formattedTotalPrice} 원</p>
         </ProductMainDiscount>
       </ProductMainDiscountWrap>
     </div>

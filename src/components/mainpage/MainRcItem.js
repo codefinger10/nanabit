@@ -19,6 +19,7 @@ import {
 } from "../../styles/mainstyle";
 import MainHeartBt from "./MainHeartBt";
 import MainItemBoxTag from "./MainItemBoxTag";
+import { API_SERVER_HOST } from "../../util/util";
 const initState = [
   {
     iproduct: 0,
@@ -46,7 +47,7 @@ const MainRcItem = () => {
     // 데이터 연동 처리 결과
     const successFn = result => {
       setData(result);
-      // console.log(result);
+      console.log(result);
     };
     const failFn = result => {
       console.log(result);
@@ -63,6 +64,9 @@ const MainRcItem = () => {
   const filteredPopFl = data.filter(item => item.popFl === 1);
   // 신상품 필터
   const filteredNewFl = data.filter(item => item.newFl === 1);
+  {
+    console.log(data[0].iproduct);
+  }
   return (
     <div>
       {/* 인기상품 */}
@@ -114,8 +118,9 @@ const MainRcItem = () => {
                           item.repPic === ""
                             ? process.env.PUBLIC_URL +
                               "/assets/images/defaultitemimg.svg"
-                            : item.repPic
+                            : `${API_SERVER_HOST}/pic/product/${item.iproduct}/${item.repPic}`
                         }
+                        alt={item.productNm}
                       />
                     </ItemImg>
                     <ItemDecArea>
@@ -217,7 +222,7 @@ const MainRcItem = () => {
                           item.repPic === ""
                             ? process.env.PUBLIC_URL +
                               "/assets/images/defaultitemimg.svg"
-                            : item.repPic
+                            : `${API_SERVER_HOST}/pic/product/${item.iproduct}/${item.repPic}`
                         }
                       />
                     </ItemImg>

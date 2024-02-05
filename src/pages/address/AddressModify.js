@@ -7,6 +7,7 @@ import AddressDetailed from "../../components/address/AddressDeatail";
 import useCustomLogin from "../../hooks/useCustomLogin";
 import { AddressTitleWrap } from "../../styles/address/addressinfostyle";
 import useCustomMove from "../../hooks/useCustomMove";
+import ResultModal from "../../components/signup/ResultModal";
 
 const AddressBtWrap = styled.div`
   display: flex;
@@ -41,7 +42,6 @@ const initState = {
 const AddressModify = () => {
   const location = useLocation();
   const item = location.state;
-  console.log("item", item);
 
   const [serverData, setServerData] = useState(initState);
   const [zonecode, setZonecode] = useState(initState);
@@ -51,7 +51,7 @@ const AddressModify = () => {
   const { moveToPrev } = useCustomMove();
   useEffect(() => {
     setServerData({ ...loginState });
-  }, [loginState]);
+  }, [loginState ]);
 
   const updateAddressInfo = ({ zonecode, address }) => {
     // 주소 정보 업데이트
@@ -60,6 +60,7 @@ const AddressModify = () => {
   };
 
   const onFinish = values => {
+    console.log("values", values);
     setServerData({ ...values });
     values.address = address;
     values.zipCode = zonecode;
@@ -70,26 +71,94 @@ const AddressModify = () => {
     console.log("Failed:", errorInfo);
   };
   const successFn = result => {
-    moveToPath("/address");
-    console.log(result);
+    setModalStyle({});
+    setModalStyleBk({});
+    setResultTitle("수정 성공");
+    setResultContent("주소수정에 성공하였습니다.");
+    setReDirect(0);
   };
   const failFn = result => {
-    console.log(result);
+    setResultTitle("수정 실패");
+    setResultContent("주소수정에 실패하였습니다");
+    setReDirect(1);
   };
   const errorFn = result => {
-    console.log(result);
+    setModalStyle({ color: "red" });
+    setModalStyleBk({ background: "red" });
+
+    setResultTitle("수정 실패");
+    setResultContent("서버에 오류가 있어 잠시후 재시도해주세요");
+    setReDirect(1);
   };
 
   const handleClickRemove = () => {
-    deleteOne({ iaddress: item.iaddress, successFn, failFn, errorFn });
+    deleteOne({
+      iaddress: item.iaddress,
+      successFn: successFnDel,
+      failFn: failFnDel,
+      errorFn: errorFnDel,
+    });
   };
 
   const PrevBt = () => {
-    moveToPrev();
+    moveToPath("/address");
   };
+
+  const [resultTitle, setResultTitle] = useState("");
+  const [resultContent, setResultContent] = useState("");
+  const [reDirect, setReDirect] = useState(0);
+  const [modalStyle, setModalStyle] = useState({});
+  const [modalStyleBk, setModalStyleBk] = useState({});
+
+  const successFnDel = result => {
+    setModalStyle({});
+    setModalStyleBk({});
+    setResultTitle("삭제 성공");
+    setResultContent("주소삭제에 성공하였습니다.");
+    setReDirect(0);
+  };
+  const failFnDel = result => {
+    setResultTitle("삭제 실패");
+    setResultContent("주소삭제에 실패하였습니다");
+    setReDirect(1);
+  };
+  const errorFnDel = result => {
+    setModalStyle({ color: "red" });
+    setModalStyleBk({ background: "red" });
+
+    setResultTitle("삭제 실패");
+    setResultContent("서버에 오류가 있어 잠시후 재시도해주세요");
+    setReDirect(1);
+  };
+
+  const closeModal = () => {
+    // 팝업닫기
+    setResultTitle("");
+    setResultContent("");
+
+    if (reDirect === 0) {
+      // 목록가기
+      // navigate(`/modify`);
+      // console.log(serverResult);
+      // moveToMain();
+      moveToPath("/address");
+    } else {
+      // 팝업닫기
+    }
+  };
+
   return (
     <div>
       <AddressHeadWrap />
+      {resultTitle && (
+        <ResultModal
+          title={resultTitle}
+          content={resultContent}
+          callFN={closeModal}
+          errorbt={modalStyle}
+          errorbk={modalStyleBk}
+        />
+      )}
       <AddressTitleWrap>
         <div>
           <h2>ADDRESS</h2>
@@ -104,8 +173,8 @@ const AddressModify = () => {
         name="Address"
         initialValues={{
           remember: true,
-          zipCode: item.zipCode,
-          address: item.address,
+          zipCode: serverData.zipCode,
+          address: serverData.address,
           addressDetail: item.addressDetail,
         }}
         autoComplete="off"

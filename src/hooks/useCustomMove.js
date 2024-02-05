@@ -4,19 +4,17 @@ import {
   useSearchParams,
 } from "react-router-dom";
 import { getNum } from "../util/util";
-
 export const useCustomMove = () => {
   // navigate (패스이동 hook)
   const navigate = useNavigate();
-
   // 뒤로가기
   const moveToPrev = () => {
     navigate(-1);
   };
-
   // 메인으로 이동
   const moveToMain = () => {
-    navigate("/main");
+    <a href="/login"></a>;
+    navigate("/");
   };
   // 로그인으로 이동
   const moveToLogin = () => {
@@ -26,61 +24,49 @@ export const useCustomMove = () => {
   // 화원가입으로 이동
   const moveToSignUp = () => {
     <a href="/signUp"></a>;
+    navigate("/signUp");
   };
   // 커뮤니티로 이동
   const moveToCommu = () => {
     navigate("/commu");
   };
-
   // 주문조회로 이동
   const moveToOl = () => {
     navigate("/ol");
   };
-
   //마이페이지로 이동
   const moveToMypage = () => {
     navigate("/mypage");
   };
-
   //쿼리알아내기
   const [urlSearchParams, setUrlSearchParams] = useSearchParams();
-
   // 현재 목록의 페이지 번호
   const page = urlSearchParams.get("page")
     ? parseInt(urlSearchParams.get("page"))
     : 1;
-
   // 페이지당 보여줄 개수
   const size = urlSearchParams.get("size")
     ? parseInt(urlSearchParams.get("size"))
     : 10;
-
   // iorder 전달하기
   const iorder = urlSearchParams.get("iorder")
     ? parseInt(urlSearchParams.get("iorder"))
     : 1;
-
   // 게시판 분류
   const board_code = urlSearchParams.get("board_code")
     ? parseInt(urlSearchParams.get("board_code"))
     : 1;
-
   // 쿼리스트링 만들기
   const queryStrDeafult = createSearchParams({
     page,
     size,
   }).toString();
-
   const queryStrpage = createSearchParams({ board_code, page }).toString();
-
   const queryItempage = createSearchParams({ page }).toString();
-
   const querypayment = createSearchParams({ iorder }).toString();
-
   //목록으로가기 기능 만들기
   //pageParam이 있으면 pageParam으로 이동
   //pageParam이 없으면 1페이지로 이동
-
   const moveToList = pageParam => {
     let queryStr = "";
     if (pageParam) {
@@ -96,7 +82,6 @@ export const useCustomMove = () => {
     }
     navigate({ pathname: "../list", search: queryStr });
   };
-
   const moveToListPahe = pageParam => {
     let queryStr = "";
     if (pageParam) {
@@ -112,17 +97,22 @@ export const useCustomMove = () => {
     }
     navigate({ pathname: "../list", search: queryStr });
   };
+  // 수정창 이동하기
+  const moveToModifyPage = post => {
+    navigate(
+      { pathname: `../modify/${post.iboard}`, search: queryStrpage },
+      { state: post },
+    );
+  };
 
   // 수정창 이동하기
   const moveToModify = tno => {
     navigate({ pathname: `../modify/${tno}`, search: queryStrDeafult });
   };
-
   //페이지 이동하기
   const moveToPayment = iorder => {
-    navigate({ pathname: `../payment/${iorder}`, search: querypayment });
+    navigate({ pathname: `../payment/${iorder}` });
   };
-
   // 상세 내용 보기
   const moveToRead = tno => {
     navigate({
@@ -130,7 +120,6 @@ export const useCustomMove = () => {
       search: queryStrDeafult,
     });
   };
-
   // 상품 상세 보기
   const moveToItem = tno => {
     navigate({
@@ -138,7 +127,6 @@ export const useCustomMove = () => {
       search: queryItempage,
     });
   };
-
   // 상세 내용 보기
   const moveToReadPage = tno => {
     navigate({
@@ -146,16 +134,13 @@ export const useCustomMove = () => {
       search: queryStrpage,
     });
   };
-
   const moveToAdd = () => {
     navigate({
       pathname: `../add`,
       search: queryStrpage,
     });
   };
-
   const sortBy = () => {};
-
   return {
     sortBy,
     moveToList,
@@ -175,6 +160,8 @@ export const useCustomMove = () => {
     moveToReadPage,
     moveToAdd,
     moveToItem,
+
+    moveToModifyPage,
 
     moveToPayment,
   };

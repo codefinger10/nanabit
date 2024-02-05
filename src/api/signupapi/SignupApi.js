@@ -13,11 +13,15 @@ export const postSign = async ({ values, successFn, failFn, errFn }) => {
     const httpSt = status.charAt(0);
     if (httpSt === "2") {
       return successFn(res.data);
-    } else {
-      return failFn(status.error);
     }
   } catch (error) {
-    errFn(error);
+    console.log(error);
+    if (error.request.readyState === 4) {
+      console.log();
+      return failFn();
+    } else {
+      errFn("서버에러에요");
+    }
   }
 };
 
@@ -58,7 +62,13 @@ export const postSignCheck = async ({
       console.log("히윽", res.data);
     }
   } catch (error) {
-    errorFnid("서버에러에요");
+    console.log(error);
+    if (error.request.readyState === 4) {
+      console.log(error.response.data.validErrorList[0].message);
+      return failFnid(error.response.data.validErrorList[0].message);
+    } else {
+      errorFnid("서버에러에요");
+    }
   }
 };
 
@@ -74,7 +84,13 @@ export const putModify = async ({ values, successFn, failFn, errorFn }) => {
       failFn("전송 오류입니다.");
     }
   } catch (error) {
-    errorFn("서버에러에요");
+    console.log(error);
+    if (error.request.readyState === 4) {
+      console.log(error.response.data.validErrorList[0].message);
+      return failFn(error.response.data.validErrorList[0].message);
+    } else {
+      errorFn("서버에러에요");
+    }
   }
 };
 
@@ -173,5 +189,21 @@ export const postCart = async cart => {
   } catch (error) {
     // 오류 처리 함수 호출 시 오류 메시지 전달
     console.log("서버에러에요");
+  }
+};
+
+export const putWish = async item => {
+  try {
+    const header = { headers: { "Content-Type": "application/json" } };
+
+    const res = await jwtAxios.put(`/api/product/wish`, item);
+    const status = res.status.toString();
+    if (status.charAt(0) === "2") {
+      return res.data.result;
+    } else {
+      console.log("목록 호출 오류입니다.");
+    }
+  } catch (error) {
+    console.log("목록 호출 서버 에러에요", error);
   }
 };
