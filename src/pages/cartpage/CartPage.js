@@ -15,16 +15,15 @@ import {
   ProductBtWrap,
   ProductCartSec,
 } from "../../styles/cart/cartstyle";
-import useCustomMove from "../../hooks/useCustomLogin";
-
+import useCustomMove from "../../hooks/useCustomMove";
+import useCustomLogin from "../../hooks/useCustomLogin";
 const CartPage = () => {
-  const { moveToPath, moveToPayment } = useCustomMove();
+  const { moveToPayment } = useCustomMove();
   const [serverData, setServerData] = useState([]);
-
+  const { moveToPath } = useCustomLogin();
   useEffect(() => {
     getCart({ successFn, failFn, errorFn });
   }, []);
-
   const successFn = result => {
     setServerData(result);
     console.log(result);
@@ -35,10 +34,8 @@ const CartPage = () => {
   const errorFn = result => {
     console.log(result);
   };
-
   const [deleteEachFlag, setDeleteEachFlag] = useState([]);
   const [selectedItems, setSelectedItems] = useState([]);
-
   const handleSelectedItemsChange = selectedItems => {
     console.log("Selected Item Info:", selectedItems);
     setSelectedItems(selectedItems);
@@ -57,31 +54,25 @@ const CartPage = () => {
       getCart({ successFn, failFn, errorFn });
     }
   };
-
   const updateData = result => {
     setServerData(result);
   };
-
   const calculateTotalPriceOfSelectedItems = selectedItems => {
     if (selectedItems.length === 0) {
       return 0;
     }
-
     return selectedItems.reduce((accumulator, item) => {
       return accumulator + item.totalPrice;
     }, 0);
   };
-
   const handleClickOrder = async () => {
     if (selectedItems.length > 0) {
       const totalItemsPrice = calculateTotalPriceOfSelectedItems(selectedItems);
-
       const products = selectedItems.map(item => ({
         iproduct: item.iproduct,
         productCnt: item.productCnt,
         productTotalPrice: item.totalPrice,
       }));
-
       await postCart({
         products,
         successFn: successFnPost,
@@ -100,21 +91,18 @@ const CartPage = () => {
       });
     }
   };
-
   const successFnPost = result => {
     const iorder = result;
     console.log(result);
     console.log(iorder);
-    moveToPayment(iorder);
+    moveToPayment(iorder.result);
   };
-
   return (
     <div>
       <CartTxt>
         <h2>CART</h2>
       </CartTxt>
       <UserInfo />
-
       <CartProduct
         serverData={serverData}
         // setServerData={setServerData}
@@ -139,11 +127,10 @@ const CartPage = () => {
         >
           선택상품주문
         </button>
-        <button style={{ background: "#d9d9d9" }}>전체상품주문</button>
+        <button style={{ background: "#D9D9D9" }}>전체상품주문</button>
       </ProductBtWrap>
       <CartInfo />
     </div>
   );
 };
-
 export default CartPage;

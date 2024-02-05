@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import { putWish } from "../../api/mainpage/mainPageApi";
 import useCustomLogin from "../../hooks/useCustomLogin";
-import { StyledButton } from "../../styles/mainstyle";
+import { ModalButton, ModalPop, StyledButton } from "../../styles/mainstyle";
+import styled from "styled-components";
 
 const MainHeartBt = ({ item }) => {
   const [isHeartChecked, setHeartChecked] = useState(item.likeProduct === 1);
+  const { isLogin, moveToPath } = useCustomLogin();
+  const [isModal, setIsModal] = useState(false);
 
   const handleHeartButtonClick = async () => {
     const newValue = !isHeartChecked ? 1 : 0;
@@ -21,8 +24,6 @@ const MainHeartBt = ({ item }) => {
         failFn,
         errorFn,
       });
-
-      console.log("putWish 함수에서 받은 응답:", response);
 
       if (response !== undefined) {
         console.log("하트업데이트 성공!", item.iproduct, response);
@@ -45,20 +46,57 @@ const MainHeartBt = ({ item }) => {
   };
 
   // 로그인 유무 따져서 버튼 클릭 시 로그인 이동 모달창 또는 on/off 넣기
-  const { isLogin } = useCustomLogin();
-  // console.log("제품 찜 상태 : ", item.likeProduct);
+
+  const plzLogin = () => {
+    // 모달 열기
+    setIsModal(true);
+  };
+  const callFN = () => {
+    moveToPath(`/login`);
+    // 모달 닫기
+    setIsModal(false);
+  };
+
   return (
-    <StyledButton checked={isHeartChecked} onClick={handleHeartButtonClick}>
-      <img
-        src={
-          isHeartChecked
-            ? process.env.PUBLIC_URL + "/assets/images/heart.svg"
-            : process.env.PUBLIC_URL + "/assets/images/heartoff.svg"
-        }
-        alt="heart"
-        className="heart-icon"
-      />
-    </StyledButton>
+    <div>
+      {isModal ? (
+        <ModalPop>
+          <div
+            style={{ background: "#fff", textAlign: "center", width: "200px" }}
+          >
+            <h1>로그인</h1>
+            <div>
+              찜목록은 로그인 후 이용이 가능하오니 나나빛 로그인 부탁드립니다.
+            </div>
+            <ModalButton>
+              <button onClick={callFN}>로그인 바로가기</button>
+            </ModalButton>
+          </div>
+        </ModalPop>
+      ) : null}
+      {isLogin ? (
+        <StyledButton checked={isHeartChecked} onClick={handleHeartButtonClick}>
+          <img
+            src={
+              isHeartChecked
+                ? process.env.PUBLIC_URL + "/assets/images/heart.svg"
+                : process.env.PUBLIC_URL + "/assets/images/heartoff.svg"
+            }
+            alt="heart"
+            className="heart-icon"
+          />
+        </StyledButton>
+      ) : (
+        <StyledButton>
+          <img
+            src={process.env.PUBLIC_URL + "/assets/images/heartoff.svg"}
+            alt="heart"
+            className="heart-icon"
+            onClick={plzLogin}
+          />
+        </StyledButton>
+      )}
+    </div>
   );
 };
 

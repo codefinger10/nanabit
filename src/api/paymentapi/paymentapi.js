@@ -13,11 +13,11 @@ export const getPayItemList = async ({
   errorFn,
 }) => {
   try {
-    const res = await jwtAxios.get(`api/order/confirm?iorder=100174`);
+    const res = await jwtAxios.get(`${host}/confirm?iorder=${iorder}`);
     // console.log("페이먼트에이피아이", res.data);
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
-      successFn(res.data);
+      successFn(res);
     } else {
       failFn("목록 호출 오류입니다.");
     }

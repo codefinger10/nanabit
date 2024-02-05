@@ -1,36 +1,73 @@
 import { PlusOutlined } from "@ant-design/icons";
-import { Button, ConfigProvider, Form, Rate, Upload, message } from "antd";
+import { Button, ConfigProvider, Form, Modal, Rate, Upload } from "antd";
 import TextArea from "antd/es/input/TextArea";
-import React, { useState } from "react";
-import { postReviewList } from "../../api/reviewapi/reviewAddApi";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router";
+import {
+  getProductReview,
+  postReviewList,
+} from "../../api/reviewapi/reviewAddApi";
 import useCustomMove from "../../hooks/useCustomMove";
 import {
   RateAddBox,
   ReviewAddTitle,
   ReviewAddWrap,
 } from "../../styles/review/reviewstyle";
+import { API_SERVER_HOST } from "../../util/util";
 
-const initState = [
-  {
-    reviewPics: [""], // 리뷰 사진
-    dto: {
-      idetails: 0, //	주문상세 KEY
-      iorder: 0, //	주문 PK
-      contents: "", //	리뷰 내용
-      productScore: 0, //	리뷰 별점
-    },
-  },
-];
+const getBase64 = file =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = error => reject(error);
+  });
 
 const ReviewAddPageCom = () => {
+  const { moveToPath } = useCustomMove();
+  // console.log(useParams());
+  // console.log(productData.iproduct);
+  const { iproduct, idetails, iorder } = useParams();
+  // 처리하셔야 합니다.
+  const page = 1;
+
+  // 아이템 불러오기
+  const [productData, setProductData] = useState([]);
+
+  // ================ 파일 업로드
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const [previewImage, setPreviewImage] = useState("");
+  const [previewTitle, setPreviewTitle] = useState("");
+  const [fileList, setFileList] = useState([]);
+  // 업로드할 이미지 모음
+  const [uploadFileList, setUploadFileList] = useState([]);
+  const [uploadImgFile, setUploadImgFile] = useState(null);
+
+  // =========== 최초 자료 가져오기
+  const getDetailInfo = () => {
+    getProductReview(iproduct, page, { successFn, failFn, errorFn });
+  };
+  const successFn = result => {
+    // console.log("성공", result);
+    setProductData(result);
+  };
+  const failFn = result => {
+    console.log("실패", result);
+  };
+  const errorFn = result => {
+    console.log("서버오류", result);
+  };
+
+  useEffect(() => {
+    getDetailInfo();
+  }, [iproduct]);
+
+  // =========== 폼데이터 보관하기
   const [formData, setFormData] = useState({
     // 여기에 폼의 각 필드에 대한 초기값을 설정하세요.
     reviewPics: [],
-    dto: { idetails: 0, iorder: 0, contents: "", productScore: 0 },
-    iproduct: 0,
+    dto: { idetails: idetails, contents: "", productScore: 0, iorder: iorder },
   });
-
-  const { moveToPath } = useCustomMove();
 
   // Antd 이미지 업로드
   const normFile = e => {
@@ -40,51 +77,135 @@ const ReviewAddPageCom = () => {
     return e?.fileList;
   };
 
-  const handleInputChange = (fieldName, value) => {
-    if (fieldName === "productScore") {
-      // 리뷰 별점인 경우, 값이 숫자로 변환되도록 처리
+  const handleScoreChange = (productScore, value, contents) => {
+    if (productScore === "productScore") {
       value = parseFloat(value);
     }
-
     setFormData({
       ...formData,
-      [fieldName]: value,
+      dto: {
+        ...formData.dto,
+        productScore: value,
+      },
     });
   };
-  const handleSubmit = async () => {
-    try {
-      const response = await postReviewList(formData);
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
+  const handleTextChange = (productScore, value, contents) => {
+    if (contents === "contents") {
+      value = parseFloat(value);
     }
+    setFormData({
+      ...formData,
+      dto: {
+        ...formData.dto,
+        contents: value,
+      },
+    });
+  };
+  //========= 파일전송
+  const handleSubmit = async () => {
+    const newFormData = new FormData();
+
+    // 리뷰 정보
+    const reviewInfo = {
+      idetails: idetails,
+      iorder: iorder,
+      contents: FormData.contents,
+      productScore: FormData.start,
+    };
+    newFormData.append(
+      "dto",
+      new Blob([JSON.stringify(reviewInfo)], { type: "application/json" }),
+    );
+
+    // 이미지 업로드
+    uploadFileList.forEach((image, index) => {
+      const currentDate = new Date();
+      const seconds = Math.floor(currentDate.getTime() / 1000);
+      const file = new File([uploadImgFile], `image${seconds}.jpg`, {
+        type: "image/jpeg",
+      });
+      newFormData.append("reviewPics", file);
+    });
+
+    // 아래에서 전송코드 실행
+    postReviewList(iproduct, newFormData, {
+      successFn: successFnPost,
+      failFn: failFnPost,
+      errorFn: errorFnPost,
+    });
+
+    console.log("newFormData", newFormData);
+  };
+  const successFnPost = result => {
+    console.log("성공", result);
+  };
+  const failFnPost = result => {
+    console.log("실패", result);
+  };
+  const errorFnPost = result => {
+    console.log("서버오류", result);
   };
 
   const onFinishFailed = errorInfo => {
     console.log("Failed:", errorInfo);
   };
-  const successFn = result => {
-    moveToPath("/address"), console.log(result);
-  };
-  const failFn = result => {
-    console.log(result);
-  };
-  const errorFn = result => {
-    console.log(result);
-  };
 
-  const handleCustomRequest = async ({ file, onSuccess, onError }) => {
-    try {
-      // 업로드를 시작하는 비동기 로직을 수행
-      // ...
-
-      // 업로드 성공 시
-      console.log("오오");
-    } catch (error) {
-      // 업로드 실패 시
-      console.log("뭔데왜안돼는데");
+  // =========== Ant 디자인 미리보기
+  const handleCancel = () => setPreviewOpen(false);
+  const handlePreview = async file => {
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj);
     }
+    setPreviewImage(file.url || file.preview);
+    setPreviewOpen(true);
+    setPreviewTitle(
+      file.name || file.url.substring(file.url.lastIndexOf("/") + 1),
+    );
   };
+
+  // 파일 목록관리
+  const handleChange = ({ fileList: newFileList }) => {
+    // console.log("fileList", fileList);
+    setFileList(newFileList);
+    setUploadFileList([]);
+  };
+
+  // 서버에 보낼 이미지 목록을 파일로 보관하면서 담아둠
+  const fileUpdate = () => {
+    fileList.map(file => {
+      if (file.originFileObj) {
+        // 미리보기
+        const tempUrl = URL.createObjectURL(file.originFileObj);
+        console.log(tempUrl);
+        // FB 파일을 보관
+        setUploadImgFile(file.originFileObj); // 파일 1개 추가 끝
+        setUploadFileList(prevImages => [...prevImages, tempUrl]);
+      }
+    });
+  };
+  useEffect(() => {
+    fileUpdate();
+  }, [fileList]);
+
+  // 버튼 디자인
+  const uploadButton = (
+    <button
+      style={{
+        border: 0,
+        background: "none",
+      }}
+      type="button"
+    >
+      <PlusOutlined />
+      <div
+        style={{
+          marginTop: 8,
+        }}
+      >
+        Upload
+      </div>
+    </button>
+  );
 
   return (
     <ReviewAddWrap>
@@ -137,25 +258,22 @@ const ReviewAddPageCom = () => {
             style={{
               maxWidth: 600,
             }}
+            onFinish={handleSubmit}
+            onFinishFailed={onFinishFailed}
           >
             <div className="productInfo">
               <div>
                 <img
                   src={
-                    process.env.PUBLIC_URL + "/assets/images/defaultitemimg.svg"
+                    productData.repPic === ""
+                      ? process.env.PUBLIC_URL +
+                        "/assets/images/defaultitemimg.svg"
+                      : `${API_SERVER_HOST}/pic/product/${productData.iproduct}/${productData.repPic}`
                   }
                 />
               </div>
               <div className="productInfoText">
-                <p>
-                  [뽀로로] 우리아이가 좋아하는 젓가락 뽀롱뽀롱 뽀로로 아이 전용
-                  미니 젓가락 3종 15묶음 세트 (파랑, 빨강, 노랑, 구찌 명품
-                  에디션) [뽀로로] 우리아이가 좋아하는 젓가락 뽀롱뽀롱 뽀로로
-                  아이 전용 [뽀로로] 우리아이가 좋아하는 젓가락 뽀롱뽀롱 뽀로로
-                  아이 전용 미니 젓가락 3종 15묶음 세트 (파랑, 빨강, 노랑, 구찌
-                  명품 에디션) 미니 젓가락 3종 15묶음 세트 (파랑, 빨강, 노랑,
-                  구찌 명품 에디션)
-                </p>
+                <p>{productData.productNm}</p>
               </div>
             </div>
 
@@ -172,6 +290,7 @@ const ReviewAddPageCom = () => {
                   justifyContent: "flex-end",
                   alignItems: "center",
                 }}
+                name="start"
               >
                 <Rate
                   style={{
@@ -181,15 +300,15 @@ const ReviewAddPageCom = () => {
                     justifyContent: "flex-end",
                     alignItems: "center",
                   }}
-                  value={formData.productScore}
-                  onChange={value => handleInputChange("productScore", value)}
+                  value={formData.dto.productScore} // Use formData.dto.productScore instead of formData.productScore
+                  onChange={value => handleScoreChange("productScore", value)}
                 />
               </Form.Item>
             </RateAddBox>
 
-            <Form.Item style={{ width: "1150px" }}>
+            <Form.Item style={{ width: "1150px" }} name="contents">
               <TextArea
-                value={formData.contents}
+                // value={formData.contents}
                 style={{
                   width: "1150px",
                   height: "600px",
@@ -206,7 +325,7 @@ const ReviewAddPageCom = () => {
                   maxRows: 17,
                 }}
                 spellCheck={false}
-                onChange={e => handleInputChange("contents", e.target.value)}
+                onChange={e => handleTextChange("contents", e.target.value)}
               />
             </Form.Item>
 
@@ -234,41 +353,31 @@ const ReviewAddPageCom = () => {
                     }}
                   >
                     <Upload
-                      style={{
-                        width: "1150px",
-                        height: "200px",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
-                      maxCount={5}
+                      action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
                       listType="picture-card"
+                      fileList={fileList}
+                      onPreview={handlePreview}
+                      onChange={handleChange}
+                      maxCount={5}
                       multiple
-                      accept=".jpg, .png"
-                      overlay="true"
-                      fileList={formData.reviewPics}
-                      onChange={({ fileList }) =>
-                        handleInputChange("reviewPics", fileList)
-                      }
-                      customRequest={handleCustomRequest}
+                      accept="image/png,image/jpeg,image/jpg,"
                     >
-                      <button
-                        style={{
-                          border: 0,
-                          background: "none",
-                        }}
-                        type="button"
-                      >
-                        <PlusOutlined />
-                        <div
-                          style={{
-                            marginTop: 8,
-                          }}
-                        >
-                          Upload
-                        </div>
-                      </button>
+                      {fileList.length >= 5 ? null : uploadButton}
                     </Upload>
+                    <Modal
+                      open={previewOpen}
+                      title={previewTitle}
+                      footer={null}
+                      onCancel={handleCancel}
+                    >
+                      <img
+                        alt="example"
+                        style={{
+                          width: "100%",
+                        }}
+                        src={previewImage}
+                      />
+                    </Modal>
                     <div>
                       <i>최대 5장까지 업로드 가능합니다.</i>
                     </div>
@@ -284,7 +393,6 @@ const ReviewAddPageCom = () => {
                           height: "60px",
                         }}
                         htmlType="submit"
-                        onClick={handleSubmit}
                       >
                         작성완료
                       </Button>
