@@ -128,6 +128,9 @@ export const CommuBt = styled.button`
 `;
 
 export const NoticeBoard = styled.form`
+  .content-container {
+    font-size: 1.8rem;
+  }
   .content-container img {
     max-height: 500px;
   }

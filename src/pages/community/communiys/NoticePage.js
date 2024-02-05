@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useOutletContext, useSearchParams } from "react-router-dom";
-import { getList } from "../../../api/community/communityApi";
+import { getList, getPage } from "../../../api/community/communityApi";
 import useCustomMove from "../../../hooks/useCustomMove";
 import { CommuBt, CommuMain } from "../styles/commStyle";
+import { Pagination } from "antd";
 
 const NoticePage = () => {
   const [tableData, setTableData] = useState([]);
+  const [pageNation, setPageNation] = useState(null);
   const [urlSearchParams] = useSearchParams();
   const board = urlSearchParams.get("board_code");
   const [search, setSerch] = useState("");
@@ -15,6 +17,10 @@ const NoticePage = () => {
   const { board_code, page, moveToListPahe, moveToReadPage, moveToAdd } =
     useCustomMove();
   useEffect(() => {
+    getPage({ board_code, page }).then(res => {
+      setPageNation(res);
+    });
+
     getList({ board_code, page })
       .then(res => {
         setTableData(res);
@@ -57,6 +63,10 @@ const NoticePage = () => {
       .catch(error => {
         alert("데이터 호출에 실패하였습니다.");
       });
+  };
+
+  const handlePageChange = newPage => {
+    moveToListPahe({ board_code, page: newPage });
   };
 
   return (
@@ -124,6 +134,14 @@ const NoticePage = () => {
             </button>
           </div>
         </div>
+        <Pagination
+          style={{ marginBottom: 20 }}
+          defaultCurrent={1}
+          total={pageNation}
+          onChange={handlePageChange}
+          pageSize={15}
+          showSizeChanger={false}
+        />
       </CommuMain>
     </>
   );

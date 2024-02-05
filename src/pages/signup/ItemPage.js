@@ -23,6 +23,7 @@ import {
   StyledDiv,
 } from "../../styles/signup/item";
 import ResultModal from "../../components/signup/ResultModal";
+import { API_SERVER_HOST } from "../../util/util";
 
 const ItemPage = () => {
   const { iproduct } = useParams();
@@ -237,8 +238,8 @@ const ItemPage = () => {
     setIsOpen(false);
     handleCancel();
   };
-  let imgUrl = `http://112.222.157.156:5223/pic/product/${iproduct}/`;
-  let imgreviewUrl = `http://112.222.157.156:5223/pic/review/${iproduct}/`;
+  let imgUrl = `/pic/product/${iproduct}/`;
+  let imgreviewUrl = `/pic/review/${iproduct}/`;
 
   return (
     <ItemMain>
@@ -456,7 +457,6 @@ const ItemPage = () => {
                             {review.createdAt}
                           </div>
                         </div>
-
                         <div
                           style={{
                             display: "flex",
@@ -466,7 +466,7 @@ const ItemPage = () => {
                         >
                           <div>
                             <img
-                              src={imgreviewUrl + review.reqReviewPic}
+                              src={`${API_SERVER_HOST}/pic/review/${review.ireview}/${review.pics[0]}`}
                               style={{ width: "300px", height: "200px" }}
                             />
                           </div>
