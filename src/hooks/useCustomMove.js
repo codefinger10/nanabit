@@ -116,6 +116,14 @@ export const useCustomMove = () => {
   };
 
   // 수정창 이동하기
+  const moveToModifyPage = post => {
+    navigate(
+      { pathname: `../modify/${post.iboard}`, search: queryStrpage },
+      { state: post },
+    );
+  };
+
+  // 수정창 이동하기
   const moveToModify = tno => {
     navigate({ pathname: `../modify/${tno}`, search: queryStrDeafult });
   };
@@ -177,7 +185,7 @@ export const useCustomMove = () => {
     moveToReadPage,
     moveToAdd,
     moveToItem,
-
+    moveToModifyPage,
     moveToPayment,
   };
 };

@@ -128,6 +128,9 @@ export const CommuBt = styled.button`
 `;
 
 export const NoticeBoard = styled.form`
+  .content-container img {
+    max-height: 500px;
+  }
   .wrap {
     font-size: 1.8rem;
     color: #868686;
@@ -156,15 +159,6 @@ export const NoticeBoard = styled.form`
     border: none;
     border-left: 1px solid #868686;
     padding-left: 20px;
-  }
-
-  textarea {
-    width: 100%;
-    height: 550px;
-    resize: none;
-    font-size: 2rem;
-    margin-bottom: 15px;
-    padding: 10px;
   }
 
   .wrap-footer {
@@ -203,6 +197,10 @@ export const StyledReactQuill = styled(ReactQuill)`
   }
   .ql-container {
     border: none;
+  }
+  .ql-editor img {
+    max-width: 100%;
+    height: auto;
   }
 `;
 
@@ -310,7 +308,7 @@ export const CommentRead = styled.div`
   .comment-bts {
     position: absolute;
     right: 0;
-    top: 10%;
+    top: 50%;
     background-color: #fff;
 
     li {
@@ -338,4 +336,10 @@ export const CommentRead = styled.div`
     text-align: start;
     margin-bottom: 10px;
   }
+`;
+
+export const Commu = styled.div`
+  position: relative;
+  width: 80%;
+  margin: 0 auto;
 `;

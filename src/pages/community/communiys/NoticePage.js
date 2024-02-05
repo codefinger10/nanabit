@@ -2,15 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useOutletContext, useSearchParams } from "react-router-dom";
 import { getList } from "../../../api/community/communityApi";
 import useCustomMove from "../../../hooks/useCustomMove";
-import PageList from "../PageList";
 import { CommuBt, CommuMain } from "../styles/commStyle";
-
-const initState = {
-  iboard: 0,
-  boardCode: 0,
-  title: "",
-  createdAt: "",
-};
 
 const NoticePage = () => {
   const [tableData, setTableData] = useState([]);
@@ -28,7 +20,6 @@ const NoticePage = () => {
         setTableData(res);
       })
       .catch(error => {
-        console.log("에러", error);
         alert("데이터 호출에 실패하였습니다.");
       });
     if (board === "1") {
@@ -64,7 +55,6 @@ const NoticePage = () => {
         setTableData(res);
       })
       .catch(error => {
-        console.log("에러", error);
         alert("데이터 호출에 실패하였습니다.");
       });
   };
@@ -103,7 +93,7 @@ const NoticePage = () => {
                   >
                     {item.title}
                   </td>
-                  <td>{item.iboard}</td>
+                  <td>{item.nm}</td>
                   <td>{remove(item.createdAt)}</td>
                 </tr>
               </tbody>
@@ -134,7 +124,6 @@ const NoticePage = () => {
             </button>
           </div>
         </div>
-        {/* <PageList /> */}
       </CommuMain>
     </>
   );

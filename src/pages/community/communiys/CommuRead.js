@@ -1,9 +1,12 @@
+import DOMPurify from "dompurify";
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate, useOutletContext, useParams } from "react-router";
+import { useSearchParams } from "react-router-dom";
 import { getOne } from "../../../api/community/communityApi";
 import DefaultButton from "../../../components/basic/DefaultButton";
+import useCustomMove from "../../../hooks/useCustomMove";
 import { NoticeBoard } from "../styles/commStyle";
-import { useSearchParams } from "react-router-dom";
 import Comment from "./Comment";
 
 const initState = {
@@ -22,6 +25,8 @@ const CommuRead = () => {
   const [urlSearchParams] = useSearchParams();
   const board = urlSearchParams.get("board_code");
   const { setMaintxt, setSubtxt } = useOutletContext();
+  const { moveToModifyPage } = useCustomMove();
+  const youNm = useSelector(state => state.loginSlice.nm);
 
   useEffect(() => {
     getOne(id)
@@ -47,11 +52,6 @@ const CommuRead = () => {
     navigate(-1);
   };
 
-  const handleEdit = () => {
-    // 수정 페이지로 이동하는 로직
-    navigate(`/commu/edit/${id}`);
-  };
-
   return (
     <>
       <NoticeBoard>
@@ -65,7 +65,16 @@ const CommuRead = () => {
             <input type="text" value={post.nm} readOnly />
           </div>
         </div>
-        <textarea value={post.contents} readOnly />
+        <div
+          className="content-container"
+          style={{
+            minHeight: 500,
+            overflow: "hidden",
+          }}
+          dangerouslySetInnerHTML={{
+            __html: DOMPurify.sanitize(post.contents),
+          }}
+        ></div>
         <div className="wrap-footer">
           <p>{post.createdAt}</p>
           <div className="bts">
@@ -76,13 +85,15 @@ const CommuRead = () => {
               txtColor="#868686"
               borderColor="#868686"
             />
-            <DefaultButton
-              aa={handleEdit}
-              type="button"
-              txt="수정하기"
-              txtColor="#42B0FF"
-              borderColor="#42B0FF"
-            />
+            {youNm === post.nm && (
+              <DefaultButton
+                aa={() => moveToModifyPage(post)}
+                type="button"
+                txt="수정하기"
+                txtColor="#42B0FF"
+                borderColor="#42B0FF"
+              />
+            )}
           </div>
         </div>
         <Comment id={id} />
