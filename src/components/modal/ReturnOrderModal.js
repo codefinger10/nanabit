@@ -13,15 +13,16 @@ import {
 }
 const ReturnOrderModal = ({
   closeModal,
+  idetailData,
   handleReturnOrder,
   _iDetails,
-  idetailData,
 }) => {
+  // console.log("idetailData : ", idetailData);
   const [returncontents, setReturncontents] = useState("");
   const handleReturnChange = e => {
     setReturncontents(e.target.value);
   };
-  console.log("모달버튼idetailData", idetailData._iDetails);
+  // console.log("모달버튼idetailData", idetailData._iDetails);
   // console.log("모달버튼눌럿는데이거idetailData", idetailData);
 
   return (
@@ -34,13 +35,13 @@ const ReturnOrderModal = ({
           placeholder="반품사유를 적어주세요"
           className="return-input"
           value={returncontents}
-          // onChange={handleReturnChange}
+          onChange={e => handleReturnChange(e)}
         />
         <OrderModalBtWrap>
           <button
             className="modal-bt"
             onClick={
-              () => handleReturnOrder(idetailData)
+              () => handleReturnOrder(idetailData, returncontents)
               // {
               //   idetail: idetailData.idetail,
               //   contents: returncontents,
