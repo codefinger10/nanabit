@@ -353,6 +353,10 @@ export const ReturnViewStyle = styled.div`
       background-color: #868686;
       margin-left: 75px;
     }
+    img {
+      width: 50px;
+      height: 50px;
+    }
     .itme-p {
       width: 500px;
       margin-left: 50px;

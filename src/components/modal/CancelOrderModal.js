@@ -9,7 +9,7 @@ import {
   /* 반품처리 {_orders.idetails}|{_orders.productCnt}|{_orders.price} */
 }
 const CancelOrderModal = ({ closeModal, handleCancelOrder, orderData }) => {
-  console.log("모달버튼눌럿는데이거 iorder임", orderData._iOrder);
+  // console.log("모달버튼눌럿는데이거 iorder임", orderData._iOrder);
 
   return (
     <OrderModalWrap>

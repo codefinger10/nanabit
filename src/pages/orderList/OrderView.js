@@ -92,30 +92,7 @@ const OrderView = () => {
   const handleState = e => {
     const selectedOption = e.target.value;
     setOptionButton(selectedOption);
-    console.log("옵션버튼", selectedOption);
-  };
-
-  // 주문취소
-  // `http://112.222.157.156:5223/api/order?iorder=1`;
-  const handleCancelOrder = _iOrder => {
-    console.log("주문취소", _iOrder);
-    deleteOne({
-      iorder: _iOrder,
-      successFn,
-      failFn,
-      errorFn,
-    });
-  };
-
-  // const handleReturnOrder = (iDetails, iPrice, iProductCount) => {
-  const handleReturnOrder = _iDetails => {
-    console.log("반품신청", orderData.idetails);
-    postOne({
-      idetails: orderData.idetails,
-      successFn,
-      failFn,
-      errorFn,
-    });
+    // console.log("옵션버튼", selectedOption);
   };
 
   const fetchData = () => {
@@ -132,17 +109,17 @@ const OrderView = () => {
   };
 
   const successFn = data => {
-    console.log("successFn : ", data);
+    // console.log("successFn : ", data);
     setOrderData(data);
   };
 
   const failFn = data => {
-    console.log("failFn : ", data);
+    // console.log("failFn : ", data);
     alert("failFn : 데이터 호출에 실패하였습니다.");
   };
 
   const errorFn = data => {
-    console.log("errorFn : ", data);
+    // console.log("errorFn : ", data);
     alert("서버상태 불안정 그래서, 데모테스트했음.");
     setOrderData(data);
   };
@@ -153,76 +130,28 @@ const OrderView = () => {
 
   useEffect(() => {
     fetchData();
-  }, [dateButton]);
-
-  useEffect(() => {
-    fetchData();
-  }, [optionButton]);
+  }, [dateButton, optionButton]);
 
   // 상태에 따른 버튼 출력
   const makeStateBt = (_orders, _iOrder, _iDetails) => {
-    console.log("dksehlwy.", _orders);
-    // console.log("makeStateBt _orders:", _orders.iDetails);
-    console.log("makeStateBt _iOrder:", _iOrder);
-    console.log("makeStateBt _iDetails:", _orders.idetails);
-    // console.log("makeStateBt 디테일나아왈:", iDetails);
     return (
       <>
         {_orders.processState === "배송완료" ? (
-          <button
-            className="orderButton2"
-            // onClick={() =>
-            //   handleReturnOrder(
-            //     _orders.idetails,
-            //     _orders.productCnt,
-            //     _orders.price,
-            //   )
-            // }
-          >
+          <button className="orderButton2">
             {/* 반품처리 {_orders.idetails}|{_orders.productCnt}|{_orders.price} */}
-            <OpenOrderbt onClick={openModal}>반품신청</OpenOrderbt>
-            {modalOpen && (
-              <ReturnOrderModal
-                // onClick={() =>
-                //   handleReturnOrder(
-                //     _orders.idetails,
-                //     _orders.productCnt,
-                //     _orders.price,
-                //   )
-                // }
-
-                // onClick={() => handleReturnOrder(_orders.idetails)}
-                onClick={() => handleReturnOrder(_orders.idetails)}
-                closeModal={closeModal}
-                idetailData={_orders}
-                handleReturnOrder={handleReturnOrder}
-                // idetailData={{
-                //   idetail: _orders.idetails,
-                //   // contents: "",
-                //   refundCnt: _orders.productCnt,
-                //   refundPrice: _orders.price,
-                // }}
-              />
-            )}
+            <OpenOrderbt onClick={() => openModalGoodPopup(_orders)}>
+              반품신청
+            </OpenOrderbt>
           </button>
         ) : null}
         {/* ================================== */}
         {_orders.processState === "배송준비중" ? (
-          <button
-            className="orderButton2"
-            // onClick={() => handleCancelOrder(_iOrder)}
-          >
+          <button className="orderButton2">
             {/* 주문취소 {_orders.iorder} */}
             {/* 주문취소 {_iOrder} */}
-            <OpenOrderbt onClick={openModal}>주문취소</OpenOrderbt>
-            {modalOpen && (
-              <CancelOrderModal
-                onClick={() => handleCancelOrder(_iOrder)}
-                closeModal={closeModal}
-                handleCancelOrder={handleCancelOrder}
-                orderData={_iOrder}
-              />
-            )}
+            <OpenOrderbt onClick={() => openModalCancel(_iOrder)}>
+              주문취소
+            </OpenOrderbt>
           </button>
         ) : null}
       </>
@@ -240,8 +169,128 @@ const OrderView = () => {
     cursor: pointer;
   `;
 
+  const [returnGoodPopup, setReturnGoodPopup] = useState(false);
+  const [returnGoodPopupData, setReturnGoodPopupData] = useState(null);
+  // const handleReturnOrder = (iDetails, iPrice, iProductCount) => {
+  const handleReturnOrder = (_iDetails, _returncontents) => {
+    console.log("반품신청", _iDetails);
+    const sendData = {
+      contents: _returncontents,
+      refundCnt: _iDetails.productCnt,
+      refundPrice: _iDetails.price,
+    };
+    // console.log(sendData);
+    postOne(_iDetails.idetails, {
+      idetailData: sendData,
+      successFn: successFn_Return,
+      failFn: failFn_Return,
+      errorFn: errorFn_Return,
+    });
+  };
+
+  const successFn_Return = data => {
+    // console.log("반품신청 successFn : ", data);
+    closeModalGoodPopup();
+    fetchData();
+    handlePageChange(1);
+  };
+
+  const failFn_Return = data => {
+    // console.log("반품신청 failFn : ", data);
+    alert("failFn : 반품신청  호출에 실패하였습니다.");
+  };
+
+  const errorFn_Return = data => {
+    // console.log("반품신청 : ", data);
+    alert("서버상태 불안정 반품신청 데모테스트했음.");
+  };
+
+  const closeModalGoodPopup = () => {
+    setReturnGoodPopup(false);
+  };
+
+  const openModalGoodPopup = _idetails => {
+    // console.log("=============================", _idetails);
+    setReturnGoodPopupData(_idetails);
+    setReturnGoodPopup(true);
+  };
+
+  const [modalOpenCancel, setModalOpenCancel] = useState(false);
+  const [cancelGoodPopupData, setCancelGoodPopupData] = useState(0);
+  const closeModalCancel = () => {
+    // console.log("closeModalCancel");
+    setModalOpenCancel(false);
+    setCancelGoodPopupData(0);
+  };
+  const openModalCancel = _iOrder => {
+    // console.log("openModalCancel : ", _iOrder);
+    setCancelGoodPopupData(_iOrder);
+    setModalOpenCancel(true);
+  };
+  const handleCancelOrder = () => {
+    // console.log("handleCancelOrder : ", cancelGoodPopupData);
+    // console.log("주문취소", cancelGoodPopupData);
+    deleteOne({
+      iorder: cancelGoodPopupData,
+      successFn: successFn_Cancel,
+      failFn: failFn_Cancel,
+      errorFn: errorFn_Cancel,
+    });
+    setModalOpenCancel(false);
+  };
+
+  const successFn_Cancel = data => {
+    // console.log("successFn_Cancel : ", data);
+    setModalOpenCancel(false);
+    fetchData();
+    handlePageChange(1);
+  };
+
+  const failFn_Cancel = data => {
+    // console.log("failFn_Cancel : ", data);
+    alert("failFn : 데이터 호출에 실패하였습니다.");
+  };
+
+  const errorFn_Cancel = data => {
+    // console.log("errorFn_Cancel : ", data);
+    alert("서버상태 불안정 그래서, 데모테스트했음.");
+    // setOrderData(data);
+  };
+
+  // 주문취소
+  // `http://112.222.157.156:5223/api/order?iorder=1`;
+  // const handleCancelOrder = _iOrder => {
+  //   console.log("주문취소", _iOrder);
+  //   handleCancelOrder(false);
+  //   // deleteOne({
+  //   //   iorder: _iOrder,
+  //   //   successFn,
+  //   //   failFn,
+  //   //   errorFn,
+  //   // });
+  // };
+
   return (
     <OrderViewStyle>
+      {modalOpenCancel && (
+        <CancelOrderModal
+          closeModal={closeModalCancel}
+          handleCancelOrder={handleCancelOrder}
+          // setModalOpenCancel={setModalOpenCancel}
+          // onClick={() => handleCancelOrder(_iOrder)}
+          // closeModal={closeModal}
+          // orderData={_iOrder}
+        />
+      )}
+
+      {returnGoodPopup && (
+        <ReturnOrderModal
+          closeModal={closeModalGoodPopup}
+          idetailData={returnGoodPopupData}
+          handleReturnOrder={handleReturnOrder}
+        />
+      )}
+
       <div className="inwrap">
         <div className="order-info">
           <div className="orderin">
