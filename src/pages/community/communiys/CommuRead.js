@@ -96,7 +96,7 @@ const CommuRead = () => {
             )}
           </div>
         </div>
-        <Comment id={id} />
+        {board === "1" ? null : <Comment id={id} />}
       </NoticeBoard>
     </>
   );

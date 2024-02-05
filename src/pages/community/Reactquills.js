@@ -86,7 +86,7 @@ const Reactquills = () => {
       try {
         const newIBoard = await getIBorad();
         let imgUrl = "http://192.168.0.144:5223/pic";
-        const serverImgUrl = "http://192.168.0.144:5223/pic";
+        const serverImgUrl = "/pic";
         const file = input.files[0];
         const formData = new FormData();
         formData.append("pics", file);
@@ -99,6 +99,7 @@ const Reactquills = () => {
         );
         const resStatus = res.status.toString();
         if (resStatus.charAt(0) === "2") {
+          console.log(serverImgUrl, res.data);
           imgUrl = `${serverImgUrl}${res.data}`;
 
           setImgList(prevUrl => [...prevUrl, imgUrl]);
@@ -167,11 +168,6 @@ const Reactquills = () => {
   });
 
   const handleSubmitMy = data => {
-    if (data.contents === "<p><br></p>" || data.contents === "") {
-      alert("내용을 입력하세요.");
-      return;
-    }
-
     const formData = new FormData();
     const dto = new Blob(
       [
