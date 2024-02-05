@@ -35,6 +35,41 @@ export const CardContainer = styled.div`
   }
 `;
 
+export const CardContainer2 = styled.div`
+  padding: 16px;
+
+  overflow: hidden;
+
+  .card-img {
+    width: 263px;
+    height: 263px;
+    object-fit: cover;
+    cursor: pointer;
+  }
+
+  .productNm {
+    overflow: hidden;
+    color: #595959;
+    width: 260px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-family: "Noto Sans KR";
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+  }
+  .price {
+    color: #2d2d2d;
+
+    font-family: "Noto Sans KR";
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+  }
+`;
+
 export const CardFlex = styled.div`
   position: relative;
   display: flex;

@@ -1,13 +1,17 @@
 // ProductCard.js
 
-import React, { useEffect, useState } from "react";
-import styled from "@emotion/styled";
+import React, { useState } from "react";
+import useCustomMove from "../../hooks/useCustomMove";
 import {
   CardContainer,
+  CardContainer2,
   CardFlex,
   HeartButton,
   TagStyle,
 } from "../../styles/product/productCardStyle";
+import { API_SERVER_HOST } from "../../util/util";
+import useCustomLogin from "../../hooks/useCustomLogin";
+import MainHeartBt from "../mainpage/MainHeartBt";
 
 const initData = {
   iproduct: 0,
@@ -29,9 +33,25 @@ const ProductCard = ({ product }) => {
     console.log(newValue);
   };
 
+  const { moveToObj } = useCustomLogin();
+  const moveToProduct = product => {
+    moveToObj(`/item/${product.iproduct}?page=1`);
+  };
   return (
-    <CardContainer>
-      <img className="card-img" src={product.repPic} alt={product.repPic} />
+    <CardContainer2>
+      <img
+        className="card-img"
+        src={
+          product.repPic === ""
+            ? process.env.PUBLIC_URL + "/assets/images/defaultitemimg.svg"
+            : `${API_SERVER_HOST}/pic/product/${product.iproduct}/${product.repPic}`
+        }
+        alt={product.productNm}
+        onClick={() => {
+          moveToProduct(product);
+        }}
+      />
+
       <CardFlex>
         <div className="tagform">
           {product.popFl === 1 && (
@@ -56,25 +76,12 @@ const ProductCard = ({ product }) => {
 
         <div className="review">
           <p>리뷰{product.reviewCnt}</p>
-          <HeartButton
-            checked={isHeartChecked}
-            onClick={handleHeartButtonClick}
-          >
-            <img
-              src={
-                isHeartChecked
-                  ? process.env.PUBLIC_URL + "/assets/images/heart.svg"
-                  : process.env.PUBLIC_URL + "/assets/images/heartoff.svg"
-              }
-              alt="heart"
-              className="heart-icon"
-            />
-          </HeartButton>
+          <MainHeartBt item={product} />
         </div>
       </CardFlex>
       <p className="productNm">{product.productNm}</p>
       <h2 className="price">{product.price}원</h2>
-    </CardContainer>
+    </CardContainer2>
   );
 };
 

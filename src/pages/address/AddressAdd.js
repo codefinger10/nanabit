@@ -52,11 +52,11 @@ const AddressAdd = () => {
     setServerData({ ...values });
     values.address = address;
     values.zipCode = zonecode;
-    console.log("Success:", values);
+    // console.log("Success:", values);
     postAddress({ values, successFn, failFn, errorFn });
   };
   const onFinishFailed = errorInfo => {
-    console.log("Failed:", errorInfo);
+    // console.log("Failed:", errorInfo);
   };
 
   const [resultTitle, setResultTitle] = useState("");

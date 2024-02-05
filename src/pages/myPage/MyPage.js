@@ -58,18 +58,18 @@ const MyPage = () => {
   const successFn = result => {
     setProductData(result);
     if (setProductData === 0) {
-      console.log("0입니다");
+      // console.log("0입니다");
     }
-    console.log(result);
+    // console.log(result);
   };
   const failFn = result => {
-    console.log(result);
+    // console.log(result);
   };
   const errorFn = result => {
-    console.log(result);
+    // console.log(result);
   };
 
-  console.log(myWishList);
+  // console.log(myWishList);
 
   return (
     <MyPageWrap>
