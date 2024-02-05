@@ -123,19 +123,23 @@ export const OrderViewStyle = styled.div`
     /* padding-right: 50px; */
     /* margin-right: 50px; */
 
-    width: 1050px;
+    width: 1120px;
     .itme-img {
       width: 50px;
       height: 50px;
       background-color: #868686;
       margin-left: 50px;
     }
+    img {
+      width: 50px;
+      height: 50px;
+    }
     .itme-p {
       width: 500px;
       margin-left: 50px;
     }
     p {
-      width: 110px;
+      width: 121px;
       /* gap: 10px; */
       /* margin-right: 20px; */
       /* margin-left: 30px; */
@@ -144,28 +148,57 @@ export const OrderViewStyle = styled.div`
   }
 
   .refl {
+    position: relative;
     display: flex;
     /* width: 150px; */
     /* margin-left: 10px; */
     /* padding-right: 30px; */
+    /* width: 300px; */
+
     .itme-bt {
       /* width: 9.3%; */
-      width: 97px;
+      width: 200px;
+      display: flex;
+      /* margin-left: 10px; */
+      /* padding-left: 100px; */
+      /* padding-right: 20px; */
+      /* padding-left: 10px; */
 
-      button {
+      .orderButton {
         background: transparent;
         border: 1px solid #868686;
+
         border-radius: 5px;
         cursor: pointer;
-        width: 80%;
+        /* width: 80%; */
+        width: 80px;
         color: #868686;
         text-align: center;
-
         font-size: 12px;
         font-style: normal;
         font-weight: 400;
         line-height: 24px;
         letter-spacing: 0.5px;
+        /* margin-right: 25px; */
+        margin-left: 20px;
+      }
+      .orderButton2 {
+        background: transparent;
+        border: none;
+
+        border-radius: 5px;
+        cursor: pointer;
+        /* width: 80%; */
+        width: 80px;
+        color: #868686;
+        text-align: center;
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 24px;
+        letter-spacing: 0.5px;
+        /* margin-right: 25px; */
+        margin-left: 20px;
       }
     }
   }

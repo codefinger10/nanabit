@@ -25,14 +25,12 @@ const BasicHeader = () => {
     setSearchTextInput("");
   };
 
-
   const handleClick = () => {
     doLogout();
     moveToPath("/");
   };
 
   useEffect(() => {}, [isLogin.nm]);
-
 
   // form 태그는 필수사항
   const handleSubmit = e => {
@@ -47,6 +45,16 @@ const BasicHeader = () => {
         setSearchTextInput("");
       }
     }
+  };
+
+  // 로그인 안됐을 때 사용하슈
+  const goRouter = _path => {
+    if (!isLogin) {
+      alert("로그인을 해주세요.");
+      navigate("/login");
+      return;
+    }
+    navigate(_path);
   };
 
   return (
@@ -112,9 +120,12 @@ const BasicHeader = () => {
                 </a>
               </li>
               <li>
-                <a href="/ol">
+                <a>
                   <img
                     src={process.env.PUBLIC_URL + "/assets/images/truck.svg"}
+                    onClick={() => {
+                      goRouter("/orderlist");
+                    }}
                   />
                 </a>
               </li>

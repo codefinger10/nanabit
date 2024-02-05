@@ -66,7 +66,7 @@ const AppliancesProduct = () => {
     getProductPage({
       productParam: {
         imiddle: activeSubcategory,
-        imain: 0,
+        imain: 2,
         sortBy: sortBy,
         page: 1,
       },

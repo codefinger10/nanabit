@@ -1,5 +1,6 @@
 import axios, { Axios } from "axios";
 import { API_SERVER_HOST } from "../../util/util";
+import jwtAxios from "../../util/jwtUtil";
 
 const prefix = `${API_SERVER_HOST}/api/product`;
 
@@ -71,3 +72,38 @@ export const getProductPage = async ({
     errorFn(sampleData);
   }
 };
+
+export const putWish = async ({ iproduct, successFn, failFn, errorFn }) => {
+  try {
+    // http://192.168.0.144:5223/api/user/address?iaddress=45
+    const url = `${prefix}/wish`;
+    const res = await jwtAxios.put(url, { iproduct: iproduct });
+
+    const status = res.status.toString();
+    if (status.charAt(0) === "2") {
+      successFn(res.data);
+    } else {
+      failFn("제품삭제 호출 오류입니다.");
+    }
+  } catch (error) {
+    errorFn(error);
+  }
+};
+
+// // 찜 기능
+// // http://192.168.0.144:5223/api/product/wish
+// export const putWish = async ({ iproduct, successFn, failFn, errorFn }) => {
+//   try {
+//     const header = { headers: { "Content-Type": "application/json" } };
+//     const body = { iproduct };
+//     const res = await jwtAxios.put(`${host}/wish`, body);
+//     const status = res.status.toString();
+//     if (status.charAt(0) === "2") {
+//       successFn(res.data);
+//     } else {
+//       failFn("목록 호출 오류입니다.");
+//     }
+//   } catch (error) {
+//     errorFn("목록 호출 서버 에러에요", error);
+//   }
+// };

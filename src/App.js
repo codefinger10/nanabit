@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense, lazy } from "react";
 
 import { Navigate, Route, Routes } from "react-router-dom";
 import { Wrap } from "./styles/basic";
@@ -42,7 +42,11 @@ import MealProduct from "./pages/product/MealProduct";
 import BreastfeedingProduct from "./pages/product/BreastfeedingProduct";
 import AppliancesProduct from "./pages/product/AppliancesProduct";
 import CleanProduct from "./pages/product/CleanProduct";
+import Loading from "./components/loading/Loading";
 
+const LazyTodoOrderListPage = lazy(() =>
+  import("./pages/orderList/OrderListPage"),
+);
 const App = () => {
   const { isLogin, loginState, doLogout, moveToPath } = useCustomLogin();
   return (
@@ -63,7 +67,6 @@ const App = () => {
             {/* 커뮤니티 */}
             <Route path="list" element={<NoticePage />} />
             {/* 등록 */}
-
             <Route path="add" element={<CommuAdd />} />
             {/* 수정 */}
             <Route path="modify/:id" element={<CommuEdit />} />
@@ -88,7 +91,15 @@ const App = () => {
           ) : null}
 
           <Route path="/order/:iorder" element={<OrderCompletePage />}></Route>
-          <Route path="/ol" element={<OrderList />}></Route>
+          <Route
+            path="/orderList"
+            element={
+              <Suspense fallback={<Loading />}>
+                <LazyTodoOrderListPage />
+              </Suspense>
+            }
+          ></Route>
+
           <Route path="/payment" element={<PaymentPage />}></Route>
           <Route path="/review" element={<ReviewPage />}></Route>
           <Route path="/reviewadd" element={<ReviewAddPage />}></Route>

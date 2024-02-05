@@ -66,7 +66,7 @@ const CleanProduct = () => {
     getProductPage({
       productParam: {
         imiddle: activeSubcategory,
-        imain: 0,
+        imain: 4,
         sortBy: sortBy,
         page: 1,
       },

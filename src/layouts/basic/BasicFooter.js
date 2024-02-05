@@ -86,7 +86,7 @@ const BasicFooter = () => {
             </ul>
             <ul>
               <li>
-                <Link to="/ol">주문조회</Link>
+                <Link to="/orderlist">주문조회</Link>
               </li>
             </ul>
             <ul>
