@@ -9,6 +9,7 @@ import {
 import { getAddress } from "../../api/address/AddressApi";
 import { Button, Form } from "antd";
 import { Outlet } from "react-router-dom";
+import ResultModal from "../../components/signup/ResultModal";
 
 const initState = {
   iaddress: [],
@@ -30,6 +31,11 @@ export const AddressInfo = () => {
   };
 
   const [serverData, setServerData] = useState([]);
+  const [resultTitle, setResultTitle] = useState("");
+  const [resultContent, setResultContent] = useState("");
+  const [reDirect, setReDirect] = useState(0);
+  const [modalStyle, setModalStyle] = useState({});
+  const [modalStyleBk, setModalStyleBk] = useState({});
 
   useEffect(() => {
     getAddress({ successFn, failFn, errorFn });

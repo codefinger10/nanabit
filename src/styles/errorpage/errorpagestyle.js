@@ -2,8 +2,9 @@ import styled from "styled-components";
 
 export const ErrorWrap = styled.div`
   width: 760px;
-  height: 50vh;
-  margin: 0 auto;
+  height: 600px;
+
+  margin: 200px auto;
 `;
 
 export const ErrorImg = styled.div`

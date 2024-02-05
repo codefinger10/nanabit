@@ -16,7 +16,8 @@ export const useCustomMove = () => {
 
   // 메인으로 이동
   const moveToMain = () => {
-    navigate("/main");
+    <a href="/login"></a>;
+    navigate("/");
   };
   // 로그인으로 이동
   const moveToLogin = () => {
@@ -26,6 +27,7 @@ export const useCustomMove = () => {
   // 화원가입으로 이동
   const moveToSignUp = () => {
     <a href="/signUp"></a>;
+    navigate("/signUp");
   };
   // 커뮤니티로 이동
   const moveToCommu = () => {
@@ -120,7 +122,7 @@ export const useCustomMove = () => {
 
   //페이지 이동하기
   const moveToPayment = iorder => {
-    navigate({ pathname: `../payment/${iorder}`, search: querypayment });
+    navigate({ pathname: `../payment/${iorder}` });
   };
 
   // 상세 내용 보기

@@ -13,11 +13,11 @@ const ErrorPage = () => {
   const navigate = useNavigate();
 
   const handleClickMain = () => {
-    navigate("/main");
+    navigate("/");
   };
   return (
     <ErrorWrap>
-      {/* <ErrorImg>
+      <ErrorImg>
         <img src={process.env.PUBLIC_URL + "/assets/images/ErrorImg.svg"} />
       </ErrorImg>
       <ErrorLogo>
@@ -36,7 +36,7 @@ const ErrorPage = () => {
         }}
       >
         홈 바로가기
-      </ErrorBt> */}
+      </ErrorBt>
     </ErrorWrap>
   );
 };
