@@ -56,15 +56,16 @@ const Payment = () => {
 
   const handleSubmit = async () => {
     // 필수 값들 확인
-    if (formData.address === 0) {
-      console.log("address 필수 값이 누락되었습니다.");
-      setCheckInfoPlz(true);
+    console.log(formData);
+    if (formData.iaddress === 0) {
+      // console.log("iaddress 필수 값이 누락되었습니다.");
       setResultTitle("배송지를 선택해 주세요.");
+      setCheckInfoPlz(true);
       return;
     }
 
     if (formData.addresseeNm === "") {
-      console.log("addresseeNm 필수 값이 누락되었습니다.");
+      // console.log("addresseeNm 필수 값이 누락되었습니다.");
       setCheckInfoPlz(true);
       setResultTitle("수령인 정보를 입력해 주세요.");
       return;
@@ -120,7 +121,7 @@ const Payment = () => {
       {checkInfoPlz ? (
         <ModalPop>
           <div
-            style={{ background: "#fff", textAlign: "center", width: "200px" }}
+            className="modalBack"
           >
             <h1>{resultTitle}</h1>
             <ModalButton>

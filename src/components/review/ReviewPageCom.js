@@ -17,6 +17,8 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import useCustomMove from "../../hooks/useCustomMove";
 import { deleteReviewList, getReviewList } from "../../api/reviewapi/reviewApi";
 import { API_SERVER_HOST } from "../../util/util";
+import { useLocation } from "react-router";
+
 const initState = [
   {
     ireview: "",
@@ -31,15 +33,21 @@ const initState = [
   },
 ];
 const ReviewPageCom = () => {
-  const { page, size, moveToOl } = useCustomMove();
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const currentPage = queryParams.get("page") || 1;
+
+  const { page, size, moveToOl, navigate } = useCustomMove();
   const [reviewData, setReviewData] = useState(initState);
+  const [totalPages, setTotalPages] = useState(1);
   const [refresh, setRefresh] = useState(false);
+
   useEffect(() => {
-    const param = { page, size: 5 };
-    // 데이터 연동 처리 결과
+    const param = { page: currentPage, size: 5 };
     const successFn = result => {
       setReviewData(result);
-      // console.log(result);
+      // 여기서 totalPages를 추정하여 업데이트
+      setTotalPages(Math.ceil(result.length / 5));
     };
     const failFn = result => {
       console.log(result);
@@ -48,17 +56,15 @@ const ReviewPageCom = () => {
       console.log("에러에옹", result);
     };
     getReviewList({ param, successFn, failFn, errorFn });
-  }, [page, size, refresh]);
-  // 페이지네이션
-  // const Pagi = styled.div`
-  //   background-color: red;
-  //   margin: 0;
-  // `;
+  }, [currentPage, size, refresh]);
+
   const [current, setCurrent] = useState(1);
 
   const onChange = page => {
-    console.log(page);
     setCurrent(page);
+
+    // 페이지 네이션을 눌렀을 때 주소를 변경
+    navigate(`/review?page=${page}`);
   };
   const successFn = result => {
     console.log(result);
@@ -170,9 +176,9 @@ const ReviewPageCom = () => {
         </ReviewBody>
         <ReviewFooter>
           <Pagination
-            current={current}
+            current={currentPage}
             onChange={onChange}
-            total={reviewData.length}
+            total={totalPages * 5}
             pageSize={5}
             showSizeChanger={false}
           />
