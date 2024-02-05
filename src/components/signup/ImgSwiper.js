@@ -14,6 +14,7 @@ import { FreeMode, Navigation, Thumbs } from "swiper/modules";
 
 export default function ImgSwiper({ productData, iproduct }) {
   console.log(productData);
+  const imgProduct = [productData.productPics];
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   let imgUrl = `http://192.168.0.144:5223/pic/product/${iproduct}/`;
   const imgProduct = productData.productPics || [];
@@ -38,7 +39,9 @@ export default function ImgSwiper({ productData, iproduct }) {
       >
         {imgProduct.map((item, index) => (
           <SwiperSlide key={index}>
+
             <img src={imgUrl+item}/>
+
           </SwiperSlide>
         ))}
       </Swiper>
@@ -54,7 +57,9 @@ export default function ImgSwiper({ productData, iproduct }) {
       >
         {imgProduct.map((item, index) => (
           <SwiperSlide key={index}>
+
             <img src={imgUrl+item} />
+
           </SwiperSlide>
         ))}
       </Swiper>

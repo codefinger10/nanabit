@@ -8,6 +8,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 import { getOrderListPage } from "../../api/orderapi/orderListApi";
 import { PagiWarp } from "../../styles/product/ProductGridStyle";
 import { Pagination } from "antd";
+import { API_SERVER_HOST } from "../../util/util";
 
 const initState = {
   createdAt: "",
@@ -64,7 +65,7 @@ const ReturnView = () => {
   const handleState = e => {
     const selectedOption = e.target.value;
     setOptionButton(selectedOption);
-    console.log("옵션버튼", selectedOption);
+    // console.log("옵션버튼", selectedOption);
   };
 
   // 주문취소
@@ -93,17 +94,17 @@ const ReturnView = () => {
   };
 
   const successFn = data => {
-    console.log("successFn : ", data);
+    // console.log("successFn : ", data);
     setOrderData(data);
   };
 
   const failFn = data => {
-    console.log("failFn : ", data);
+    // console.log("failFn : ", data);
     alert("failFn : 데이터 호출에 실패하였습니다.");
   };
 
   const errorFn = data => {
-    console.log("errorFn : ", data);
+    // console.log("errorFn : ", data);
     alert("서버상태 불안정 그래서, 데모테스트했음.");
     setOrderData(data);
   };
@@ -219,7 +220,11 @@ const ReturnView = () => {
                     .map((orders, itemIndex) => (
                       <div key={itemIndex} className="itme">
                         <div className="itme-img">
-                          <img src={orders.repPic} alt="상품" />
+                          <img
+                            src={`${API_SERVER_HOST}/pic/product/${orders.iproduct}/${orders.repPic}`}
+                            alt="상품"
+                          />
+                          {/* src={`${API_SERVER_HOST}/pic/product/${ordersItems.iproduct}/${ordersItems.repPic}`} */}
                         </div>
                         <p className="itme-p">{orders.productNm}</p>
                         <p>{orders.productCnt}</p>

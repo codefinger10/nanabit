@@ -19,7 +19,7 @@ export const getOrderListPage = async ({
 
     const resStatus = res.status.toString();
     if (resStatus.charAt(0) === "2") {
-      console.log("데이터임", res.data);
+      // console.log("데이터임", res.data);
       successFn(res.data);
     } else {
       failFn("잘못된 요청입니다.");

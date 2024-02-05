@@ -72,7 +72,7 @@ export const ReviewList = styled.div`
       text-overflow: ellipsis;
       font-size: 20px;
       color: #868686;
-      text-align: right;
+      text-align: left;
     }
     i {
       font-size: 30px;
@@ -116,6 +116,9 @@ export const ReviewFooter = styled.div`
   margin-bottom: 40px;
   width: 1150px;
   height: 80px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
 `;
 
 // ReviewAddCom.js
