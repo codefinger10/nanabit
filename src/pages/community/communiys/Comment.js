@@ -8,6 +8,7 @@ import {
   postCommet,
 } from "../../../api/community/commentApi";
 import { CommentRead } from "../styles/commStyle";
+import { useSelector } from "react-redux";
 
 const initState = {
   icomment: 0,
@@ -23,6 +24,7 @@ const Comment = ({ id }) => {
   const [openPatch, setOpenPatch] = useState(null);
   const [commentPost, setCommentPost] = useState("");
   const [commentPatch, setCommentPatch] = useState("");
+  const youNm = useSelector(state => state.loginSlice.nm);
 
   useEffect(() => {
     getList(id)
@@ -35,7 +37,6 @@ const Comment = ({ id }) => {
   }, []);
 
   const handleModify = icomment => {
-    console.log("수정", icomment);
     setOpenPatch(icomment);
     setOpenDropdown(null);
   };
@@ -48,7 +49,7 @@ const Comment = ({ id }) => {
         setOpenPatch(null);
       });
     });
-    console.log("삭제", icomment);
+
     setOpenDropdown(null);
   };
 
@@ -67,6 +68,7 @@ const Comment = ({ id }) => {
           setComment(res);
           setCommentPost("");
           setOpenPatch(null);
+          setOpenDropdown(null);
         });
       });
     }
@@ -78,6 +80,7 @@ const Comment = ({ id }) => {
         setComment(res);
         setCommentPost("");
         setOpenPatch(null);
+        setOpenDropdown(null);
       });
     });
   };
@@ -101,6 +104,7 @@ const Comment = ({ id }) => {
           type="text"
           value={commentPost}
           onChange={handleChangeC}
+          minLength={1}
           maxLength={40}
         />
         <DefaultButton
@@ -116,16 +120,19 @@ const Comment = ({ id }) => {
           <div key={item.icomment}>
             <div className="comment-top">
               <h3>{item.nm}</h3>
-              <button
-                type="button"
-                onClick={() =>
-                  setOpenDropdown(
-                    openDropdown === item.icomment ? null : item.icomment,
-                  )
-                }
-              >
-                ...
-              </button>
+              {youNm === item.nm && (
+                <button
+                  style={{ width: 100, fontSize: "2rem", textAlign: "end" }}
+                  type="button"
+                  onClick={() =>
+                    setOpenDropdown(
+                      openDropdown === item.icomment ? null : item.icomment,
+                    )
+                  }
+                >
+                  ...
+                </button>
+              )}
               {openDropdown === item.icomment && (
                 <div className="comment-bts">
                   <ul>
@@ -160,6 +167,7 @@ const Comment = ({ id }) => {
                   onChange={e => {
                     handleChangeM(e);
                   }}
+                  minLength={1}
                   maxLength={40}
                 />
                 <button

@@ -83,9 +83,7 @@ const App = () => {
           <Route path="/detail" element={<DetailPage />}></Route>
 
           <Route path="/monthly" element={<MonthlyPage />}></Route>
-          {loginState.nm ? (
-            <Route path="/mypage" element={<MyPage />}></Route>
-          ) : null}
+          {isLogin ? <Route path="/mypage" element={<MyPage />}></Route> : null}
 
           <Route path="/order/:iorder" element={<OrderCompletePage />}></Route>
           <Route path="/ol" element={<OrderList />}></Route>
@@ -105,7 +103,7 @@ const App = () => {
           <Route path="/address/add" element={<AddressAdd />}></Route>
           <Route path="/address/modify" element={<AddressModify />}></Route>
 
-          <Route path="/error" element={<ErrorPage />}></Route>
+          <Route path="*" element={<ErrorPage />}></Route>
         </Routes>
       </BasicLayout>
     </Wrap>

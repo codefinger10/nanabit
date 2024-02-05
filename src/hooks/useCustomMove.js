@@ -13,7 +13,8 @@ export const useCustomMove = () => {
   };
   // 메인으로 이동
   const moveToMain = () => {
-    navigate("/main");
+    <a href="/login"></a>;
+    navigate("/");
   };
   // 로그인으로 이동
   const moveToLogin = () => {
@@ -23,6 +24,7 @@ export const useCustomMove = () => {
   // 화원가입으로 이동
   const moveToSignUp = () => {
     <a href="/signUp"></a>;
+    navigate("/signUp");
   };
   // 커뮤니티로 이동
   const moveToCommu = () => {
@@ -96,6 +98,14 @@ export const useCustomMove = () => {
     navigate({ pathname: "../list", search: queryStr });
   };
   // 수정창 이동하기
+  const moveToModifyPage = post => {
+    navigate(
+      { pathname: `../modify/${post.iboard}`, search: queryStrpage },
+      { state: post },
+    );
+  };
+
+  // 수정창 이동하기
   const moveToModify = tno => {
     navigate({ pathname: `../modify/${tno}`, search: queryStrDeafult });
   };
@@ -150,6 +160,9 @@ export const useCustomMove = () => {
     moveToReadPage,
     moveToAdd,
     moveToItem,
+
+    moveToModifyPage,
+
     moveToPayment,
   };
 };

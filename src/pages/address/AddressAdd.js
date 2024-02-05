@@ -8,6 +8,7 @@ import { AddressTitleWrap } from "../../styles/address/addressinfostyle";
 import { Outlet } from "react-router";
 import BasicLayout from "../../layouts/BasicLayout";
 import useCustomMove from "../../hooks/useCustomMove";
+import ResultModal from "../../components/signup/ResultModal";
 
 const AddressBtWrap = styled.div`
   display: flex;
@@ -57,14 +58,48 @@ const AddressAdd = () => {
   const onFinishFailed = errorInfo => {
     console.log("Failed:", errorInfo);
   };
+
+  const [resultTitle, setResultTitle] = useState("");
+  const [resultContent, setResultContent] = useState("");
+  const [reDirect, setReDirect] = useState(0);
+  const [modalStyle, setModalStyle] = useState({});
+  const [modalStyleBk, setModalStyleBk] = useState({});
+
   const successFn = result => {
-    moveToPath("/address"), console.log(result);
+    setModalStyle({});
+    setModalStyleBk({});
+    setResultTitle("추가 성공");
+    setResultContent("주소추가에 성공하였습니다.");
+    setReDirect(0);
   };
   const failFn = result => {
-    console.log(result);
+    setResultTitle("추가 실패");
+    setResultContent("주소추가에 실패하였습니다");
+    setReDirect(1);
   };
   const errorFn = result => {
-    console.log(result);
+    setModalStyle({ color: "red" });
+    setModalStyleBk({ background: "red" });
+
+    setResultTitle("추가 실패");
+    setResultContent("주소는 최대3개만 추가할수있습니다");
+    setReDirect(1);
+  };
+
+  const closeModal = () => {
+    // 팝업닫기
+    setResultTitle("");
+    setResultContent("");
+
+    if (reDirect === 0) {
+      // 목록가기
+      // navigate(`/modify`);
+      // console.log(serverResult);
+      // moveToMain();
+      moveToPath("/address");
+    } else {
+      // 팝업닫기
+    }
   };
 
   const PrevBt = () => {
@@ -73,6 +108,15 @@ const AddressAdd = () => {
   return (
     <div>
       <AddressTitleWrap>
+        {resultTitle && (
+          <ResultModal
+            title={resultTitle}
+            content={resultContent}
+            callFN={closeModal}
+            errorbt={modalStyle}
+            errorbk={modalStyleBk}
+          />
+        )}
         <div>
           <h2>ADDRESS</h2>
         </div>

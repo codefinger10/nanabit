@@ -69,7 +69,10 @@ const ResultModal = ({ title, content, callFN, errorbt, errorbk, message }) => {
         style={popmodal}
       >
         <div style={poptitle}>{title}</div>
-        <div style={popcontent}>{content}{message}</div>
+        <div style={popcontent}>
+          {content}
+          {message}
+        </div>
         <div>
           <button onClick={callFN} style={popbt}>
             창 닫기

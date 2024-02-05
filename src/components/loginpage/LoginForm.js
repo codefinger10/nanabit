@@ -3,13 +3,11 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import useCustomLogin from "../../hooks/useCustomLogin";
 
-const LoginForm = () => {
+const LoginForm = (successFn, failFn, errorFn) => {
   // 초기값
   const initState = {
-
     uid: "",
     upw: "",
-
   };
 
   const [loginParam, setLoginParam] = useState(initState);
@@ -17,7 +15,7 @@ const LoginForm = () => {
   const { doLogin, moveToPath } = useCustomLogin();
 
   const onFinish = values => {
-    console.log("Success:", values);
+    // console.log("Success:", values);
     doLogin({ loginParam, successFn, failFn, errorFn });
   };
   const onFinishFailed = errorInfo => {
@@ -27,17 +25,6 @@ const LoginForm = () => {
   // slice 값(state)을 읽을때        useSelector
   // slice 값(state)를 업데이트할때  useDispatch()
   const dispatch = useDispatch();
-  const successFn = result => {
-    console.log("성공", result);
-    moveToPath("/");
-  };
-  const failFn = result => {
-    console.log("실패", result);
-    alert("이메일 및 비밀번호 확인하세요.");
-  };
-  const errorFn = result => {
-    console.log("에러", result);
-  };
 
   const onValuesChanged = (changedValues, allValues) => {
     // console.log(_필드값);
