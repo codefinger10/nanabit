@@ -1,7 +1,6 @@
 import styled from "@emotion/styled";
 import React, { useEffect, useState } from "react";
-import OrderDate from "../../components/orderlist/OrderDate";
-import DateButton from "../../components/orderlist/DateButton";
+
 import { motion } from "framer-motion";
 import { OrderViewStyle } from "../../styles/ol/orderStyle";
 
@@ -13,6 +12,15 @@ import {
 } from "../../api/orderapi/orderListApi";
 import { PagiWarp } from "../../styles/product/ProductGridStyle";
 import { Pagination } from "antd";
+import CancelOrderModal from "../../components/modal/CancelOrderModal";
+import MealModal from "../../components/modal/MealModal";
+import {
+  ButtonContainer,
+  OpenModalButton,
+} from "../../styles/modal/productModalStyle";
+import { API_SERVER_HOST } from "../../util/util";
+import ReturnOrderModal from "../../components/modal/ReturnOrderModal";
+import { OpenOrderbt } from "../../styles/modal/orderModalStyle";
 
 const initState = {
   createdAt: "",
@@ -38,9 +46,36 @@ const OrderView = () => {
   const [dateButton, setDateButton] = useState();
   const [activeDate, setActiveDate] = useState();
   const [optionButton, setOptionButton] = useState(0);
+  const [retutnData, setRetutnData] = useState();
 
   const iorderNavi = useNavigate();
 
+  // 페이지 네이션 ==================================================
+  const [currentPage, setCurrentPage] = useState(0);
+  const itemsPerPage = 6;
+  // 현재 페이지에 해당하는 데이터 추출
+  const offset = currentPage * itemsPerPage;
+  const currentData = orderData.slice(offset, offset + itemsPerPage);
+  // 페이지 변경 시 호출되는 함수
+  const handlePageChange = page => {
+    setCurrentPage(page); // Ant Design Pagination은 1부터 시작하므로 1을 빼줍니다.
+  };
+  // 페이지 네이션 ==================================================
+
+  // 모달 ==================================================
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedOrderId, setSelectedOrderId] = useState();
+  // 모달 열기
+  const openModal = orderId => {
+    setModalOpen(true);
+    setSelectedOrderId(orderId);
+  };
+
+  // 모달 닫기
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+  // 모달 ==================================================
   const handleOpen = index => {
     setIsOpen(item => {
       const updatedOrder = [...item];
@@ -62,27 +97,21 @@ const OrderView = () => {
 
   // 주문취소
   // `http://112.222.157.156:5223/api/order?iorder=1`;
-  const handleCancelOrder = orderId => {
-    console.log("눌러요", orderId);
+  const handleCancelOrder = _iOrder => {
+    console.log("주문취소", _iOrder);
     deleteOne({
-      iorder: orderId,
+      iorder: _iOrder,
       successFn,
       failFn,
       errorFn,
     });
   };
 
-  const handleReturnOrder = (iDetails, iPrice, iProductCount) => {
-    console.log(iDetails);
-    console.log("환불요청", iDetails);
-    const idetailData = {
-      contents: "단순변심",
-      refundCnt: iProductCount,
-      refundPrice: iPrice,
-    };
-
-    postOne(iDetails, {
-      idetailData,
+  // const handleReturnOrder = (iDetails, iPrice, iProductCount) => {
+  const handleReturnOrder = _iDetails => {
+    console.log("반품신청", orderData.idetails);
+    postOne({
+      idetails: orderData.idetails,
       successFn,
       failFn,
       errorFn,
@@ -130,53 +159,70 @@ const OrderView = () => {
     fetchData();
   }, [optionButton]);
 
-  // 배송관련 텍스트 state 관리
-  const StateMap = {
-    구매확인: 0,
-    배송준비중: 1,
-    배송중: 2,
-    배송완료: 3,
-    주문취소: 4,
-    반품: 5,
-  };
-
-  const StateNum = StateMap[orderData.processState];
-  console.log("orderData", orderData);
-
   // 상태에 따른 버튼 출력
-  const makeStateBt = _orders => {
+  const makeStateBt = (_orders, _iOrder, _iDetails) => {
     console.log("dksehlwy.", _orders);
+    // console.log("makeStateBt _orders:", _orders.iDetails);
+    console.log("makeStateBt _iOrder:", _iOrder);
+    console.log("makeStateBt _iDetails:", _orders.idetails);
+    // console.log("makeStateBt 디테일나아왈:", iDetails);
     return (
       <>
         {_orders.processState === "배송완료" ? (
           <button
-            onClick={() =>
-              handleReturnOrder(
-                _orders.idetails,
-                _orders.productCnt,
-                _orders.price,
-              )
-            }
-            style={{
-              backgroundColor: "#F24747",
-              color: "#fff",
-              border: "none",
-            }}
+            className="orderButton2"
+            // onClick={() =>
+            //   handleReturnOrder(
+            //     _orders.idetails,
+            //     _orders.productCnt,
+            //     _orders.price,
+            //   )
+            // }
           >
-            반품처리 {_orders.idetails}|{_orders.productCnt}|{_orders.price}
+            {/* 반품처리 {_orders.idetails}|{_orders.productCnt}|{_orders.price} */}
+            <OpenOrderbt onClick={openModal}>반품신청</OpenOrderbt>
+            {modalOpen && (
+              <ReturnOrderModal
+                // onClick={() =>
+                //   handleReturnOrder(
+                //     _orders.idetails,
+                //     _orders.productCnt,
+                //     _orders.price,
+                //   )
+                // }
+
+                // onClick={() => handleReturnOrder(_orders.idetails)}
+                onClick={() => handleReturnOrder(_orders.idetails)}
+                closeModal={closeModal}
+                idetailData={_orders}
+                handleReturnOrder={handleReturnOrder}
+                // idetailData={{
+                //   idetail: _orders.idetails,
+                //   // contents: "",
+                //   refundCnt: _orders.productCnt,
+                //   refundPrice: _orders.price,
+                // }}
+              />
+            )}
           </button>
         ) : null}
         {/* ================================== */}
         {_orders.processState === "배송준비중" ? (
           <button
-            onClick={() => handleCancelOrder(_orders.idetails)}
-            style={{
-              backgroundColor: "#F24747",
-              color: "#fff",
-              border: "none",
-            }}
+            className="orderButton2"
+            // onClick={() => handleCancelOrder(_iOrder)}
           >
-            주문취소 {_orders.iorder}
+            {/* 주문취소 {_orders.iorder} */}
+            {/* 주문취소 {_iOrder} */}
+            <OpenOrderbt onClick={openModal}>주문취소</OpenOrderbt>
+            {modalOpen && (
+              <CancelOrderModal
+                onClick={() => handleCancelOrder(_iOrder)}
+                closeModal={closeModal}
+                handleCancelOrder={handleCancelOrder}
+                orderData={_iOrder}
+              />
+            )}
           </button>
         ) : null}
       </>
@@ -207,6 +253,23 @@ const OrderView = () => {
                 <option value="4">배송중</option>
                 <option value="5">배송완료</option>
               </select>
+
+              {/* <OpenModalButton onClick={openModal}>
+                주문취소하라고
+              </OpenModalButton>
+              {modalOpen && (
+                <CancelOrderModal
+                  closeModal={closeModal}
+                  handleCancelOrder={handleCancelOrder}
+                  orderData={orderData}
+                />
+              )} */}
+
+              {/* <ButtonContainer>
+                <OpenModalButton onClick={openModal}>🥣</OpenModalButton>
+                {modalOpen && <MealModal closeModal={closeModal} />}
+              </ButtonContainer> */}
+
               <div>
                 <DateBt
                   onClick={() => handleDateButton(1)}
@@ -263,7 +326,7 @@ const OrderView = () => {
         </div>
 
         {orderData &&
-          orderData.map((orders, idx) => (
+          currentData.map((orders, idx) => (
             <div key={idx} className="order-border">
               <div className="footer-info">
                 <div className="footer-info-2">
@@ -279,21 +342,38 @@ const OrderView = () => {
                 <div className="itemmap">
                   {orders.items
                     .slice(0, isOpen[idx] ? orders.items.length : 1)
-                    .map((orders, itemIndex) => (
+                    .map((ordersItems, itemIndex) => (
                       <div key={itemIndex} className="itme">
                         <div className="itme-img">
-                          <img src={orders.repPic} alt="상품" />
+                          {/* <img src={ordersItems.repPic} alt="상품" /> */}
+                          <img
+                            // src={`/pic/product/${orders.iproduct}/${orders.repPic}`}
+                            src={`${API_SERVER_HOST}/pic/product/${ordersItems.iproduct}/${ordersItems.repPic}`}
+                            alt="상품"
+                          />
                         </div>
-                        <p className="itme-p">{orders.productNm}</p>
-                        <p>{orders.productCnt}</p>
-                        <p>{orders.price}</p>
-                        <p>{orders.processState}</p>
+                        <p className="itme-p">{ordersItems.productNm}</p>
+
+                        {/* <ButtonContainer>
+                          <OpenModalButton onClick={openModal}>
+                            🥣
+                          </OpenModalButton>
+                          {modalOpen && <MealModal closeModal={closeModal} />}
+                        </ButtonContainer> */}
+
+                        {/* <p>이것은 {orders.iorder}</p> */}
+                        <p>{ordersItems.productCnt}</p>
+                        <p>{ordersItems.price}</p>
+                        <p>{ordersItems.processState}</p>
                         <div className="refl">
                           <div className="itme-bt">
-                            {orders.reviewFl === 0 ? (
+                            {ordersItems.reviewFl === 0 ? (
                               <button
+                                className="orderButton"
                                 onClick={() =>
-                                  iorderNavi(`/reviewadd/${orders.iproduct}`)
+                                  iorderNavi(
+                                    `/reviewadd/${ordersItems.iproduct}/${ordersItems.idetails}/${orders.iorder}`,
+                                  )
                                 }
                               >
                                 리뷰작성
@@ -307,14 +387,17 @@ const OrderView = () => {
                               </div>
                             )}
 
-                            {makeStateBt(orders)}
+                            {makeStateBt(
+                              ordersItems,
+                              orders.iorder,
+                              orders.idetails,
+                            )}
                           </div>
                         </div>
                       </div>
                     ))}
                 </div>
               </div>
-
               <div className="dropdown-bt">
                 <div>
                   <motion.button
@@ -330,10 +413,10 @@ const OrderView = () => {
           ))}
         <PagiWarp>
           <Pagination
-            // current={currentPage}
-            // onChange={handlePageChange}
+            current={currentPage}
+            onChange={handlePageChange}
             total={orderData.length}
-            // pageSize={itemsPerPage}
+            pageSize={itemsPerPage}
             className="pagination"
           />
         </PagiWarp>

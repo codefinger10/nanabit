@@ -32,6 +32,7 @@ export const getOrderListPage = async ({
 export const deleteOne = async ({ iorder, successFn, failFn, errorFn }) => {
   try {
     // http://192.168.0.144:5223/api/user/address?iaddress=45
+    // dd
     const url = `${prefix}?iorder=${iorder}`;
     const res = await jwtAxios.delete(url);
 
@@ -47,14 +48,16 @@ export const deleteOne = async ({ iorder, successFn, failFn, errorFn }) => {
 };
 
 export const postOne = async (
-  idetails,
-  { idetailData, successFn, failFn, errorFn },
+  // idetails,
+  { idetails, idetailData, successFn, failFn, errorFn },
 ) => {
   try {
     console.log(idetails);
     console.log(idetailData);
+    // console.log("URL:", url);
     // http://192.168.0.144:5223/api/user/address?iaddress=45
     const url = `${prefix}/${idetails}`;
+    console.log("URL:", url);
     const res = await jwtAxios.post(url, idetailData);
 
     const status = res.status.toString();

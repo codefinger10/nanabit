@@ -13,6 +13,10 @@ import {
 import { getProductPage } from "../../api/product/productApi";
 import MealModal from "../../components/modal/MealModal";
 import AddressConfirm from "../../components/modal/AddressConfirm";
+import {
+  ButtonContainer,
+  OpenModalButton,
+} from "../../styles/modal/productModalStyle";
 
 const initState = {
   iproduct: 0,
@@ -75,7 +79,7 @@ const MealProduct = () => {
     getProductPage({
       productParam: {
         imiddle: activeSubcategory,
-        imain: 0,
+        imain: 1,
         sortBy: sortBy,
         page: 1,
       },
@@ -121,25 +125,6 @@ const MealProduct = () => {
     setCurrentPage(page);
   };
 
-  const ButtonContainer = styled.div`
-    position: relative;
-    width: 100px;
-    height: 100px;
-
-    border-radius: 50px;
-    left: 90%;
-    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.25);
-  `;
-
-  const OpenModalButton = styled.button`
-    border: none;
-    background-color: transparent;
-    img {
-      width: 70px;
-      height: 70px;
-    }
-  `;
-
   return (
     <ProductWrap>
       <div>
@@ -150,10 +135,7 @@ const MealProduct = () => {
             subtxt="배송 및 상품관련 공지사항을 확인해 주세요."
           />
           <ButtonContainer>
-            <OpenModalButton onClick={openModal}>
-              이유식 설명서
-              <img src={process.env.PUBLIC_URL + "/assets/images/clip.svg"} />
-            </OpenModalButton>
+            <OpenModalButton onClick={openModal}>🥣</OpenModalButton>
             {modalOpen && <MealModal closeModal={closeModal} />}
           </ButtonContainer>
         </div>

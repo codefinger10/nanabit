@@ -66,7 +66,7 @@ const ToyProduct = () => {
     getProductPage({
       productParam: {
         imiddle: activeSubcategory,
-        imain: 0,
+        imain: 3,
         sortBy: sortBy,
         page: 1,
       },

@@ -6,6 +6,8 @@ import { motion } from "framer-motion";
 import { OrderViewStyle, ReturnViewStyle } from "../../styles/ol/orderStyle";
 import { Navigate, useNavigate } from "react-router-dom";
 import { getOrderListPage } from "../../api/orderapi/orderListApi";
+import { PagiWarp } from "../../styles/product/ProductGridStyle";
+import { Pagination } from "antd";
 
 const initState = {
   createdAt: "",
@@ -41,6 +43,18 @@ const ReturnView = () => {
       return updatedOrder;
     });
   };
+
+  // 페이지 네이션 ==================================================
+  const [currentPage, setCurrentPage] = useState(0);
+  const itemsPerPage = 6;
+  // 현재 페이지에 해당하는 데이터 추출
+  const offset = currentPage * itemsPerPage;
+  const currentData = orderData.slice(offset, offset + itemsPerPage);
+  // 페이지 변경 시 호출되는 함수
+  const handlePageChange = page => {
+    setCurrentPage(page); // Ant Design Pagination은 1부터 시작하므로 1을 빼줍니다.
+  };
+  // 페이지 네이션 ==================================================
 
   const handleDateButton = buttonType => {
     setActiveDate(buttonType);
@@ -186,7 +200,7 @@ const ReturnView = () => {
         </div>
 
         {orderData &&
-          orderData.map((orders, idx) => (
+          currentData.map((orders, idx) => (
             <div key={idx} className="order-border">
               <div className="footer-info">
                 <div className="footer-info-2">
@@ -217,6 +231,15 @@ const ReturnView = () => {
               </div>
             </div>
           ))}
+        <PagiWarp>
+          <Pagination
+            current={currentPage}
+            onChange={handlePageChange}
+            total={orderData.length}
+            pageSize={itemsPerPage}
+            className="pagination"
+          />
+        </PagiWarp>
       </div>
     </ReturnViewStyle>
   );

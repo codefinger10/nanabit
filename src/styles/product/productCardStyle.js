@@ -9,6 +9,7 @@ export const CardContainer = styled.div`
     width: 263px;
     height: 263px;
     object-fit: cover;
+    cursor: pointer;
   }
 
   .productNm {
@@ -69,7 +70,7 @@ export const HeartButton = styled.button`
     width: 100%;
     height: 100%;
     object-fit: cover;
-
+    cursor: pointer;
     filter: ${({ checked }) => (checked ? "none" : "grayscale(100%)")};
   }
 `;

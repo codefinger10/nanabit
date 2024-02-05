@@ -39,3 +39,26 @@ export const BabyMealDesc = styled.h3`
   font-weight: 400;
   line-height: normal;
 `;
+
+export const ButtonContainer = styled.div`
+  position: relative;
+  width: 100px;
+  height: 100px;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  /* display: flex; */
+
+  border-radius: 50px;
+  left: 90%;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.25);
+`;
+
+export const OpenModalButton = styled.button`
+  border: none;
+  background-color: transparent;
+  font-size: 50px;
+  /* padding-bottom: 10px; */
+  margin-top: 20px;
+  /* position: fixed; */
+`;

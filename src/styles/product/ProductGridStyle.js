@@ -44,3 +44,18 @@ export const PagiWarp = styled.div`
   padding-top: 50px;
   margin: 0 auto;
 `;
+
+export const ModalPagiWarp = styled.div`
+  /* width: 100%; */
+  /* width: 1280px; */
+  /* height: 200px; */
+  display: flex;
+  justify-content: center;
+  /* margin-top: 100px; */
+  /* margin-bottom: 100px; */
+  /* margin: 0 auto; */
+  /* margin-bottom: 500px; */
+  position: absolute;
+  top: 90%;
+  left: 35%;
+`;
