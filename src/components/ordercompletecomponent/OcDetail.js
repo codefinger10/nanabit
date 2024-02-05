@@ -2,6 +2,7 @@ import { ConfigProvider, Table } from "antd";
 import React, { useEffect, useState } from "react";
 import { getOCPage } from "../../api/orderapi/orderApi";
 import { OcDetailWrap } from "../../styles/oc/ocstyle";
+import { API_SERVER_HOST } from "../../util/util";
 
 const OcDetail = ({ data }) => {
   // const [data, setData] = useState(null);
@@ -121,7 +122,7 @@ const OcDetail = ({ data }) => {
 
   const orderDataSource = data.products.map((product, index) => ({
     key: index,
-    "상품 이미지": product.repPic,
+    "상품 이미지": `${API_SERVER_HOST}/pic/product/${product.iproduct}/${product.repPic}`,
     상품명: product.productNm,
     수량: product.productCnt,
     금액: `${product.productTotalPrice.toLocaleString()}원`,

@@ -51,7 +51,7 @@ const AddressModify = () => {
   const { moveToPrev } = useCustomMove();
   useEffect(() => {
     setServerData({ ...loginState });
-  }, [loginState]);
+  }, [loginState ]);
 
   const updateAddressInfo = ({ zonecode, address }) => {
     // 주소 정보 업데이트

@@ -6,7 +6,7 @@ import useCustomLogin from "../../hooks/useCustomLogin";
 import MainLoginSwiper from "../../components/mainpage/MainLoginSwiper";
 
 const MainPage = () => {
-  const { isLogin } = useCustomLogin;
+  const { isLogin } = useCustomLogin();
   return (
     <div>
       <MainSwiper />

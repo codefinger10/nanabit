@@ -16,6 +16,7 @@ import {
 import { Swiper, SwiperSlide } from "swiper/react";
 import useCustomMove from "../../hooks/useCustomMove";
 import { deleteReviewList, getReviewList } from "../../api/reviewapi/reviewApi";
+import { API_SERVER_HOST } from "../../util/util";
 
 const initState = [
   {
@@ -29,15 +30,12 @@ const initState = [
     productNm: "",
   },
 ];
-
 const ReviewPageCom = () => {
   const { page, size, moveToRead } = useCustomMove();
   const [reviewData, setReviewData] = useState(initState);
   const [refresh, setRefresh] = useState(false);
-
   useEffect(() => {
     const param = { page, size: 5 };
-
     // 데이터 연동 처리 결과
     const successFn = result => {
       setReviewData(result);
@@ -49,10 +47,8 @@ const ReviewPageCom = () => {
     const errorFn = result => {
       console.log("에러에옹", result);
     };
-
     getReviewList({ param, successFn, failFn, errorFn });
   }, [page, size, refresh]);
-
   // 페이지네이션
   // const Pagi = styled.div`
   //   background-color: red;
@@ -63,7 +59,6 @@ const ReviewPageCom = () => {
     console.log(page);
     setCurrent(page);
   };
-
   const successFn = result => {
     console.log(result);
   };
@@ -73,15 +68,12 @@ const ReviewPageCom = () => {
   const errorFn = result => {
     console.log("에러에옹", result);
   };
-
   const handleDeleteClick = index => {
     console.log(index);
     deleteReviewList({ reviewData: index, successFn, failFn, errorFn });
     setRefresh(true);
   };
-
   // console.log("reviewData", reviewData);
-
   return (
     <ReviewWrap>
       <ConfigProvider
@@ -148,7 +140,7 @@ const ReviewPageCom = () => {
                               pic.pics === ""
                                 ? process.env.PUBLIC_URL +
                                   "/assets/images/defaultitemimg.svg"
-                                : pic.pics
+                                : `${API_SERVER_HOST}/pic/product/${pic.ireview}/${pic}`
                             }
                             alt={index.productNm}
                           />
@@ -157,7 +149,6 @@ const ReviewPageCom = () => {
                     ))}
                   </>
                 </ReviewImgSection>
-
                 <div className="reviewRight">
                   <div>
                     <p>{index.contents}</p>
