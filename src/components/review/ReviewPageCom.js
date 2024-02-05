@@ -17,7 +17,6 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import useCustomMove from "../../hooks/useCustomMove";
 import { deleteReviewList, getReviewList } from "../../api/reviewapi/reviewApi";
 import { API_SERVER_HOST } from "../../util/util";
-
 const initState = [
   {
     ireview: "",
@@ -28,10 +27,11 @@ const initState = [
     createdAt: "",
     pics: [],
     productNm: "",
+    iproduct: 0,
   },
 ];
 const ReviewPageCom = () => {
-  const { page, size, moveToRead } = useCustomMove();
+  const { page, size, moveToOl } = useCustomMove();
   const [reviewData, setReviewData] = useState(initState);
   const [refresh, setRefresh] = useState(false);
   useEffect(() => {
@@ -54,7 +54,8 @@ const ReviewPageCom = () => {
   //   background-color: red;
   //   margin: 0;
   // `;
-  const [current, setCurrent] = useState(3);
+  const [current, setCurrent] = useState(1);
+
   const onChange = page => {
     console.log(page);
     setCurrent(page);
@@ -68,18 +69,30 @@ const ReviewPageCom = () => {
   const errorFn = result => {
     console.log("에러에옹", result);
   };
-  const handleDeleteClick = index => {
+  const handleDeleteClick = async index => {
     console.log(index);
-    deleteReviewList({ reviewData: index, successFn, failFn, errorFn });
-    setRefresh(true);
+    try {
+      await deleteReviewList({ reviewData: index, successFn, failFn, errorFn });
+      setRefresh(prevRefresh => !prevRefresh);
+    } catch (error) {
+      console.error("Error deleting review:", error);
+    }
   };
-  // console.log("reviewData", reviewData);
+  const handleClickToOl = () => {
+    moveToOl();
+  };
   return (
     <ReviewWrap>
       <ConfigProvider
         theme={{
           components: {
             Button: {
+              colorPrimary: "#E9B25F",
+              colorPrimaryActive: "#CB8C2E",
+              colorPrimaryBorder: "#E9B25F",
+              colorPrimaryHover: "#DF9E3C",
+            },
+            Pagination: {
               colorPrimary: "#E9B25F",
               colorPrimaryActive: "#CB8C2E",
               colorPrimaryBorder: "#E9B25F",
@@ -103,6 +116,7 @@ const ReviewPageCom = () => {
                   height: "70px",
                   fontSize: "20px",
                 }}
+                onClick={handleClickToOl}
               >
                 <p>주문 조회</p>
               </Button>
@@ -110,44 +124,31 @@ const ReviewPageCom = () => {
           </ReviewHeader>
           {reviewData.map(index => (
             <ReviewList key={index.ireview}>
-              <div className="listHeader">
-                <div className="nameScore">
-                  <p>{index.nm}</p>
-                  <b>
-                    <Rate disabled defaultValue={index.productScore} />
-                  </b>
-                </div>
-                <div className="productName">
-                  <p>{index.productNm}</p>
-                  <i>{index.createdAt}</i>
-                </div>
+              <div className="productName">
+                <p>{index.productNm}</p>
+                <i>{index.createdAt}</i>
               </div>
               <div className="productReview">
                 <ReviewImgSection>
-                  <>
-                    {index.pics.map(pic => (
-                      <Swiper
-                        scrollbar={{
-                          hide: true,
-                        }}
-                        modules={[Scrollbar]}
-                        className="mySwiper"
-                        key={pic}
-                      >
-                        <SwiperSlide>
-                          <img
-                            src={
-                              pic.pics === ""
-                                ? process.env.PUBLIC_URL +
-                                  "/assets/images/defaultitemimg.svg"
-                                : `${API_SERVER_HOST}/pic/product/${pic.ireview}/${pic}`
-                            }
-                            alt={index.productNm}
-                          />
-                        </SwiperSlide>
-                      </Swiper>
+                  <Swiper
+                    modules={{ scroll }}
+                    className="mySwiper"
+                    style={{ height: "200px", width: "200px" }}
+                  >
+                    {index.pics.map((pic, picIndex) => (
+                      <SwiperSlide key={picIndex}>
+                        <img
+                          src={
+                            pic.pics === ""
+                              ? process.env.PUBLIC_URL +
+                                "/assets/images/defaultitemimg.svg"
+                              : `${API_SERVER_HOST}/pic/review/${index.ireview}/${pic}`
+                          }
+                          alt={index.productNm}
+                        />
+                      </SwiperSlide>
                     ))}
-                  </>
+                  </Swiper>
                 </ReviewImgSection>
                 <div className="reviewRight">
                   <div>
@@ -168,7 +169,13 @@ const ReviewPageCom = () => {
           ))}
         </ReviewBody>
         <ReviewFooter>
-          <Pagination current={current} onChange={onChange} total={50} />
+          <Pagination
+            current={current}
+            onChange={onChange}
+            total={reviewData.length}
+            pageSize={5}
+            showSizeChanger={false}
+          />
         </ReviewFooter>
       </ConfigProvider>
     </ReviewWrap>

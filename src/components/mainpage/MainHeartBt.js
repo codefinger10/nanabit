@@ -61,9 +61,7 @@ const MainHeartBt = ({ item }) => {
     <div>
       {isModal ? (
         <ModalPop>
-          <div
-            style={{ background: "#fff", textAlign: "center", width: "200px" }}
-          >
+          <div className="modalBack">
             <h1>로그인</h1>
             <div>
               찜목록은 로그인 후 이용이 가능하오니 나나빛 로그인 부탁드립니다.
