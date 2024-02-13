@@ -13,17 +13,16 @@ import {
 } from "../../styles/payment/modalpaybankstyle";
 const BankTransferModal = () => {
   const onChangeAgree = e => {
-    console.log(`checked = ${e.target.checked}`);
+    // console.log(`checked = ${e.target.checked}`);
   };
   const [value, setValue] = useState(1);
   const onChangeBank = e => {
-    console.log("radio checked", e.target.value);
+    // console.log("radio checked", e.target.value);
     setValue(e.target.value);
   };
 
-
   const onChange = e => {
-    console.log(`checked = ${e.target.checked}`);
+    // console.log(`checked = ${e.target.checked}`);
   };
 
   return (

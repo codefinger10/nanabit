@@ -15,7 +15,7 @@ export const getIBorad = async () => {
       return "잘못된 정보를 전달함.";
     }
   } catch (error) {
-    console.log(error);
+    // console.log(error);
   }
 };
 export const getList = async (param, search) => {
@@ -34,13 +34,13 @@ export const getList = async (param, search) => {
       return "잘못된 정보를 전달함.";
     }
   } catch (error) {
-    console.log(error);
+    // console.log(error);
   }
 };
 
 export const getOne = async id => {
   try {
-    const res = await jwtAxios.get(`/api/board/${id}`);
+    const res = await axios.get(`/api/board/${id}`);
 
     // HTTP 상태 코드 파악하기
     const status = res.status.toString();
@@ -52,13 +52,13 @@ export const getOne = async id => {
       return "잘못된 정보를 전달함.";
     }
   } catch (error) {
-    console.log(error);
+    // console.log(error);
   }
 };
 
 export const getPage = async param => {
   try {
-    const res = await jwtAxios.get(`/api/board/pagenation`, {
+    const res = await axios.get(`/api/board/pagenation`, {
       params: { ...param },
     });
 
@@ -72,7 +72,7 @@ export const getPage = async param => {
       return "잘못된 정보를 전달함.";
     }
   } catch (error) {
-    console.log(error);
+    // console.log(error);
   }
 };
 
@@ -107,7 +107,7 @@ export const putBoard = async formData => {
       return res.data.result;
     }
   } catch (error) {
-    console.log("서버에러에요");
+    // console.log("서버에러에요");
   }
 };
 
@@ -119,6 +119,6 @@ export const deleteBoard = async icomment => {
       return res.data.result;
     }
   } catch (error) {
-    console.log("서버에러에요");
+    // console.log("서버에러에요");
   }
 };

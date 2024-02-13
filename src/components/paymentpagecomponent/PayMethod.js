@@ -18,7 +18,7 @@ const PayMethod = ({ handlebuyMethodChange }) => {
     handlebuyMethodChange(newState);
     if (activeButton === buttonName) {
       setIsModalOpen(prevState => !prevState);
-      console.log(newState);
+      // console.log(newState);
     } else {
       setActiveButton(buttonName);
       setIsModalOpen(true);

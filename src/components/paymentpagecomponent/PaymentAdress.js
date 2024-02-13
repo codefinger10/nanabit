@@ -31,12 +31,11 @@ const PaymentAdress = ({ handleAddressChange }) => {
     }
   };
 
-
   useEffect(() => {
     try {
       getAddress({ successFn, failFn, errorFn });
     } catch (error) {
-      console.log("error");
+      // console.log("error");
     }
   }, []);
   const successFn = result => {
@@ -44,10 +43,10 @@ const PaymentAdress = ({ handleAddressChange }) => {
     // console.log(result);
   };
   const failFn = result => {
-    console.log(result);
+    // console.log(result);
   };
   const errorFn = result => {
-    console.log(result);
+    // console.log(result);
   };
   return (
     <ConfigProvider

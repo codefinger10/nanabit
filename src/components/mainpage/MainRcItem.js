@@ -47,13 +47,13 @@ const MainRcItem = () => {
     // 데이터 연동 처리 결과
     const successFn = result => {
       setData(result);
-      console.log(result);
+      // console.log(result);
     };
     const failFn = result => {
-      console.log(result);
+      // console.log(result);
     };
     const errorFn = result => {
-      console.log("에러에옹", result);
+      // console.log("에러에옹", result);
     };
     getPoPNewList({ successFn, failFn, errorFn });
   }, []);
@@ -65,7 +65,7 @@ const MainRcItem = () => {
   // 신상품 필터
   const filteredNewFl = data.filter(item => item.newFl === 1);
   {
-    console.log(data[0].iproduct);
+    // console.log(data[0].iproduct);
   }
   return (
     <div>

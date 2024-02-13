@@ -173,7 +173,7 @@ const OrderView = () => {
   const [returnGoodPopupData, setReturnGoodPopupData] = useState(null);
   // const handleReturnOrder = (iDetails, iPrice, iProductCount) => {
   const handleReturnOrder = (_iDetails, _returncontents) => {
-    console.log("반품신청", _iDetails);
+    // console.log("반품신청", _iDetails);
     const sendData = {
       contents: _returncontents,
       refundCnt: _iDetails.productCnt,

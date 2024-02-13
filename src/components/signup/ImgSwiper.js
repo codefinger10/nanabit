@@ -10,12 +10,12 @@ import "../../styles/signup/styles.css";
 // import required modules
 import { FreeMode, Navigation, Thumbs } from "swiper/modules";
 export default function ImgSwiper({ productData, iproduct }) {
-  console.log(productData);
+  // console.log(productData);
 
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   let imgUrl = `/pic/product/${iproduct}/`;
   const imgProduct = productData.productPics || [];
-  console.log(imgProduct);
+  // console.log(imgProduct);
 
   return (
     <>

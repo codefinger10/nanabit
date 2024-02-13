@@ -52,13 +52,13 @@ const MainLoginSwiper = () => {
 
     const successFn = result => {
       setData(result);
-      console.log("잘나와용", result);
+      // console.log("잘나와용", result);
     };
     const failFn = result => {
-      console.log(result);
+      // console.log(result);
     };
     const errorFn = result => {
-      console.log("비상인데", result);
+      // console.log("비상인데", result);
     };
     getAfterList({ successFn, failFn, errorFn });
   }, []);

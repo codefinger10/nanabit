@@ -58,7 +58,7 @@ const MealProduct = () => {
   // 모달끝========================================
 
   const handleChangeSortBy = newSortBy => {
-    console.log("newSortBy", newSortBy);
+    // console.log("newSortBy", newSortBy);
     setSortBy(newSortBy);
     // 여기서 다른 작업을 수행할 수도 있습니다.
   };
@@ -90,18 +90,18 @@ const MealProduct = () => {
   };
 
   const successFn = data => {
-    console.log("successFn : ", data);
+    // console.log("successFn : ", data);
     setProductData(data);
     // setServerData(Array(data.products.length).fill(false));
   };
   const failFn = data => {
-    console.log("failFn : ", data);
-    alert("failFn : 데이터 호출에 실패하였습니다.");
+    // console.log("failFn : ", data);
+    alert("데이터 호출에 실패하였습니다.");
   };
 
   const errorFn = data => {
-    console.log("errorFn : ", data);
-    alert("서버상태 불안정 그래서, 데모테스트했음.");
+    // console.log("errorFn : ", data);
+    alert("서버상태 불안정");
     setProductData(data);
     // setServerData(Array(data.products.length).fill(false));
   };

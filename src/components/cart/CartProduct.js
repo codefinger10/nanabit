@@ -67,7 +67,7 @@ const CartProduct = ({
       });
     } catch (error) {
       // 여기서 error를 콘솔에 출력해보세요.
-      console.error("Delete Error:", error);
+      // console.error("Delete Error:", error);
 
       // error에 따른 처리를 추가
       errorFn(error);
@@ -85,7 +85,7 @@ const CartProduct = ({
         errorFn,
       });
     } catch (error) {
-      console.error("Delete Error:", error);
+      // console.error("Delete Error:", error);
 
       errorFn(error);
     }
@@ -95,10 +95,10 @@ const CartProduct = ({
     await updateData(result);
   };
   const failFn = result => {
-    console.log(result);
+    // console.log(result);
   };
   const errorFn = result => {
-    console.log(result);
+    // console.log(result);
   };
 
   return (

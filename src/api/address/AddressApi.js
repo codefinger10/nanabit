@@ -22,7 +22,7 @@ export const getAddress = async ({ successFn, failFn, errorFn }) => {
 
 export const postAddress = async ({ values, successFn, failFn, errorFn }) => {
   try {
-    console.log("들어갔니?");
+    // console.log("들어갔니?");
     // {zipCode: "12", address: "12", addressDetail: "12"}
     // {detailedAddress: '12', address: '부산 기장군 장안읍 좌해로 14', zipCode: '46033'}
     const res = await jwtAxios.post(`${host}`, { ...values });
@@ -49,7 +49,7 @@ export const putAdress = async ({
     // 여기서도 이미지가 추가될 수 있어요
     // header 가 필요합니다.
     const header = { headers: { "Content-Type": "application/json" } };
-    console.log("여기는 되니?");
+    // console.log("여기는 되니?");
     const res = await jwtAxios.put(
       `${host}`,
       { ...values, iaddress },

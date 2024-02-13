@@ -52,8 +52,8 @@ export const postOne = async (
   { idetailData, successFn, failFn, errorFn },
 ) => {
   try {
-    console.log(idetails);
-    console.log(idetailData);
+    // console.log(idetails);
+    // console.log(idetailData);
     // http://192.168.0.144:5223/api/user/address?iaddress=45
     const url = `${prefix}/${idetails}`;
     const res = await jwtAxios.post(url, idetailData);

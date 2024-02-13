@@ -91,7 +91,7 @@ const ItemPage = () => {
       (a, b) => new Date(b.date) - new Date(a.date),
     );
     setReviews(sortedReviews);
-    console.log(sortedReviews);
+    // console.log(sortedReviews);
   };
 
   const sortReviewsByRatingHigh = () => {
@@ -121,20 +121,20 @@ const ItemPage = () => {
     const newValue = !isHeartChecked ? 1 : 0;
     setHeartChecked(!isHeartChecked);
 
-    console.log(newValue);
+    // console.log(newValue);
 
     setPurchase(!purchase);
     try {
       const response = await putWish({ iproduct: item });
-      console.log("putWish 함수에서 받은 응답:", response);
+      // console.log("putWish 함수에서 받은 응답:", response);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 
   const HeartIcon = props => <Icon component={HeartSvg} {...props} />;
-  console.log(productData.price);
-  console.log(productData.iproduct);
+  // console.log(productData.price);
+  // console.log(productData.iproduct);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -149,9 +149,9 @@ const ItemPage = () => {
     fetchData();
   }, [productData.likeProduct]);
 
-  console.log(productData);
+  // console.log(productData);
   const [count, setCount] = useState(1);
-  console.log(count);
+  // console.log(count);
 
   // 장바구니 버튼
   const handleClickModal = () => {
@@ -373,8 +373,7 @@ const ItemPage = () => {
               <StyledDiv>
                 <div className="reviewtext">
                   <div>
-                    [뽀로로] 우리아기가 좋아하는 젓가락 뽀롱뽀롱 뽀로로 아이
-                    전용 미니 젓가락
+                    {productData.productNm}
                     <div className="reviewtotal">
                       리뷰 총 <span>{productData.reviewCnt}</span> 개
                     </div>

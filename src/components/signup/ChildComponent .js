@@ -4,9 +4,9 @@ import { Radio, Button, Form } from "antd";
 
 const ChildComponent = ({ onSelet, name, valueArray }) => {
   // const [modifyArray,setModifyArray] =useState([]);
-  console.log(valueArray);
-  console.log(name);
-  console.log([name, "ichildAge"]);
+  // console.log(valueArray);
+  // console.log(name);
+  // console.log([name, "ichildAge"]);
 
   return (
     <div>

@@ -38,7 +38,7 @@ const CleanProduct = () => {
   const [activeLHFilter, setActiveLHFilter] = useState(0);
 
   const handleChangeSortBy = newSortBy => {
-    console.log("newSortBy", newSortBy);
+    // console.log("newSortBy", newSortBy);
     setSortBy(newSortBy);
     // 여기서 다른 작업을 수행할 수도 있습니다.
   };

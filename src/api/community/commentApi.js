@@ -31,7 +31,7 @@ export const postCommet = async (iboard, comment) => {
       return res.data.result;
     }
   } catch (error) {
-    console.log("서버에러에요");
+    // console.log("서버에러에요");
   }
 };
 
@@ -43,7 +43,7 @@ export const deleteCommet = async icomment => {
       return res.data.result;
     }
   } catch (error) {
-    console.log("서버에러에요");
+    // console.log("서버에러에요");
   }
 };
 
@@ -59,6 +59,6 @@ export const patchCommet = async (icomment, comment) => {
       return res.data.result;
     }
   } catch (error) {
-    console.log("서버에러에요");
+    // console.log("서버에러에요");
   }
 };

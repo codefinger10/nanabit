@@ -64,7 +64,7 @@ const SearchPage = () => {
 
   //  정렬
   const handleChangeSortBy = newSortBy => {
-    console.log("정렬방식", newSortBy);
+    // console.log("정렬방식", newSortBy);
     setSortBy(newSortBy);
   };
 
@@ -141,21 +141,21 @@ const SearchPage = () => {
   const successFn = data => {
     // 검색 쿼리 날리지 않겠다.
     setUserSearchActive(false);
-    console.log("successFn : ", data);
+    // console.log("successFn : ", data);
     setProductData(data);
     // setServerData(Array(data.products.length).fill(false));
   };
   const failFn = data => {
     // 검색 쿼리 날리지 않겠다.
     setUserSearchActive(false);
-    console.log("failFn : ", data);
+    // console.log("failFn : ", data);
     alert("failFn : 데이터 호출에 실패하였습니다.");
   };
 
   const errorFn = data => {
     // 검색 쿼리 날리지 않겠다.
     setUserSearchActive(false);
-    console.log("errorFn : ", data);
+    // console.log("errorFn : ", data);
     alert("서버상태 불안정 그래서, 데모테스트했음.");
     // setProductData(data.products);
     // setServerData(Array(data.products.length).fill(false));

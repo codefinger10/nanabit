@@ -14,10 +14,10 @@ export const getProductPage = async ({
   errorFn,
 }) => {
   // console.log("getTodoIuser");
-  console.log("getProductPage");
+  // console.log("getProductPage");
 
   try {
-    console.log(productParam);
+    // console.log(productParam);
     // const res = await axios.get(query, { productParam });
     // const query = `${prefix}/productBySubcategory?sortBy=${productParam.sortBy}&대분류=${productParam.대분류}&중분류=${productParam.중분류}&페이지=${productParam.페이지}`;
 

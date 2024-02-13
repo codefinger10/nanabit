@@ -6,10 +6,8 @@ import useCustomLogin from "../../hooks/useCustomLogin";
 const LoginForm = (successFn, failFn, errorFn) => {
   // 초기값
   const initState = {
-
     uid: "",
     upw: "",
-
   };
 
   const [loginParam, setLoginParam] = useState(initState);
@@ -21,7 +19,7 @@ const LoginForm = (successFn, failFn, errorFn) => {
     doLogin({ loginParam, successFn, failFn, errorFn });
   };
   const onFinishFailed = errorInfo => {
-    console.log("Failed:", errorInfo);
+    // console.log("Failed:", errorInfo);
   };
 
   // slice 값(state)을 읽을때        useSelector

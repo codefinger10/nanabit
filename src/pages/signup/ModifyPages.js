@@ -53,11 +53,11 @@ const ModifyPages = () => {
     setResultTitle("탈퇴 확인");
     setResultContent("회원 탈퇴가 되었습니다. ");
     setReDirect(0);
-    console.log(result);
+    // console.log(result);
   };
   const failPro = result => {
     setResultContent("회원 탈퇴에 실패하였습니다. ");
-    console.lpg("실패", result);
+    // console.lpg("실패", result);
   };
   const errorPro = result => {
     setModalStyle({ color: "red" });
@@ -68,19 +68,19 @@ const ModifyPages = () => {
         관리자에게 문의해 주세요.
       </div>,
     );
-    console.log("서버 오류", result);
+    // console.log("서버 오류", result);
   };
 
   const onFinish = values => {
     setMemberInfo({ ...values });
 
     const result = putModify({ values, successFn, failFn, errorFn });
-    console.log("Success:", values);
-    console.log("result", result);
+    // console.log("Success:", values);
+    // console.log("result", result);
   };
 
   const onFinishFailed = errorInfo => {
-    console.log("Failed:", errorInfo);
+    // console.log("Failed:", errorInfo);
   };
 
   const successFn = result => {
@@ -94,14 +94,14 @@ const ModifyPages = () => {
       </div>,
     );
     setReDirect(0);
-    console.log(result);
+    // console.log(result);
   };
 
   const failFn = result => {
     setResultTitle("비밀번호 오류");
     setResultContent(result);
     setReDirect(1);
-    console.log(result);
+    // console.log(result);
   };
 
   const errorFn = result => {
@@ -110,7 +110,7 @@ const ModifyPages = () => {
     setResultTitle("서버 오류");
     setResultContent(result);
     setReDirect(1);
-    console.log(result);
+    // console.log(result);
   };
 
   const closeModal = () => {
@@ -217,7 +217,7 @@ const ModifyPages = () => {
               },
             ]}
           >
-            <Input.Password style={modifyInputBt}  />
+            <Input.Password style={modifyInputBt} />
           </Form.Item>
           <div>새 비밀번호 확인</div>
           <Form.Item
@@ -237,7 +237,7 @@ const ModifyPages = () => {
               }),
             ]}
           >
-            <Input.Password style={modifyInputBt}  />
+            <Input.Password style={modifyInputBt} />
           </Form.Item>
 
           <div>휴대전화</div>

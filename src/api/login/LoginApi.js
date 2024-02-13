@@ -30,7 +30,7 @@ export const loginPost = async ({ loginParam, successFn, failFn, errorFn }) => {
       failFn("로그인에 실패하였습니다. 다시 시도해주세요.");
     }
   } catch (error) {
-    console.error("Error in loginPost:", error);
+    // console.error("Error in loginPost:", error);
 
     // 에러를 처리하는 함수 호출
     errorFn(error);

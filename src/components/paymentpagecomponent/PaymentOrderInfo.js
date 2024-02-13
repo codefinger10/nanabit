@@ -36,15 +36,15 @@ const PaymentOrderInfo = ({ handleOrderInfoChange }) => {
     const updatedOrderInfo = result.data;
     setOrderInfo(updatedOrderInfo);
     handleOrderInfoChange(updatedOrderInfo);
-    console.log(result);
+    // console.log(result);
   };
 
   const failFn = result => {
-    console.log(result);
+    // console.log(result);
   };
 
   const errorFn = result => {
-    console.log("에러에옹", result);
+    // console.log("에러에옹", result);
   };
 
   useEffect(() => {

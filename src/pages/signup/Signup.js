@@ -118,7 +118,7 @@ const Signup = () => {
     const fetchData = async () => {
       try {
         const result = await getPayItemList();
-        console.log(result);
+        // console.log(result);
       } catch (error) {
         alert("데이터 호출에 실패하였습니다.");
       }
@@ -145,7 +145,7 @@ const Signup = () => {
     setIsModalOpen(true);
   };
   const handleModalOk = () => {
-    console.log(requiredList);
+    // console.log(requiredList);
 
     // 모든 동의 항목이 체크되었을 때만 setIsCheckedaa(true) 호출
     if (requiredList.every(item => item)) {
@@ -188,7 +188,7 @@ const Signup = () => {
     setResultTitle("아이디 중복 확인");
     setResultContent(result);
     setReDirect(1);
-    console.log(result);
+    // console.log(result);
   };
 
   const errorFnid = result => {
@@ -197,7 +197,7 @@ const Signup = () => {
     setResultTitle("서버 오류");
     setResultContent(result);
     setReDirect(1);
-    console.log(result);
+    // console.log(result);
   };
 
   const closeModal = () => {
@@ -220,7 +220,7 @@ const Signup = () => {
     );
     values.address = address;
     values.zipCode = zonecode;
-    console.log("Success:", values);
+    // console.log("Success:", values);
     if (asdf === 1) {
       postSign({ values, successFn, failFn, errFn });
       navigate("/login");
@@ -236,7 +236,7 @@ const Signup = () => {
   };
 
   const onFinishFailed = errorInfo => {
-    console.log("Failed:", errorInfo);
+    // console.log("Failed:", errorInfo);
   };
   const handleClickBack = () => {
     navigate(-1);
@@ -256,19 +256,19 @@ const Signup = () => {
   const passwordCheck = password => {
     if (password.match(passwordRegEx) === null) {
       //형식에 맞지 않을 경우 아래 콘솔 출력
-      console.log("비밀번호 형식을 확인해주세요");
+      // console.log("비밀번호 형식을 확인해주세요");
       return;
     } else {
       // 맞을 경우 출력
-      console.log("비밀번호 형식이 맞아요");
+      // console.log("비밀번호 형식이 맞아요");
     }
   };
   const passwordDoubleCheck = (password, passwordChk) => {
     if (password !== passwordChk) {
-      console.log("비밀번호가 다릅니다.");
+      // console.log("비밀번호가 다릅니다.");
       return;
     } else {
-      console.log("비밀번호가 동일합니다");
+      // console.log("비밀번호가 동일합니다");
     }
   };
 

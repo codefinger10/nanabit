@@ -46,8 +46,8 @@ const ModifyPw = () => {
   const [serverResult, setServerResult] = useState(null);
   const onFinish = values => {
     const result = postModify({ values, successFn, failFn, errorFn });
-    console.log("Success:", values);
-    console.log("Success result:", result);
+    // console.log("Success:", values);
+    // console.log("Success result:", result);
     // setUrlSearchParams({ result });
     // // navigate(`/modify/${1}`, { state: { result } });
     // navigate(`/modify/1`, { state: { ...result } });
@@ -55,7 +55,7 @@ const ModifyPw = () => {
     // moveToModify(result)
   };
   const onFinishFailed = errorInfo => {
-    console.log("Failed:", errorInfo);
+    // console.log("Failed:", errorInfo);
   };
 
   const [resultTitle, setResultTitle] = useState("");
@@ -71,7 +71,7 @@ const ModifyPw = () => {
     setResultTitle("비밀번호 확인");
     setResultContent("비밀번호 확인에 성공하였습니다.");
     setReDirect(0);
-    console.log(result);
+    // console.log(result);
   };
   const failFn = result => {
     setResultTitle("비밀번호 확인 오류");
@@ -79,18 +79,16 @@ const ModifyPw = () => {
       "비밀번호 확인 오류가 발생하였습니다. 잠시 후 시도해주세요.",
     );
     setReDirect(1);
-    console.log(result);
+    // console.log(result);
   };
   const errorFn = result => {
     setModalStyle({ color: "red" });
     setModalStyleBk({ background: "red" });
 
     setResultTitle("비밀번호 확인");
-    setResultContent(
-      result
-    );
+    setResultContent(result);
     setReDirect(1);
-    console.log(result);
+    // console.log(result);
   };
 
   const closeModal = () => {

@@ -5,19 +5,19 @@ import { API_SERVER_HOST } from "../../util/util";
 const host = `${API_SERVER_HOST}/api/product`;
 
 export const postSign = async ({ values, successFn, failFn, errFn }) => {
-  console.log(values);
+  // console.log(values);
   try {
     const res = await axios.post(`/api/user/sign-up`, { ...values });
-    console.log(res.data);
+    // console.log(res.data);
     const status = res.status.toString();
     const httpSt = status.charAt(0);
     if (httpSt === "2") {
       return successFn(res.data);
     }
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     if (error.request.readyState === 4) {
-      console.log();
+      // console.log();
       return failFn();
     } else {
       errFn("서버에러에요");
@@ -28,7 +28,7 @@ export const postSign = async ({ values, successFn, failFn, errFn }) => {
 export const getList = async () => {
   try {
     const res = await axios.get("/api/user/sign-up");
-    console.log(res);
+    // console.log(res);
 
     // HTTP 상태 코드 파악하기
     const status = res.status.toString();
@@ -42,7 +42,7 @@ export const getList = async () => {
       return "잘못된 정보를 전달함.";
     }
   } catch (error) {
-    console.log(error);
+    // console.log(error);
   }
 };
 
@@ -54,12 +54,12 @@ export const postSignCheck = async ({
 }) => {
   try {
     const res = await axios.post(`/api/user/sign-up/check-id`, userObject);
-    console.log(res);
+    // console.log(res);
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
       successFnid(res.data.result);
     } else if (status.charAt(0) === "4") {
-      console.log("히윽", res.data);
+      // console.log("히윽", res.data);
     }
   } catch (error) {
     console.log(error);
@@ -73,7 +73,7 @@ export const postSignCheck = async ({
 };
 
 export const putModify = async ({ values, successFn, failFn, errorFn }) => {
-  console.log(values);
+  // console.log(values);
   try {
     const res = await jwtAxios.put(`/api/user/modify`, values);
     console.log(res);
@@ -104,7 +104,7 @@ export const postModify = async ({ values, successFn, failFn, errorFn }) => {
       successFn(res.data);
     } else {
       failFn("전송 오류입니다.");
-      console.log("히윽");
+      // console.log("히윽");
     }
   } catch (error) {
     errorFn(error.response.data.message);
@@ -129,7 +129,7 @@ export const deleteModify = async ({ successPro, failPro, errorPro, aaa }) => {
 
 export const getProduct = async (iproduct, param) => {
   try {
-    const res = await jwtAxios.get(`/api/product/${iproduct}`, {
+    const res = await axios.get(`/api/product/${iproduct}`, {
       params: { ...param },
     });
     console.log(iproduct);
@@ -146,7 +146,12 @@ export const getProduct = async (iproduct, param) => {
   }
 };
 
-export const postOrder = async ({ productOrder, successFn, failFn, errorFn }) => {
+export const postOrder = async ({
+  productOrder,
+  successFn,
+  failFn,
+  errorFn,
+}) => {
   console.log(productOrder);
   try {
     const res = await jwtAxios.post(`/api/order`, productOrder);

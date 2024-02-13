@@ -30,7 +30,7 @@ const ProductCard = ({ product }) => {
   const handleHeartButtonClick = () => {
     const newValue = !isHeartChecked ? 1 : 0;
     setHeartChecked(!isHeartChecked);
-    console.log(newValue);
+    // console.log(newValue);
   };
 
   const { moveToObj } = useCustomLogin();

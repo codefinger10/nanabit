@@ -60,7 +60,7 @@ const App = () => {
 
           <Route path="/login" element={<LoginPage />}></Route>
 
-          <Route path="/cart" element={<CartPage />}></Route>
+          {isLogin ? <Route path="/cart" element={<CartPage />}></Route> : null}
           {/*게시판 */}
           <Route path="/commu/" element={<CommunityPage />}>
             <Route index element={<Navigate to="list" />}></Route>
@@ -115,9 +115,15 @@ const App = () => {
           <Route path="/item/:iproduct" element={<ItemPage />}></Route>
           <Route path="/cc" element={<SerchPage />}></Route>
 
-          <Route path="/address/" element={<AddressInfo />}></Route>
-          <Route path="/address/add" element={<AddressAdd />}></Route>
-          <Route path="/address/modify" element={<AddressModify />}></Route>
+          {isLogin ? (
+            <Route path="/address/" element={<AddressInfo />}></Route>
+          ) : null}
+          {isLogin ? (
+            <Route path="/address/add" element={<AddressAdd />}></Route>
+          ) : null}
+          {isLogin ? (
+            <Route path="/address/modify" element={<AddressModify />}></Route>
+          ) : null}
 
           <Route path="*" element={<ErrorPage />}></Route>
         </Routes>

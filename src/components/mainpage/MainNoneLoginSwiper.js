@@ -45,7 +45,7 @@ const MainNoneLoginSwiper = () => {
   const { moveToPath, moveToObj } = useCustomLogin();
   const moveToProduct = item => {
     moveToObj(`/item/${item.iproduct}?page=1`);
-    console.log(item.iproduct);
+    // console.log(item.iproduct);
   };
   // 패스이동 =========================================
   useEffect(() => {
@@ -53,13 +53,13 @@ const MainNoneLoginSwiper = () => {
 
     const successFn = result => {
       setData(result);
-      console.log("잘나와용");
+      // console.log("잘나와용");
     };
     const failFn = result => {
-      console.log("실패했어용");
+      // console.log("실패했어용");
     };
     const errorFn = result => {
-      console.log("에러에옹", result);
+      // console.log("에러에옹", result);
     };
     getBeforeList({ successFn, failFn, errorFn });
   }, []);

@@ -26,10 +26,10 @@ export const postSearchPage = async ({
   errorFn,
 }) => {
   // console.log("getTodoIuser");
-  console.log("postSearchPage");
+  // console.log("postSearchPage");
 
   try {
-    console.log(searchParam);
+    // console.log(searchParam);
     // const res = await axios.get(query, { productParam });
     // const query = `${prefix}/productBySubcategory?sortBy=${productParam.sortBy}&대분류=${productParam.대분류}&중분류=${productParam.중분류}&페이지=${productParam.페이지}`;
 
@@ -38,7 +38,7 @@ export const postSearchPage = async ({
     // const res = jwtAxios.get(url, { params: productParam });
     const res = await axios.post(url, { ...searchParam });
 
-    console.log("목록 서버 데이터 :", res.data);
+    // console.log("목록 서버 데이터 :", res.data);
 
     const resStatus = res.status.toString();
     if (resStatus.charAt(0) === "2") {

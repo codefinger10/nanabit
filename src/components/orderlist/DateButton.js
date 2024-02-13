@@ -6,11 +6,11 @@ const DateButton = () => {
   let newDay = new Date(today);
 
   newDay.setMonth(today.getMonth() - 2);
-  console.log({ newDay });
+  // console.log({ newDay });
 
   const handButtonClick = () => {
     setSelectedDate();
-    console.log(handButtonClick);
+    // console.log(handButtonClick);
   };
   return (
     <div>

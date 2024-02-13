@@ -32,7 +32,7 @@ const Payment = () => {
   // 배송지
   const handleAddressChange = selectedAddress => {
     setFormData({ ...formData, iaddress: selectedAddress });
-    console.log("나는 부모컴포넌트 주소 : ", selectedAddress);
+    // console.log("나는 부모컴포넌트 주소 : ", selectedAddress);
     // console.log("나는 formData 주소 : ", selectedAddress);
   };
 
@@ -56,7 +56,7 @@ const Payment = () => {
 
   const handleSubmit = async () => {
     // 필수 값들 확인
-    console.log(formData);
+    // console.log(formData);
     if (formData.iaddress === 0) {
       // console.log("iaddress 필수 값이 누락되었습니다.");
       setResultTitle("배송지를 선택해 주세요.");
@@ -98,10 +98,10 @@ const Payment = () => {
         errorFn,
       });
       // 성공적으로 처리되면 추가 작업 수행
-      console.log("formData.iorder", formData);
+      // console.log("formData.iorder", formData);
       moveToPath(`/order/${formData.iorder}`);
     } catch (error) {
-      console.log("PUT 요청 에러:", error);
+      // console.log("PUT 요청 에러:", error);
       // 에러 처리 로직 추가
     }
   };
@@ -120,9 +120,7 @@ const Payment = () => {
     <PaymentWrap>
       {checkInfoPlz ? (
         <ModalPop>
-          <div
-            className="modalBack"
-          >
+          <div className="modalBack">
             <h1>{resultTitle}</h1>
             <ModalButton>
               <button onClick={callFN}>확인</button>

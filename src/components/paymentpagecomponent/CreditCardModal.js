@@ -23,7 +23,7 @@ const CreditCardModal = () => {
 
   // 체크박스 ==========
   const onChange = e => {
-    console.log(`checked = ${e.target.checked}`);
+    // console.log(`checked = ${e.target.checked}`);
   };
 
   return (
