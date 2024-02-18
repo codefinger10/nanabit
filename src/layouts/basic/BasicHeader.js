@@ -130,9 +130,10 @@ const BasicHeader = () => {
                 </a>
               </li>
               <li>
-                <a href="/cart">
+                <a>
                   <img
                     src={process.env.PUBLIC_URL + "/assets/images/cart.svg"}
+                    onClick={() => goRouter("/cart")}
                   />
                 </a>
               </li>
