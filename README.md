@@ -79,8 +79,8 @@ item, sign up, modify, modifyPw페이지
 ## Front-End 기술 스택
 
 <div align=center>
-    <h3>:책: Front Tech Stack :책:</h3>
-    <p>:반짝임: Platforms & Languages :반짝임:</p>
+    <h3>📚 Front Tech Stack 📚</h3>
+    <p>✨ Platforms & Languages ✨</p>
 </div>
 <div align="center">
     <img src="https://img.shields.io/badge/React-61DAFB?style=flat&logo=react&logoColor=white" />
@@ -99,7 +99,7 @@ item, sign up, modify, modifyPw페이지
 </div>
 <br />
 <div align=center>
-    <p>:렌치: Tools :렌치:</p>
+    <p>🛠 Tools 🛠</p>
     <img src="https://img.shields.io/badge/Visual%20Studio%20Code-007ACC?style=flat&logo=VisualStudioCode&logoColor=white" />
     <img src="https://img.shields.io/badge/Prettier-F7B93E?style=flat&logo=Prettier&logoColor=white" />
     <img src="https://img.shields.io/badge/Eslint-4B32C3?style=flat&logo=eslint&logoColor=white" />
@@ -129,13 +129,3 @@ item, sign up, modify, modifyPw페이지
 - 사진 업로드하는 부분이 어렵다 느껴졌고 데이터 연동하는 부분을 조금 더 공부해야 할 것 같다.
 - 여전히 많이 부족하다는 걸 뼈저리게 느끼고 제자리걸음중인 것 같아서 많은 생각을 하게 되는 계기였다. 3차때는 더 나은 실력이 되도록 노력해야겠다.
 - 리액트의 여러 가지 라이브러리를 적용하고 싶었지만 너무 어려웠다. 라이브러리 활용 능력을 키워야겠다.
-
-  namename의 Notion on Notion
-  1차 Team Project (5조) 청소하자 | Notion
-  상세 페이지(Figma) (459kB)
-  https://torpid-ski-c77.notion.site/1-Team-Project-5-a0da51eb12214ccbbafe6ae7303bfd45
-
-FigmaFigma
-청소하자
-Created with Figma (307kB)
-https://www.figma.com/file/YIlMhVHQRo1ykY8umHg2uR/%EC%B2%AD%EC%86%8C%ED%95%98%EC%9E%90?type=design&node-id=54925%3A794&mode=design&t=PKpqYJVLvxZOW2wU-1
