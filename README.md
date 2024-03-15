@@ -5,7 +5,33 @@
 
 # 2차 프로젝트 유아용품쇼핑몰 - 나나빛
 
-### 시연영상
+<h3>시연영상</h3>
+<div align="center">
+ <p>
+      <img src="./public/assets/nanabit.gif"/>
+    </p>
+    <span>
+        🔹
+        <a herf="https://www.youtube.com/watch?v=QSKiyPgRrgo" target="_blank">
+            시연 영상 바로가기
+        </a>
+    </span>
+</div>
+
+---
+
+<div align="center">
+<h3>배포</h3>
+<div align="center">
+    <span>
+        <a href="http://192.168.0.144:5227/" target="_blank">
+            사이트 바로가기
+        </a>
+    </span>
+</div>
+</div>
+
+---
 
 ### 프로젝트 정보
 
